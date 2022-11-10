@@ -12,5 +12,8 @@ def About(request):
 def Signin(request):
    return render(request, "Signin.html")
 
+def Signup(request):
+   return render(request, "Signup.html")
+
 def LM_CreateChapter(request):
    return render(request, "LM_CreateChapter.html")

@@ -1,67 +1,78 @@
 {% load static %}
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form by Colorlib</title>
+  <head>
+  	<title>Sign Up</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="{% static 'css/signin.css' %}">
-</head>
-<body>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="{% static 'css/signup.css' %}">
 
-    <div class="main">
-        <!-- Sign in  Form -->
-        <section class="sign-in">
-            <div class="container">
-                <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="{% static 'img/Logo.png' %}" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">Create an account</a>
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+            <div class="row justify-content-center">
+                <div class="text-wrap text-center d-flex align-items-center order-md-last">
+                    <div class="text w-100">
+                        <!-- Change Icon
+                        <div class="icon"><span class="fa fa-soccer-ball-o"></span></div>
+                        -->
+                        <div class = "logo-signin " ><img src="{% static 'assets/img/Logo.png' %}"></img></div>
+                        <!--
+                        <p>Already have an account?</p>
+                        <a href="#" class="btn btn-white btn-outline-white">Sign In</a>-->
                     </div>
-
-                    <div class="signin-form">
-                        <h2 class="form-title">Login</h2>
-                        <form method="POST" class="register-form" id="login-form">
-                            <div class="form-group">
-                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
-                            </div>
-                        </form>
-                        <div class="social-login">
-                            <span class="social-label">Or login with</span>
-                            <ul class="socials">
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                 </div>
             </div>
-        </section>
+			<div class="row justify-content-center">
+                  <!--SIGN UP-->
+					    <div class="login-wrap p-4 p-md-4">
+			      	        <h4 class="mb-1 text-center">Sign in</h4>
+							<form action="#" class="signin-form">
+                                <div class="form-group mb-2 ">
+                                    <label class="label" for="email">Username/Email</label>
+                                    <input type="text" class="form-control" placeholder="johndoe">
+                                </div>
+                                    <div class="form-group mb-2">
+                                        <label class="label" for="password">Password</label>
+                                    <input type="password" class="form-control" placeholder="Password">
+                                    </div>
+                                <div class="row">
+                                <div class=" col contact100-form-checkbox">
+                                    <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                                    <label class="label-checkbox100" for="ckb1">
+                                        Remember me
+                                    </label>
+                                </div>
+                                <div class="col text-right p-t-90">
+                                    <a class="txt1" href="#">
+                                        Forgot Password?
+                                    </a>
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary rounded submit p-2">Sign In</button>
+                                </div>
+		                    </form>
+                            <div class="w-100 social-wrap">
+                                            <p class="mt-1">Create New Account <a href="{% url 'Signup' %}">Sign Up</a></p>
+                            </div>
+		                </div>
+			</div>
+		</div>
+	</section>
 
-    </div>
+	<script src="{% static 'js/signupjs/jquery.min.js' %}"></script>
+  <script src="{% static 'js/signupjs/popper.js' %}"></script>
+  <script src="{% static 'js/signupjs/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/signupjs/main.js' %}"></script>
 
-    <!-- JS -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="{% static 'js/scripts.js' %}"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+	</body>
 </html>
+

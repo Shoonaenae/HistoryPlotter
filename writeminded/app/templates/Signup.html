@@ -3,7 +3,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Sign Up 03</title>
+  	<title>Sign Up</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -32,27 +32,37 @@
 								<div class="icon"><span class="fa fa-soccer-ball-o"></span></div>
 								-->
 								<div class = "logo"><img src="{% static 'assets/img/Logo.png' %}"></img></div>
-								<h2>Soccer Ball</h2>
+								<h2>History Plotter</h2>
 								<p>Already have an account?</p>
-								<a href="#" class="btn btn-white btn-outline-white">Sign In</a>
+								<a href="{% url 'Signin' %}" class="btn btn-white btn-outline-white">Sign In</a>
 							</div>
 			      </div>
-						<div class="login-wrap p-4 p-md-5">
-			      	<h3 class="mb-4">Hello! <span>Please signup to continue</span></h3>
+						<div class="login-wrap p-4 p-md-4">
+			      	<h3 class="mb-2">Sign up<span>Please signup to continue</span></h3>
 							<form action="#" class="signup-form">
-			      		<div class="form-group mb-4">
-			      			<label class="label" for="name">Full Name</label>
-			      			<input type="text" class="form-control" placeholder="John Doe">
+							<div class="row">
+			      		<div class="form-group mb-2 col">
+			      			<label class="label" for="name">First Name</label>
+			      			<input type="text" class="form-control" placeholder="John">
 			      		</div>
-			      		<div class="form-group mb-4">
+						  <div class="form-group mb-2 col">
+							<label class="label" for="name">Last Name</label>
+							<input type="text" class="form-control" placeholder="Doe">
+						</div>
+					</div>
+					<div class="form-group mb-2">
+						<label class="label" for="email">Username</label>
+						<input type="text" class="form-control" placeholder="johndoe">
+					</div>
+			      		<div class="form-group mb-2">
 			      			<label class="label" for="email">Email Address</label>
 			      			<input type="text" class="form-control" placeholder="johndoe@gmail.com">
 			      		</div>
-		            <div class="form-group mb-4">
+		            <div class="form-group mb-2">
 		            	<label class="label" for="password">Password</label>
 		              <input type="password" class="form-control" placeholder="Password">
 		            </div>
-		            <div class="form-group mb-4">
+		            <div class="form-group mb-2">
 		            	<label class="label" for="password">Confirm Password</label>
 		              <input type="password" class="form-control" placeholder="Confirm Password">
 		            </div>
@@ -61,15 +71,16 @@
 		            </div>
 		          </form>
 		          <div class="w-100 social-wrap">
-		          	<p>
+		          	<!--
+					<p>
 		          		<span>or</span>
 		          		<span>Signup with</span>
 		          	</p>
 		          	<p class="social-media d-flex justify-content-center">
 									<a href="#" class="social-icon facebook d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
 									<a href="#" class="social-icon twitter d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a>
-								</p>
-								<p class="mt-4">I'm already a member! <a href="#signin">Sign In</a></p>
+								</p>-->
+								<p class="mt-4">I'm already a member! <a href="{% url 'Signin' %}">Sign In</a></p>
 		          </div>
 		        </div>
 		      </div>

@@ -9,7 +9,9 @@ urlpatterns = [
     path('Signin', views.Signin, name = 'Signin'),
     path('Signup', views.Signup, name = 'Signup'),
     path('LM_CreateChapter', views.LM_CreateChapter, name = 'LM_CreateChapter'),
-   
+    path('ProjectDashboard', views.ProjectDashboard, name = 'ProjectDashboard'),
+    path('Relations', views.Relations, name = "Relations"),
+    
 ]
 
 

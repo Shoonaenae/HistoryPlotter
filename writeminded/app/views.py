@@ -17,3 +17,9 @@ def Signup(request):
 
 def LM_CreateChapter(request):
    return render(request, "LM_CreateChapter.html")
+
+def ProjectDashboard(request):
+   return render(request, "ProjectDashboard.html")
+
+def Relations(request):
+   return render(request, "Relations.html")

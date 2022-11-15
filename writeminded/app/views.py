@@ -23,3 +23,12 @@ def ProjectDashboard(request):
 
 def Relations(request):
    return render(request, "Relations.html")
+
+def CreateQuiz(request):
+   return render(request, "CreateQuiz.html")
+
+def EditQuiz(request):
+   return render(request, "EditQuiz.html")
+
+def ViewQuiz(request):
+   return render(request, "ViewQuiz.html")

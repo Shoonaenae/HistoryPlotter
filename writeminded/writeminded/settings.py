@@ -57,7 +57,7 @@ ROOT_URLCONF = 'writeminded.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'C:/Users/ricmo/Documents/GitHub/individual_writeminded/write-minded/writeminded/app/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
             #[r'C:\Users\ricmo\Documents\GitHub\individual_writeminded\write-minded\writeminded\app\templates'],
         'APP_DIRS': True,
         'OPTIONS': {

@@ -30,6 +30,7 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'About' %}">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'LM_CreateChapter' %}">Write</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'ideaNest' %}">Nest</a></li>
                         <li class="nav-item"><a class="nav-link" href="#signup">Contact Us</a></li>
                         <!--
                         <li class="nav-item"><a class="nav-link" href="{% url 'Signin' %}">Sign In</a></li> -->
@@ -67,63 +68,7 @@
                 <img class="img-fluid" src="{% static 'assets/img/Bottom.png' %}" alt="..." />
             </div>
         </section>
-        <!-- Projects-->
-        <section class="projects-section bg-light" id="projects">
-            <div class="container px-4 px-lg-5">
-                <!-- Featured Project Row-->
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src= "{% static 'assets/img/monet1.jpg' %}" alt="..." /></div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <h4>History as an Influence</h4>
-                            <br>
-                            <p class="text-black-50 mb-0">“The best moments in reading are when you come across something - a thought, a feeling, a way of looking at things - which you had thought special and particular to you. And now, here it is, set down by someone else, a person you have never met, 
-                                someone even who is long dead. And it is as if a hand has come out, and taken yours.”</p>
-                                <br>
-                                <h6 class="text-black-50 mb-0">-Alan Bennett</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project One Row-->
-                <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
-                    <div class="col-lg-6"><img class="img-fluid w-100" src="{% static 'assets/img/paint3.jpg' %}" alt="..." /></div>
-                    <div class="col-lg-6">
-                        <div class="bg-black text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-left">
-                                    <h4 class="text-white">The Significance of History</h4>
-                                    <br>
-                                    <p class="mb-0 text-white-50">“History is instructive. What it suggests to people is that even if they do little things, if they walk on the picket line, 
-                                        if they join a vigil, if they write a letter to their local newspaper… Anything they do, however small, becomes part of a much larger sort of flow of energy. 
-                                        And when enough people do enough things, however small they are, then change takes place.”</p>
-                                        <br>
-                                        <h6 class="text-white-50 mb-0">-Howard Zinn</h5>
-                                    <hr class="d-none d-lg-block mb-0 ms-0" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project Two Row-->
-                <div class="row gx-0 justify-content-center">
-                    <div class="col-lg-6"><img class="img-fluid w-100" src="{% static 'assets/img/picasso.jpg' %}" alt="..." /></div>
-                    <div class="col-lg-6 order-lg-first">
-                        <div class="bg-black text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-right">
-                                    <h4 class="text-white">History in the Making</h4>
-                                    <br>
-                                    <p class="mb-0 text-white-50">"No great man lives in vain. The history of the world is but the biography of great men."</p>
-                                    <br>
-                                    <h6 class="text-white-50 mb-0">-Thomas Carlyle</h5>
-                                    <hr class="d-none d-lg-block mb-0 me-0" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        
         <!-- Signup-->
         <section class="signup-section" id="signup">
             <div class="container px-4 px-lg-5">

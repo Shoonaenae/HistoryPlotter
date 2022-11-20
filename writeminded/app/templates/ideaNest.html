@@ -11,7 +11,8 @@
 
          <!-- upload file -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/css/fileinput.min.css" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/css/fileinput.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous" >
 
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -44,9 +45,11 @@
                 </div>
             </div>
         </nav>
+
+        
        
         <!-- idea nest start -->
-        
+
             <!-- upload file -->
             <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -55,6 +58,24 @@
 
             <section class="projects-section bg-dark" id="projects">
                 <div class="container" data-aos="fade-up">
+
+                    <!-- upload success message -->
+                    
+                    {% include 'messages.html' %}
+                    {% block content %}
+                    {% endblock content %}
+
+                    <!-- alert message -->
+                    <script>
+                        setTimeout(function()
+                        {
+                        if($('#msg').length > 0)
+                        {
+                            $('#msg').remove();
+                        }
+                        }, 1500)
+                    </script>
+
                     <form method="post" class="post-form" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{form.file}}

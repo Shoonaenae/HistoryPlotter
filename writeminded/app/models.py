@@ -5,5 +5,8 @@ from django.db import models
 class uploadfilemodel(models.Model):
     file = models.FileField(null = True)
 
+    class Meta:
+        db_table = "uploads"
+
 class Post(models.Model):
     body = RichTextField(blank=True, null = True)

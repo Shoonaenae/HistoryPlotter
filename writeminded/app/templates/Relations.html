@@ -67,7 +67,9 @@
                             <td>Object 2</td>
                             <td class="text-center">
                                 <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
-                                <button class="btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
                             </td>
                         </tr>
                         <tr>
@@ -76,13 +78,33 @@
                             <td>Object 2</td>
                             <td class="text-center">
                                 <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
-                                <button class="btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
+        <!-- MODAL DELETE -->
+        <div id="btnProjDelete" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">DELETE RELATION</h5>
+                        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 class="text-md-center">Are you sure you want to delete the relation?</h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
        
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; Team Write Minded 2022</div></footer>

@@ -6,8 +6,11 @@ from . import views
 urlpatterns = [
     path('', views.LandingPage, name = 'LandingPage'),
     path('About', views.About, name = 'About'),
-    path('Signin', views.Signin, name = 'Signin'),
-    path('Signup', views.Signup, name = 'Signup'),
+
+    path('Signin', views.SigninView.as_view(), name = 'Signin'),
+
+    path('Signup', views.SignupView.as_view(), name = 'Signup'),
+
     path('LM_CreateChapter', views.LM_CreateChapter, name = 'LM_CreateChapter'),
     path('ProjectDashboard', views.ProjectDashboard, name = 'ProjectDashboard'),
     path('Relations', views.Relations, name = "Relations"),

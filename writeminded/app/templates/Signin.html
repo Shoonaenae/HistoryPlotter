@@ -34,14 +34,15 @@
                   <!--SIGN UP-->
 					    <div class="login-wrap p-4 p-md-4">
 			      	        <h4 class="mb-1 text-center">Sign in</h4>
-							<form action="#" class="signin-form">
+							<form action="#" class="signin-form" method="POST">
+                                {% csrf_token %}
                                 <div class="form-group mb-2 ">
                                     <label class="label" for="email">Username/Email</label>
-                                    <input type="text" class="form-control" placeholder="johndoe">
+                                    <input type="text" class="form-control" placeholder="Username/Email" name = "user_email">
                                 </div>
                                     <div class="form-group mb-2">
                                         <label class="label" for="password">Password</label>
-                                    <input type="password" class="form-control" placeholder="Password">
+                                    <input type="password" class="form-control" placeholder="Password" name="pass">
                                     </div>
                                 <div class="row">
                                 <div class=" col contact100-form-checkbox">
@@ -50,6 +51,7 @@
                                         Remember me
                                     </label>
                                 </div>
+                               
                                 <div class="col text-right p-t-90">
                                     <a class="txt1" href="#">
                                         Forgot Password?
@@ -58,6 +60,12 @@
                             </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary rounded submit p-2">Sign In</button>
+                                </div>
+                             <!--Add message-->
+                             <div class="input__item">
+                                {% for message in messages %}
+                                <div class="alert alert-danger" role="alert">{{message}}</div>
+                                {% endfor %}
                                 </div>
 		                    </form>
                             <div class="w-100 social-wrap">

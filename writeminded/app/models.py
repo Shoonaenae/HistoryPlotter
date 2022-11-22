@@ -3,10 +3,12 @@ from django.db import models
 
 # Create your models here.
 class uploadfilemodel(models.Model):
+    filename = models.CharField(max_length=20, unique=True, null=True)
+    description = models.CharField(max_length=50, null=True)
     file = models.FileField(null = True)
 
     class Meta:
-        db_table = "uploads"
+        db_table = "filesUploaded"
 
 class Post(models.Model):
     body = RichTextField(blank=True, null = True)

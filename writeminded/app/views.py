@@ -46,7 +46,8 @@ class SigninView(View):
          meuser = User.objects.get(username = user) # get the object
          if meuser.password == passw:
             request.session['id'] = meuser.id # log in user
-            print('login')
+            print('login!')
+            print(meuser.username)
             return redirect('About')
          else:
             messages.error(request, 'Username/Email or Password is incorrect')
@@ -54,8 +55,10 @@ class SigninView(View):
       elif User.objects.filter(email_address = user).exists():
          meuser = User.objects.get(email_address = user) # get the object
          if meuser.password == passw:
-            request.session['id'] - meuser.id # log in user
+            request.session['id'] = meuser.id # log in user
             return redirect('About')
+            print('login!')
+            print(meuser.username)
          else:
             messages.error(request, 'Username/Email or Password is incorrect')
             return redirect('Signin')

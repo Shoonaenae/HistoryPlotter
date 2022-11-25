@@ -6,6 +6,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('ideaNest', views.ideaNest, name = "ideaNest"),
+    path('ideaNestEdit/<str:pk>', views.ideaNestEdit, name = "ideaNestEdit"),
     path('', views.LandingPage, name = 'LandingPage'),
     path('About', views.About, name = 'About'),
 
@@ -19,7 +21,6 @@ urlpatterns = [
     path('CreateQuiz', views.CreateQuiz, name = "CreateQuiz"),
     path('EditQuiz', views.EditQuiz, name = "EditQuiz"),
     path('ViewQuiz', views.ViewQuiz, name = "ViewQuiz"),
-    path('ideaNest', views.ideaNest, name = "ideaNest"),
 ]
 
 if settings.DEBUG:

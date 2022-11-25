@@ -2,7 +2,7 @@ from django import forms
 from app.models import uploadfilemodel
 
 class uploadfileform(forms.ModelForm):
-    file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    file = forms.FileField(widget=forms.ClearableFileInput())
 
     def __init__(self, *args, **kwargs):
         super(uploadfileform, self).__init__(*args, **kwargs)

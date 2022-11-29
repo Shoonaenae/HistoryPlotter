@@ -10,6 +10,12 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
 # Create your views here.
+def ideanestdelete(request, pk):
+   file = uploadfilemodel.objects.filter(id = pk)
+   file.delete()
+   messages.info(request, 'file has been deleted')
+   return redirect('/ideaNest')
+
 def ideaNestEdit(request, pk):
    edit = uploadfileform(request.POST, request.FILES)
 

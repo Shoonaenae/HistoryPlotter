@@ -123,7 +123,7 @@
                                                     <td>{{ file.description }} </td>
                                                     <td>
                                                         <a href="{% url 'ideaNestEdit' file.id %}" class="btn btn-secondary mt-2 badge">EDIT</a>
-                                                        <a href="#" class="btn btn-secondary mt-2 badge">Delete</a>
+                                                        <a href="{% url 'ideanestdelete' file.id %}" class="btn btn-secondary mt-2 badge">Delete</a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}

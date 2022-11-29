@@ -6,6 +6,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('ideanestdelete/<str:pk>', views.ideanestdelete, name = "ideanestdelete"),
     path('ideaNest', views.ideaNest, name = "ideaNest"),
     path('ideaNestEdit/<str:pk>', views.ideaNestEdit, name = "ideaNestEdit"),
     path('', views.LandingPage, name = 'LandingPage'),

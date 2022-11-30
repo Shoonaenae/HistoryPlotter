@@ -79,85 +79,65 @@
                     <form method="post" class="post-form" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="form-floating">
-                            <input type="text" required name="filename" class="form-control" placeholder="Filename">
+                            <input type="text" name="filename" value="{{ editFiles.filename }}" class="form-control" placeholder="Filename">
                             <label for="">Filename</label>
                           </div>
                           <br>
                           <div class="form-floating">
-                            <input type="text" required name="description" class="form-control" placeholder="Description">
+                            <input type="text" name="description" value="{{ editFiles.description }}" class="form-control" placeholder="Description">
                             <label for="">Description</label>
                           </div>
                           <br>
-                        {{form.file}}
-                        <a class="btn btn-primary" href="#about">Idea File</a>
+                          <div class="form-floating">
+                            <embed src="{{ editFiles.file.url }}" width="100%" />
+                          </div>
+                        <button type="submit" class="btn btn-primary">update</button><br><br>
+                        <a class="btn btn-primary" href="#about">file</a>
+                        <a class="btn btn-primary" href="{% url 'ideaNest' %}">idea nest</a>
                     </form>
 
                     
                 </div>
             </section>
-             <!-- upload file end -->
 
-              <!-- store files start -->
             <section class="about-section text-center" id="about">
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-10">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h1 class="fw-bold">Idea Files</h1>
-                                </div>
-                                <div class="card-body">
-                                    <table class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Description</th>
-                                                <th>Idea</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-        
-                                            {% for file in files %}
-                                                <tr>
-                                                    <td>{{ file.filename }} </td>
-                                                    <td>{{ file.description }} </td>
-                                                    <td>
-                                                        <a href="{% url 'ideaNestEdit' file.id %}" class="btn btn-secondary mt-2 badge">EDIT</a>
-                                                        
-                                                            <button class="btn btn-secondary mt-2 badge  " data-toggle="modal" data-target="#my-modal">Delete</button>
-                                                            <div id="my-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                    <div class="modal-content border-0">   
-                                                                        <div class="modal-body p-0">
-                                                                            <div class="card border-0 p-sm-3 p-2 justify-content-center">
-                                                                                <div class="card-header pb-0 bg-white border-0 "><div class="row"><div class="col ml-auto"><button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button></div> </div>
-                                                                                <p class="font-weight-bold mb-2"> Are you sure you wanna delete this ?</p><p class="text-muted "> This change is permanent.</p>     </div>
-                                                                                <div class="card-body px-sm-4 mb-2 pt-1 pb-0"> 
-                                                                                    <div class="row justify-content-end no-gutters"><div class="col-auto"><button type="button" class="btn btn-light text-muted" data-dismiss="modal">Cancel</button></div><div class="col-auto">
-                                                                                        <a href="{% url 'ideanestdelete' file.id %}" class="btn btn-secondary mt-2 badge">Delete</a>
-                                                                                        </div></div>
-                                                                                </div>
-                                                                            </div>  
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                    </section>
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <br><br>
-                            <a class="btn btn-primary" href="#upload">idea nest</a>
-                        </div>
-                    </div>
+                    <!-- alert message -->
+                    <script>
+                        setTimeout(function()
+                        {
+                        if($('#msg').length > 0)
+                        {
+                            $('#msg').remove();
+                        }
+                        }, 1500)
+                    </script>
+
+                    <form method="post" class="post-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                          <div class="form-floating">
+                            <input type="text" name="filename" value="{{ editFiles.filename }}" class="form-control" placeholder="Filename">
+                            <label for="">Filename</label>
+                          </div>
+                          <br>
+                          <div class="form-floating">
+                            <input type="text" name="description" value="{{ editFiles.description }}" class="form-control" placeholder="Description">
+                            <label for="">Description</label>
+                          </div>
+                          <br>
+                          <div class="form-floating">
+                            <embed src="{{ editFiles.file.url }}" width="100%" />
+                          </div>
+                          {{edit.file}}     
+                          <button type="submit" class="btn btn-primary">update</button>
+                          <br><br>
+                          <a class="btn btn-primary" href="#upload">name/description</a>
+                          <a class="btn btn-primary" href="{% url 'ideaNest' %}">idea nest</a>
+                    </form>
                 </div>
                 <br><br><br><br><br><br>
-
-                
+            </section>
+             <!-- upload file end -->
         <!-- store files end -->
 
         <!-- idea nest end-->

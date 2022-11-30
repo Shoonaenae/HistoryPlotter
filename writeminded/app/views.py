@@ -1,3 +1,5 @@
+import os
+
 from django.views import View
 from app.functions import handleUploadedFile
 from app.forms import uploadfileform
@@ -8,11 +10,35 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 
 # Create your views here.
-def LandingPage(request):
-   return render(request, "LandingPage.html")
+def ideanestdelete(request, pk):
+   file = uploadfilemodel.objects.filter(id = pk)
+   file.delete()
+   messages.info(request, 'file has been deleted')
+   return redirect('/ideaNest')
+
+def ideaNestEdit(request, pk):
+   edit = uploadfileform(request.POST, request.FILES)
+
+   # edit files
+   editFiles = uploadfilemodel.objects.get(id = pk)
+
+   if request.method == 'POST':
+      if len(request.FILES) != 0: # if there is a file
+         if len(editFiles.file) > 0: # remove file
+            os.remove(editFiles.file.path)
+         
+         editFiles.file = request.FILES['file']
+      editFiles.name = request.POST.get('name')
+      editFiles.description = request.POST.get('description')
+      editFiles.save()
+
+      messages.info(request, "idea file has been updated")
+      return redirect('/ideaNest')
+
+   return render(request, 'editIdeaNest.html', {'edit': edit, 'editFiles': editFiles})
 
 def ideaNest(request):
-
+   
    # store files
    files = uploadfilemodel.objects.all()
 
@@ -22,7 +48,7 @@ def ideaNest(request):
         
         name = uploadfilemodel()
         name.name = request.POST.get('name')
-        name.name = request.POST.get('description')
+        name.description = request.POST.get('description')
 
       #   for f in request.FILES.getlist('file'):
       #       print(str(f))
@@ -35,12 +61,15 @@ def ideaNest(request):
       #   file = request.FILES.getlist('file')[0]
       #   fileModel = uploadfilemodel.objects.create(file = file)
       #   fileModel.save()
-        messages.info(request, "file has been uploaded")
+        messages.info(request, "idea file has been uploaded")
         # return HttpResponse("the name of uploaded file is " + str(fileModel.file))
    else:
         form = uploadfileform()
    
    return render(request, "ideaNest.html", {'form': form, 'files': files})
+
+def LandingPage(request):
+   return render(request, "LandingPage.html")
 
 def About(request):
    return render(request, "About.html")

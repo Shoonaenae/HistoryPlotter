@@ -12,8 +12,17 @@ def LandingPage(request):
    return render(request, "LandingPage.html")
 
 def ideaNest(request):
+
+   # store files
+   files = uploadfilemodel.objects.all()
+
+   # upload file
    if request.method == 'POST':
         form = uploadfileform(request.POST, request.FILES)
+        
+        name = uploadfilemodel()
+        name.name = request.POST.get('name')
+        name.name = request.POST.get('description')
 
       #   for f in request.FILES.getlist('file'):
       #       print(str(f))
@@ -31,7 +40,7 @@ def ideaNest(request):
    else:
         form = uploadfileform()
    
-   return render(request, "ideaNest.html", {'form': form})
+   return render(request, "ideaNest.html", {'form': form, 'files': files})
 
 def About(request):
    return render(request, "About.html")

@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-xl-4 col-lg-5">
                         <div class="featured-text text-center text-lg-left">
-                            <button id="btnAdd" class="btn btn-info mt-2">Add Project</button>
+                            <button type="button" id="btnAdd" class="btn btn-info mt-2" data-bs-target="#btnProjAdd" data-bs-toggle="modal">Add Project</button>
                         </div>
                     </div>
                 </div>
@@ -64,8 +64,12 @@
                                     <br>
                                     <h6 class="mb-0 text-white-50">Description</h6>
                                     <br>
-                                    <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
-                                    <button class="btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="btn-success" id="btnEdit" data-bs-target="#btnProjEdit" data-bs-toggle="modal">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </button>
+                                    <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
                                     <!--<hr class="d-none d-lg-block mb-0 ms-0" />-->
                                 </div>
                             </div>
@@ -80,8 +84,12 @@
                                     <br>
                                     <h6 class="mb-0 text-white-50">Description</h6>
                                     <br>
-                                    <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
-                                    <button class="btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="btn-success" id="btnEdit" data-bs-target="#btnProjEdit" data-bs-toggle="modal">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </button>
+                                    <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
                                     <!--<hr class="d-none d-lg-block mb-0 ms-0" />-->
                                 </div>
                             </div>
@@ -98,8 +106,12 @@
                                     <br>
                                     <h6 class="mb-0 text-white-50">Description</h6>
                                     <br>
-                                    <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
-                                    <button class="btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="btn-success" id="btnEdit" data-bs-target="#btnProjEdit" data-bs-toggle="modal">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </button>
+                                    <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
                                     <!--<hr class="d-none d-lg-block mb-0 ms-0" />-->
                                 </div>
                             </div>
@@ -113,8 +125,12 @@
                                     <br>
                                     <h6 class="mb-0 text-white-50">Description</h6>
                                     <br>
-                                    <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
-                                    <button class="btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="btn-success" id="btnEdit" data-bs-target="#btnProjEdit" data-bs-toggle="modal">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </button>
+                                    <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
                                     <!--<hr class="d-none d-lg-block mb-0 ms-0" />-->
                                 </div>
                             </div>
@@ -123,12 +139,76 @@
                 </div>
             </div>
         </section>
-        <!-- MODAL TRY -->
-        <div id="modalAdd" class="modal">
-            <span class="close">&times;</span>
-            <p class="modal-content modal-fullscreen">Hello world</p>
+        <!-- MODAL ADD -->
+        <div id="btnProjAdd" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">CREATE PROJECT</h5>
+                        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="projectTitle" class="form-label">Project Title</label>
+                            <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;">
+                        </div>
+                        <div class="form-group">
+                            <label for="projectDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="projectDescription" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
         </div>
-       
+        <!-- MODAL EDIT -->
+        <div id="btnProjEdit" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">PROJECT EDIT</h5>
+                        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="projectTitle" class="form-label">Project Title</label>
+                            <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" value="Project Title">
+                        </div>
+                        <div class="form-group">
+                            <label for="projectDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="projectDescription" rows="5">Project description
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL DELETE -->
+        <div id="btnProjDelete" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">DELETE PROJECT</h5>
+                        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 class="text-md-center">Are you sure you want to delete the project?</h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; Team Write Minded 2022</div></footer>
         <!-- Bootstrap core JS-->
@@ -140,7 +220,7 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-        <script>
+        <!--<script>
             var modal = document.getElementById("modalAdd"); //get modal
             var btn = document.getElementById("btnAdd"); //get btn
             // Get the <span> element that closes the modal
@@ -158,6 +238,6 @@
                     modal.style.display = "none";
                 }
             }
-        </script>
+        </script>-->
     </body>
 </html>

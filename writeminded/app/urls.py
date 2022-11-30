@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from cgitb import html
 from typing import ValuesView
 from django.urls import path
@@ -19,3 +21,6 @@ urlpatterns = [
     path('ViewQuiz', views.ViewQuiz, name = "ViewQuiz"),
     path('ideaNest', views.ideaNest, name = "ideaNest"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

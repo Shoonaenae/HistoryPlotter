@@ -50,13 +50,13 @@
        
         <!-- idea nest start -->
 
-            <!-- upload file -->
+            <!-- upload file start -->
             <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/js/fileinput.min.js" ></script>
 
-            <section class="projects-section bg-dark" id="projects">
+            <section class="projects-section bg-dark" id="upload">
                 <div class="container" data-aos="fade-up">
 
                     <!-- upload success message -->
@@ -78,10 +78,68 @@
 
                     <form method="post" class="post-form" enctype="multipart/form-data">
                         {% csrf_token %}
+                          <div class="form-floating">
+                            <input type="text" required name="filename" class="form-control" placeholder="Filename">
+                            <label for="">Filename</label>
+                          </div>
+                          <br>
+                          <div class="form-floating">
+                            <input type="text" required name="description" class="form-control" placeholder="Description">
+                            <label for="">Description</label>
+                          </div>
+                          <br>
                         {{form.file}}
+                        <a class="btn btn-primary" href="#about">Idea File</a>
                     </form>
+
+                    
                 </div>
             </section>
+             <!-- upload file end -->
+
+              <!-- store files start -->
+            <section class="about-section text-center" id="about">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h1 class="fw-bold">Idea Files</h1>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Idea</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+        
+                                            {% for file in files %}
+                                                <tr>
+                                                    <td>{{ file.filename }} </td>
+                                                    <td>{{ file.description }} </td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-secondary mt-2 badge">EDIT</a>
+                                                        <a href="#" class="btn btn-secondary mt-2 badge">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <br><br>
+                            <a class="btn btn-primary" href="#upload">idea nest</a>
+                        </div>
+                    </div>
+                </div>
+                <br><br><br><br><br><br>
+            </section>
+        <!-- store files end -->
+
         <!-- idea nest end-->
 
         <!-- Signup-->
@@ -129,6 +187,7 @@
             </div>
         </section>
          <!-- idea nest end -->
+         
 
 
         <!-- Contact-->

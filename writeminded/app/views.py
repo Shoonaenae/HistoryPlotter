@@ -3,11 +3,12 @@ import os
 from django.views import View
 from app.functions import handleUploadedFile
 from app.forms import uploadfileform
-from .models import User, uploadfilemodel
+from .models import *
 from django.contrib import messages
 from http.client import HTTPResponse
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
+from .forms import *
 
 # Create your views here.
 def ideanestdelete(request, pk):
@@ -136,11 +137,40 @@ def ProjectDashboard(request):
 def Relations(request):
    return render(request, "Relations.html")
 
-def CreateQuiz(request):
-   return render(request, "CreateQuiz.html")
+## QUIZZZ
+class CreateQuizView(View):
+   def get(self,request):
+      print("-------USER in SESSION-------")
+      print(request.session['id'])
+      #user = 
+      quiz = Quiz.objects.all()
+      user = User.objects.all()
+      context ={
+         'quiz' : quiz,
+         'user' : user
+      }
+
+      return render(request, "CreateQuiz.html", context)
+   def post(self, request):
+      if request.method == 'POST':
+         #if 'btnCreate' in request.POST:
+            form = Quiz(request.POST)
+            user = request.session['id']
+            name = request.POST.get('name')
+            desc = request.POST.get('desc')
+            date = request.POST.get('date')
+            #print(user)
+            form = Quiz( quiz_name = name, quiz_date = date,user_id = user, quiz_desc = desc)
+            form.save()
+            #print(form.errors)
+      return redirect('CreateQuiz')
+  
 
 def EditQuiz(request):
    return render(request, "EditQuiz.html")
 
 def ViewQuiz(request):
    return render(request, "ViewQuiz.html")
+
+def QuizView(request):
+   return render(request, "Quiz.html")

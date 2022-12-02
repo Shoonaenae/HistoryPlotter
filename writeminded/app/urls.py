@@ -19,9 +19,10 @@ urlpatterns = [
     path('LM_CreateChapter', views.LM_CreateChapter, name = 'LM_CreateChapter'),
     path('ProjectDashboard', views.ProjectDashboard, name = 'ProjectDashboard'),
     path('Relations', views.Relations, name = "Relations"),
-    path('CreateQuiz', views.CreateQuiz, name = "CreateQuiz"),
+    path('CreateQuiz', views.CreateQuizView.as_view(), name = "CreateQuiz"),
     path('EditQuiz', views.EditQuiz, name = "EditQuiz"),
     path('ViewQuiz', views.ViewQuiz, name = "ViewQuiz"),
+    path('Quiz', views.Quiz, name = "Quiz"),
 ]
 
 if settings.DEBUG:

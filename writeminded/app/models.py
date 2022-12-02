@@ -20,4 +20,27 @@ class User(models.Model):
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
     email_address = models.CharField(max_length = 50, unique = True , null = False)
+
+# quiz
+class Quiz(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    quiz_name = models.CharField(max_length=100)
+    quiz_desc = models.TextField(default=None)
+    quiz_date = models.DateField(blank=True)
+    #quiz_type = models.CharField(max_length=50)
+
+class QuizRepo(models.Model):
+    user_id = models.ForeignKey(User, on_delete = models.CASCADE)
+    quiz_id = models.ForeignKey(Quiz, on_delete = models.CASCADE)
+
+class Question(models.Model):
+    quiz_id = models.ForeignKey(Quiz, on_delete= models.CASCADE)
+    q_num = models.IntegerField()
+    question = models.CharField(max_length=500)
+
+class Answer(models.Model):
+    q_id = models.ForeignKey(Question, on_delete= models.CASCADE)
+    answer = models.CharField(max_length= 100)
+# end quiz
+
     

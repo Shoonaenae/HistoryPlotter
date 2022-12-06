@@ -4,6 +4,7 @@ from cgitb import html
 from typing import ValuesView
 from django.urls import path
 from . import views
+from .views import MaterialsView, MaterialDetailView, AddMaterialsView, UpdateMaterialDescriptionsView
 
 urlpatterns = [
     path('ideanestdelete/<str:pk>', views.ideanestdelete, name = "ideanestdelete"),
@@ -16,13 +17,19 @@ urlpatterns = [
 
     path('Signup', views.SignupView.as_view(), name = 'Signup'),
 
-    path('LM_CreateChapter', views.LM_CreateChapter, name = 'LM_CreateChapter'),
+
     path('ProjectDashboard', views.ProjectDashboard, name = 'ProjectDashboard'),
     path('Relations', views.Relations, name = "Relations"),
     path('CreateQuiz', views.CreateQuizView.as_view(), name = "CreateQuiz"),
     path('EditQuiz', views.EditQuiz, name = "EditQuiz"),
     path('ViewQuiz', views.ViewQuiz, name = "ViewQuiz"),
     path('Quiz', views.Quiz, name = "Quiz"),
+
+    path('', MaterialsView.as_view(), name="materials"),
+    path('materials/<int:pk>', MaterialDetailView.as_view(), name="material-details"),
+    #pk->primary key... unique id number assigned to new database record entry
+    path('add_material/', AddMaterialsView.as_view(), name = 'add-materials'),
+    path('material/edit/<int:pk>', UpdateMaterialDescriptionsView.as_view(), name = 'update-materials')
 ]
 
 if settings.DEBUG:

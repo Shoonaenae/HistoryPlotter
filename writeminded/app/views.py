@@ -9,6 +9,9 @@ from http.client import HTTPResponse
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .forms import *
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from .models import Materials
+from .forms import DescriptionForm
 
 # Create your views here.
 def ideanestdelete(request, pk):
@@ -174,3 +177,23 @@ def ViewQuiz(request):
 
 def QuizView(request):
    return render(request, "Quiz.html")
+
+class MaterialsView(ListView):
+    model = Materials 
+    template_name = 'LM_materials.html'
+
+class MaterialDetailView(DetailView):
+    model = Materials
+    template_name= 'LM_material_details.html'
+    context_object_name = 'mat'
+
+class AddMaterialsView(CreateView):
+    model = Materials
+    form_class = DescriptionForm
+    template_name = 'LM_add_materials.html'
+    #fields = '__all__'
+
+class UpdateMaterialDescriptionsView(UpdateView):
+    model = Materials
+    template_name = 'LM_edit_materialdescriptions.html'
+    fields = ['title', 'description']

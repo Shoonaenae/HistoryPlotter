@@ -7,7 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>History Plotter</title>
+        <title>
+            {% block title %} History Plotter {% endblock %}
+        </title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -18,35 +20,24 @@
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
     <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav-lm">
+        
+          <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav-lm">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% url 'LandingPage' %}">History Plotter</a>
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
+                <a class="navbar-brand" href="{% url 'materials' %}">History Plotter</a>
+
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link-lm" href="{% url 'About' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link-lm" href="{% url 'LM_CreateChapter' %}">Write</a></li>
-                        <li class="nav-item"><a class="nav-link-lm" href="{% url 'ideaNest' %}">Nest</a></li>
-                        <li class="nav-item"><a class="nav-link-lm" href="#signup">Contact Us</a></li>
-                        <li class="nav-item"><a class="nav-link-lm" href="{% url 'Signin' %}">Sign In</a></li> 
-                        <li class="nav-item"><a class="btn btn-primary mt-2" href="#signup">Sign Up</a></li>
+                        <li class="nav-item"><a class="nav-link" >About</a></li>
+                        <li class="nav-item"><a class="nav-link" >Write</a></li>
+                        <li class="nav-item"><a class="nav-link" >Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link" >Sign In</a></li> 
+                        <li class="nav-item"><a class="btn btn-primary mt-2">Sign Up</a></li>
                     </ul>
                 </div>
+                
             </div>
         </nav>
-        <!-- ======= for header to be visible start ======= -->
-  <footer id="footer">
-    <div class="container">
-      <div class="copyright">
-        <strong></strong>
-      </div>
-    </div>
-  </footer>
-  <!-- Efor header to be visible end -->
 
        
         <!-- Projects-->
@@ -54,17 +45,14 @@
             <div class="container px-4 px-lg-5">
                 <!-- Featured Project Row-->
                 
-                        <div class="text-center text-lg-left">
-                            <h4>Add Lesson Material</h4>
+                        <!--<div class="text-lg-left text-lg-left">-->
+                        
+                            {% block content %}
+                            {% endblock %}
                             <br>
-                        <div class = "form-group">
-                            <form method="POST">
-                                {% csrf_token %}
-                                {{form.media}}
-                                {{form.as_p}}
-                                <button class="btn btn-primary">Post</button>
-                        </div>
-                        </div>
+                            <br>
+                            
+                        <!--</div>-->
                     </div>
                 </div>
                 

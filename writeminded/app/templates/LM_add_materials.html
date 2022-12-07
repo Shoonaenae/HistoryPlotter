@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} Lesson Descriptions {% endblock %}
+{% block content %}
+
+<h3>New Materials</h3>
+<small><em>Descriptions of the planned lesson materials: This inlcudes a proper title and summary/blurb.</em>
+
+<br/>
+<br/>
+<br/>
+<div class ="form-group">
+<form method ="POST">
+    {% csrf_token %}
+
+    {{form.as_p}}
+
+    <button class="btn btn-primary mt-2"> Save </button>
+
+      
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ mat.title }} {% endblock %}
+
+{% block content %}
+
+
+<h1>{{ mat.title }}</h1>
+
+<small>By: {{ mat.author.first_name }} {{ mat.author.last_name }}</small><br/>
+<hr>
+<br/>
+
+{{ mat.description }}
+
+<br/><br/>
+
+<a class="btn btn-primary mt-2" href="{% url 'materials' %}"> Back </a>
+
+{% endblock %}

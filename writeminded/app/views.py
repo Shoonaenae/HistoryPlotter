@@ -140,20 +140,23 @@ def Relations(request):
 ## QUIZZZ
 class CreateQuizView(View):
    def get(self,request):
-      print("-------USER in SESSION-------")
-      print(request.session['id'])
-      #user = 
-      quiz = Quiz.objects.all()
-      user = User.objects.all()
-      context ={
-         'quiz' : quiz,
-         'user' : user
-      }
+      try:
+         print("-------USER in SESSION-------")
+         print(request.session['id'])
+         user = User.objects.get(id = request.session['id']) 
+         quiz = Quiz.objects.all()
+        # user = User.objects.all()
+         context ={
+            'quiz' : quiz,
+            'user' : user
+         }
 
-      return render(request, "CreateQuiz.html", context)
+         return render(request, "CreateQuiz.html", context)
+      except KeyError:
+         return render(request, "CreateQuiz.html")
    def post(self, request):
       if request.method == 'POST':
-         #if 'btnCreate' in request.POST:
+         if 'btnCreate' in request.POST:
             form = Quiz(request.POST)
             user = request.session['id']
             name = request.POST.get('name')
@@ -162,15 +165,127 @@ class CreateQuizView(View):
             #print(user)
             form = Quiz( quiz_name = name, quiz_date = date,user_id = user, quiz_desc = desc)
             form.save()
+            quiz = Quiz.objects.filter(user_id = user).latest('id')
+            request.session['quiz_id'] = quiz.id
+            return redirect('EditQuiz')
             #print(form.errors)
+         elif 'btnEdit' in request.POST:
+            q_id = request.POST.get('q_id')
+            request.session['quiz_id'] = q_id
+            return redirect('EditQuiz')
+         elif 'btnDelete' in request.POST:
+            quiz = request.POST.get('q_id')
+            if quiz == request.session['quiz_id']:
+               try:
+                  del request.session['id'] #OR request.session.flush() to end session
+               except KeyError:
+                  pass
+            else:
+               Quiz.objects.get(id = quiz).delete()
+               print('deleted successfully')
+               return redirect('CreateQuiz')
+         elif 'btnLogout' in request.POST:
+            try:
+               del request.session['id'] #OR request.session.flush() to end session
+            except KeyError:
+               pass
+            return redirect('About')
       return redirect('CreateQuiz')
   
+class EditQuizView(View):
+   def get(self,request):
+      try:
+         print("-------USER in SESSION-------")
+         print(request.session['id'])
+         print("-------Quiz in SESSION-------")
+         print(request.session['quiz_id'])
+         user = User.objects.get(id = request.session['id']) 
+         #user = 
+         quiz = Quiz.objects.get(id = request.session['quiz_id'])
+         #question = Question.objects.all()
+         question = Question.objects.filter(quiz_id = request.session['quiz_id']).order_by('-q_num')
+         answer = Answer.objects.all()
+        # user = User.objects.all()
+         context ={
+            'quiz' : quiz,
+            'user' : user,
+            'question' : question,
+            'answer' : answer,
+         }
 
-def EditQuiz(request):
-   return render(request, "EditQuiz.html")
+         return render(request, "EditQuiz.html", context)
+      except KeyError:
+         return render(request, "EditQuiz.html")
+   def post(self, request):
+      if request.method == 'POST':
+         if 'btnAddQuestion' in request.POST:
+            form = Question(request.POST)
+            quiz = request.session['quiz_id']
+            num = request.POST.get('num')
+            q = request.POST.get('ques')
+            #print(user)
+            form = Question( quiz_id = quiz, q_num = num ,question = q)
+            form.save()
+            #print(form.errors)
+         #elif 'btnAddMe' in request.POST:
+            #meid = request.POST.get('q_id')
+         elif 'btnDelete' in request.POST:
+            question = request.POST.get('q_id')
+            print(question)
+            Question.objects.get(id = question).delete()
+            print('deleted successfully')
+            return redirect('EditQuiz')
+         elif 'btnAddAnswer' in request.POST:
+            form = Answer(request.POST)
+            option = request.POST.get('ans')
+            q_id = request.POST.get('q_id')
+            isAnswer = request.POST.get('isAnswer')
+            if isAnswer == 'on':
+               isAnswer = True
+            else:
+               isAnswer = False
+            form = Answer( question_id = q_id, answer = option, isAnswer = isAnswer)
+            form.save()
+            #q_id = 
+        # elif 'btnView' in request.POST:
+         #    q_id = request.POST.get('q_id')
+         #    request.session['quiz_id'] = q_id
+         #   return redirect('ViewQuiz')
+         elif 'btnLogout' in request.POST:
+            try:
+               del request.session['id'] #OR request.session.flush() to end session
+            except KeyError:
+               pass
+            return redirect('About')
+      return redirect('EditQuiz')
 
 def ViewQuiz(request):
    return render(request, "ViewQuiz.html")
 
-def QuizView(request):
-   return render(request, "Quiz.html")
+class QuizView(View):
+   def get(self,request):
+      try:
+         print("-------USER in SESSION-------")
+         print(request.session['id'])
+         print("-------Quiz in SESSION-------")
+         print(request.session['quiz_id'])
+         user = User.objects.get(id = request.session['id']) 
+         quiz = Quiz.objects.get(id = request.session['quiz_id'])
+         #question = Question.objects.all()
+         question = Question.objects.filter(quiz_id = request.session['quiz_id']).order_by('-q_num')
+         option = Answer.objects.all()
+         answer = Answer.objects.filter(isAnswer = True)
+        # user = User.objects.all()
+         context ={
+            'quiz' : quiz,
+            'user' : user,
+            'question' : question,
+            'option' : option,
+            'answer' : answer,
+         }
+
+         return render(request, "Quiz.html", context)
+      except KeyError:
+         return render(request, "Quiz.html")
+   def post(self, request):
+      return redirect('Quiz')

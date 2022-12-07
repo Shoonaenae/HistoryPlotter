@@ -1,292 +1,264 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html>
-<head>
-<title>Quiz</title>   
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<style>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>History Plotter | Relations</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand text-black" href="{% url 'LandingPage' %}">History Plotter</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'About' %}">About</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'LM_CreateChapter' %}">Write</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}">Contact Us</a></li>
+                        {% if user.username %}
+        
+                        <li class="nav-item"><a class="nav-link text-black" href="">{{user.username}}</a></li> 
+                        <form action="" method="POST">
+                        {% csrf_token %}
+                       <li class="nav-item"><a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'Signup' %}">Log out</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'Signin' %}">Sign In</a></li> 
+                       <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!--LOGOUT MODAL-->
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Logout</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <p>Are you sure you want to end the session?</p>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                <button type="submit" class="btn btn-primary" name="btnLogout">Yes</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!--END MODAL-->
+        <!-- Project Dashboard-->
+        <section class="projects-section bg-light" id="projects">
+            <div class="container px-4 px-lg-5">
+              <!--BREAD CRUMB-->
+              <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'About' %}">Home</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'CreateQuiz' %}">Quiz</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Edit Quiz</li>
+                </ol>
+              </nav>
+              <!--END BREADCRUMB-->
+                <!-- Featured Project Row-->
+                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
+                    <div class="col-xl-8 col-lg-7">
+                        <div class="text-left text-lg-left">
+                            <h1>{{ quiz.quiz_name }}</h1>
+                        </div>
+                        <p>{{quiz.quiz_desc}}</p>
+                    </div>
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="featured-text text-center text-lg-left">
+                            <!--<button class="btn btn-info mt-2">Add Quiz</button>-->
+                            <a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal" >Add Question</a>
+                            <a class="btn btn-primary mt-2"  href="{% url 'Quiz' %}" >View</a>
+                            <!--<form action="POST">
+                              {% csrf_token %}
+                            <input id="answer" type="text" name="q_id" value= "{{ q.id }}" hidden>
+                            <button type="submit" class="btn btn-primary mt-2" name="btnView">View</button>
+                            </form>-->
+                        </div>
+                    </div>
+                </div>
+                <!--Create Question MODAL-->
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Question</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="#" class="signin-form" method="POST">
+                                    {% csrf_token %}
+                                    <!--BODY-->
+                                    <div class="modal-body">
+                                        <div class="mb-3 row">
+                                            <label for="inputNumber" class="col-sm-2 col-form-label">Number</label>
+                                            <div class="col-sm-10">
+                                            <input type="number" class="form-control" id="inputNumber" name="num" min="0">
+                                            </div>
+                                            <label for="inputQuestion" class="col-sm-2 col-form-label">Question</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control" id="inputQuestion" name="ques">
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <!--END BODY-->
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+                                    <button type="submit" class="btn btn-primary" name="btnAddQuestion">Create</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--END MODAL-->
 
-html{background:#475459;}
-body{padding:10px 70px;}
-h1{color:#fff;font-size:4vw;}
-
-
-.timeline{
-transition: width 1s ease-in-out;
-top: 0px;
-position: absolute;
-height: 5px;
-background: #3fbcf8;
-width: 0%;
-display: block;
-left: 0px;
-}
-
-
-input[type="text"],.OkButton,textarea{
-font-size:3.5vw;
-width:70%;
-padding:10px;
-display:inline-block;
-margin:4px;
-vertical-align: bottom;
-border-radius:6px;
-color:#294c62;
-font-family: "Times New Roman", Times, serif !important;
-}
-
-.OkButton{
-   background:#aaaaaa;
-   width:20%;
-   padding:12px;
-   
-   text-align:center;
-}
-
-@media only screen and (max-width: 700px) {
-    input[type="text"],.OkButton,textarea{
-    width:100%;
-    padding:10px;
-    }
-}
-
-
-.blinking{
-color:#fff;
-animation:blinkingText 0.5s infinite;
-}
-@keyframes blinkingText{
-    0%{     color: #fff;    }
-    49%{    color: #fff; }
-    60%{    color: transparent; }
-    99%{    color:transparent;  }
-    100%{   color: #fff;    }
-}
-
-.numrator {
-    background: #333;
-    padding: 4px 10px;
-    display: inline-block;
-    border-radius: 4px;
-    color: #aaa;
-    margin: 2px;
-}
-
-
-#resultsDiv {
-    color: #fff;
-    font-size: 2.5vw;
-    max-width: 800px;
-    margin: auto;
-    text-align: justify;
-}
-
-.createLink{display: block;
-margin: auto;
-    margin-top: auto;
-margin-top: 150px;
-
-position: fixed;
-bottom: 15px;
-right: 15px;
-width: 150px;
-text-align: right;
-
-}
-.createLink a{
-text-decoration: none !important;
-color: #aaaaaa !important;   
-}
-
-
-</style>
-<body>
-
-<div id=questionNr></div><br>
-<div id=CreateQuestions></div>
-
-
-
-<!--h1 id=demo><span class=blinking>_</span></h1>
-<div id=resultsDiv></div-->
-
-
-<div class=createLink ><a href='./'>Retun Home</a></div>
-</body>
-<script>
-
-
-var questionNumbers = 1;
-var numberOfQuestionInEditing = 0;
-var question = [];
-
-
-function renderQuestionNumbers___(){
-    let html = '';
-    
-    for(let i = 0; i < questionNumbers; i++){
-        let color = '';
-        if(i == numberOfQuestionInEditing){color="#b6dd2d";}
-        html += "<span class=numrator style='background:"+color+";' onclick='SaveQuestionTempAndGo("+i+");RenderQuestion()'>"+(i+1)+"</span>";
-    }
-    html += "<a href ={% url 'ViewQuiz' %}> <span class=numrator style='float:right;'>Publish</span></a>";
-    html += "<span class=numrator onclick='questionNumbers++;SaveQuestionTempAndGo("+questionNumbers+");RenderQuestion()'>+ New</span>";
-    
-    document.getElementById('questionNr').innerHTML = html;
-}
-
-
-function renderQuestionBox(){
-    for(let i = 0; i < questionNumbers; i++){
-        if(!question[i]){question[i]=[]};   
-    }
-}
-
-
-function RenderQuestion(){
-    renderQuestionBox();
-    renderQuestionNumbers___();
-    let html = '';
-    let Q = question[numberOfQuestionInEditing][0] ? question[numberOfQuestionInEditing][0]: "";
-    let R = question[numberOfQuestionInEditing][1] ? question[numberOfQuestionInEditing][1]: "";
-    html += "<textarea id=QN"+numberOfQuestionInEditing+" onkeyup='beep(undefined, 8401, 40)' placeholder='Type the question here...'>"+Q+"</textarea><input onkeyup='beep(undefined, 8401, 40)' id='RE"+numberOfQuestionInEditing+"' type=text placeholder='Correct answer here...' value='"+R+"'><hr><br>";
-    document.getElementById('CreateQuestions').innerHTML = html;
-}
-RenderQuestion();
-
-
-function SaveQuestionTempAndGo(numberNew){
-    let q = document.getElementById("QN"+numberOfQuestionInEditing).value;
-    let r = document.getElementById("RE"+numberOfQuestionInEditing).value;
-    question[numberOfQuestionInEditing][0]=q;
-    question[numberOfQuestionInEditing][1]=r;
-    numberOfQuestionInEditing = numberNew;
-    RenderQuestion();
-}
-
-
-
-function getURLbase(){
-    let base_url = window.location.origin;
-    let host = window.location.host;
-    let pathArray = window.location.pathname.split('/');
-    let newSub = '';
-
-    for(let i=0; i<pathArray.length-1;i++){
-        if(pathArray[i] != ""){
-        newSub += pathArray[i]+"/";
-        }
-    }
-    return base_url+"/"+newSub;
-}
-
-function saveQuestion(){
-    dergo();
-    let urlBase = getURLbase();
-    alert("Here will not work, only on your server.\n"+urlBase+"?f="+file);
-}
-
-
-
-a=new AudioContext(); // browsers limit the number of concurrent audio contexts, so you better re-use'em
-
-var safariAp = 0;
-var ua = navigator.userAgent.toLowerCase(); 
-if (ua.indexOf('safari') != -1) { 
-  if (ua.indexOf('chrome') > -1) {
-  } else {
-    safariAp =1; // Safari
-  }
-}
-
-function beep(vol=.6, freq, duration){
-if(safariAp!=1){
-  v=a.createOscillator()
-  u=a.createGain()
-  v.connect(u)
-  v.frequency.value=freq
-  v.type="square"
-  u.connect(a.destination)
-  u.gain.value=vol*0.01
-  v.start(a.currentTime)
-  v.stop(a.currentTime+duration*0.001)
-}}
-
-
-
-function kerko(){
-	var xmlhttp;
-	if (window.XMLHttpRequest) { xmlhttp=new XMLHttpRequest();  }
-	else { xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");   }
-
-	xmlhttp.onreadystatechange=function()  {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-			if(xmlhttp.responseText != "null"){	
-			if(xmlhttp.responseText=="No database found...") return false;
-			  PIKE = JSON.parse(xmlhttp.responseText);
-			  table = PIKE[0];
-			  users = PIKE[1];
-			  turno = PIKE[2];
-			  openNr = PIKE[3];
-			  openItems = PIKE[4];
-			  findItems = PIKE[5];
-			  file = PIKE[6];
-			  points = PIKE[7];
-			  render();
-			}
-		}
-	}
-	
-	xmlhttp.open("GET","sog.php?get=1&f="+file,true);
-	xmlhttp.send();
-}
+  
+                <!-- LIST OF RELATIONS STARTS HERE -->
+                <table class="table table table-primary table-bordered">
+                    <thead class="text-center">
+                      <th scope="col">#</th>
+                      <th scope="col">Question</th>
+                      <th scope="col">Answer/s</th>
+                      <th scope="col">Action</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          {% for q in question %}
+                          <th scope="row">{{ q.q_num }}</th>
+                          <th>{{ q.question }}</th>
+                         <td>
+                            {% for a in answer %}
+                              {% if q.id == a.question_id%}
+                              <p>{{ a.answer }},</p>
+                              {% endif %}
+                            {% endfor %}
+                            <button class = "Addanswer"type="buttpm" name="btnAddMe"><a href="#" class="link-primary"  data-bs-toggle="modal" data-bs-target="#addAnswer-{{q.id}}" >Add Answer +</a></button>
+                               <!--Second MODAL Answer-->
+                   <!-- Modal -->
+                   <div class="modal fade" id="addAnswer-{{q.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Answer</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="#" class="signin-form" method="POST">
+                                    {% csrf_token %}
+                                    <!--BODY-->
+                                    <div class="modal-body">
+                                        <div class="mb-3 row">
+                                          <input id="answer" type="text" name="q_id" value= "{{ q.id }}" hidden>
+                                            <label for="inputQuestion" class="col-sm-2 col-form-label">Option</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control" id="inputQuestion" name="ans">
+                                            </div>
+                                            <div class="mb-3 row">
+                                              <div class="form-check ">
+                                                <input class="form-check-input" type="radio" name="isAnswer" id="flexRadioDefault1">
+                                                <label class=" col-sm-2 form-check-label" for="flexRadioDefault1">
+                                                  isAnswer
+                                                </label>
+                                              </div>
+                                        </div>
+                                    </div>
+                                    <!--END BODY-->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" >Back</button>
+                                    <button type="submit" class="btn btn-primary" name="btnAddAnswer">Add</button>
+                                    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--END MODAL-->
+                          <!--
+                            <form method="POST">
+                              {% csrf_token %}
+                            <input type="text" name="q_id" value= "{{ q.id }}" hidden>
+                            <p>ok</p>
+                            <button type="submit" name="btnAddMe"><a href="#" class="link-primary"  data-bs-toggle="modal" data-bs-target="#exampleModal2" >Add Answer +</a></button>
+                            </form>-->
+                        </td>
+                         <td class="text-center">
+                          <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
+                          <button class="btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQuestion-{{q.id}}"><i class="fa-solid fa-trash-can"></i></button>
+                           <!--Delete MODAL-->
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteQuestion-{{q.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Question</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                      <p>Are you sure you want to delete this Question?</p>
+                                      </div>
+                                      <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                      <form action="" method="POST">
+                                          {% csrf_token %}
+                                      <input id="answer" type="text" name="q_id" value= "{{q.id}}" hidden>
+                                      <button type="submit" class="btn btn-primary" name="btnDelete">Yes</button>
+                                      </form>
+                                      </div>
+                                  </div>
+                                  </div>
+                              </div>
+                              <!--END MODAL-->
+                         </td>
+                          <!-- 
+                            {% if quiz.id == quiz  %}
+                            <td>{{quiz.quiz_name}}</td>
+                            <td>{{q.quiz_desc}}</td>
+                            <td>{{q.quiz_date}}</td>
+                           
+                            {% endif %}-->
+                            {% endfor %}
+                        </tr>
 
 
-var ID = function () {
-  // Math.random should be unique because of its seeding algorithm.
-  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-  // after the decimal.
-  return '' + Math.random().toString(36).substr(2, 9);
-};
-
-
-
-let file = "q"+ID();;
-
-///////////////////////////...SAVE DATA...//////////////////////////////////
-function dergo() {
-var e = JSON.stringify(question);
-
-	var xmlhttp;
-	if (window.XMLHttpRequest){xmlhttp=new XMLHttpRequest();}
-	else { xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); }
-
-	xmlhttp.onreadystatechange=function(){
-	  if (xmlhttp.readyState==4 && xmlhttp.status==200){ //xmlhttp.responseText
-		}
-	  }	  
-	xmlhttp.open("POST","sog.php",true);
-	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	xmlhttp.send("jsonText="+e+"&f="+file);
-}
-
-
-
-</script>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+       
+        <!-- Footer-->
+        <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; Team Write Minded 2022</div></footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts.js' %}"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+  
+    </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

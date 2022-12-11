@@ -150,6 +150,7 @@ class ProjectDashboard(View):
          return render(request, "ProjectDashboard.html")
    def post(self, request):
       if request.method == 'POST':
+         projectID = request.POST.get('myID')
          if 'btnProjCreate' in request.POST:
             form = Project(request.POST)
             user = request.session['id']
@@ -161,6 +162,8 @@ class ProjectDashboard(View):
             # project = Project.objects.filter(user_id = user).latest('id') starts here
             # request.session['project_id'] = project.id
             # return redirect('ProjectDashboard') redirect to the newly created project
+         elif 'btnProjDelete' in request.POST:
+            Project.objects.get(id = projectID).delete()
       return redirect('ProjectDashboard')
 
 def Relations(request):

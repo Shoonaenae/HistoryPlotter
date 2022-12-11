@@ -10,8 +10,9 @@ urlpatterns = [
     path('ideanestdelete/<str:pk>', views.ideanestdelete, name = "ideanestdelete"),
     path('ideaNest', views.ideaNest, name = "ideaNest"),
     path('ideaNestEdit/<str:pk>', views.ideaNestEdit, name = "ideaNestEdit"),
-    path('', views.LandingPage, name = 'LandingPage'),
-    path('About', views.About, name = 'About'),
+
+    path('', views.LandingPageView.as_view(), name = 'LandingPage'),
+    path('About', views.AboutView.as_view(), name = 'About'),
 
     path('Signin', views.SigninView.as_view(), name = 'Signin'),
 

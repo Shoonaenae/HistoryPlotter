@@ -72,11 +72,50 @@ def ideaNest(request):
    
    return render(request, "ideaNest.html", {'form': form, 'files': files})
 
-def LandingPage(request):
-   return render(request, "LandingPage.html")
-
-def About(request):
-   return render(request, "About.html")
+class LandingPageView(View):
+   def get(self,request):
+      try:
+         print("-------USER in SESSION-------")
+         print(request.session['id'])
+         user = User.objects.get(id = request.session['id']) 
+        # user = User.objects.all()
+         context ={
+            'user' : user
+         }
+         return render(request, "LangdingPage.html", context)
+      except KeyError: 
+         return render(request, "LandingPage.html")
+   def post(self,request):
+      if request.method == 'POST':
+         if 'btnLogout' in request.POST:
+            try:
+               del request.session['id'] #OR request.session.flush() to end session
+            except KeyError:
+               pass
+            return redirect('LandingPage')
+            
+class AboutView(View):
+   def get(self,request):
+      try:
+         print("-------USER in SESSION-------")
+         print(request.session['id'])
+         user = User.objects.get(id = request.session['id']) 
+        # user = User.objects.all()
+         context ={
+            'user' : user
+         }
+         return render(request, "About.html", context)
+      except KeyError: 
+         #messages.error(request, 'You must login before you can access this function')
+         return render(request, "About.html")
+   def post(self,request):
+      if request.method == 'POST':
+         if 'btnLogout' in request.POST:
+            try:
+               del request.session['id'] #OR request.session.flush() to end session
+            except KeyError:
+               pass
+            return redirect('LandingPage')
 
 class SigninView(View):
    def get(self, request):
@@ -90,7 +129,7 @@ class SigninView(View):
             request.session['id'] = meuser.id # log in user
             print('login!')
             print(meuser.username)
-            return redirect('About')
+            return redirect('LandingPage')
          else:
             messages.error(request, 'Username/Email or Password is incorrect')
             return redirect('Signin')
@@ -98,9 +137,7 @@ class SigninView(View):
          meuser = User.objects.get(email_address = user) # get the object
          if meuser.password == passw:
             request.session['id'] = meuser.id # log in user
-            return redirect('About')
-            print('login!')
-            print(meuser.username)
+            return redirect('LandingPage')
          else:
             messages.error(request, 'Username/Email or Password is incorrect')
             return redirect('Signin')
@@ -167,8 +204,10 @@ class CreateQuizView(View):
          }
 
          return render(request, "CreateQuiz.html", context)
-      except KeyError:
-         return render(request, "CreateQuiz.html")
+      except KeyError: 
+         # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
    def post(self, request):
       if request.method == 'POST':
          if 'btnCreate' in request.POST:
@@ -204,7 +243,7 @@ class CreateQuizView(View):
                del request.session['id'] #OR request.session.flush() to end session
             except KeyError:
                pass
-            return redirect('About')
+            return redirect('LandingPage')
       return redirect('CreateQuiz')
   
 class EditQuizView(View):
@@ -230,7 +269,9 @@ class EditQuizView(View):
 
          return render(request, "EditQuiz.html", context)
       except KeyError:
-         return render(request, "EditQuiz.html")
+          # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
    def post(self, request):
       if request.method == 'POST':
          if 'btnAddQuestion' in request.POST:
@@ -271,7 +312,7 @@ class EditQuizView(View):
                del request.session['id'] #OR request.session.flush() to end session
             except KeyError:
                pass
-            return redirect('About')
+            return redirect('LandingPage')
       return redirect('EditQuiz')
 
 def ViewQuiz(request):
@@ -302,7 +343,9 @@ class QuizView(View):
 
          return render(request, "Quiz.html", context)
       except KeyError:
-         return render(request, "Quiz.html")
+          # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
    def post(self, request):
       return redirect('Quiz')
 

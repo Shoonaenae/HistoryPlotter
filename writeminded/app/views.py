@@ -134,8 +134,20 @@ class SignupView(View):
 def LM_CreateChapter(request):
    return render(request, "LM_CreateChapter.html")
 
-def ProjectDashboard(request):
-   return render(request, "ProjectDashboard.html")
+class ProjectDashboard(View):
+   def get(self, request):
+      try:
+         print("-------USER in SESSION-------")
+         user = User.objects.get(id = request.session['id'])
+         print(user)
+         project = Project.objects.filter(user_id = user)
+         context = {
+            'user' : user,
+            'project' : project
+         }
+         return render(request, "ProjectDashboard.html", context)
+      except KeyError:
+         return render(request, "ProjectDashboard.html")
 
 def Relations(request):
    return render(request, "Relations.html")

@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'About' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'LM_CreateChapter' %}">Write</a></li>
+                        <li class="nav-item"><a class="nav-link text-black">Write</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}">Contact Us</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'Signin' %}">Sign In</a></li> 
                         <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
@@ -56,13 +56,15 @@
                 <!-- LIST OF PROJECTS START HERE -->
                 <!-- Project One Row-->
                 <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+                    {% for p in project %}
                     <div class="col-lg-6">
-                        <div class="bg-dark text-center h-100 project">
+                        <!-- cycle tag helps cycling whatever is on '' -->
+                        <div class="{% cycle 'bg-dark' 'bg-black' 'bg-black' 'bg-dark'  %} text-center h-100 project">
                             <div class="d-flex h-100">
                                 <div class="project-text w-100 my-auto text-center text-lg-left">
-                                    <h4 class="text-white">Project Title</h4>
+                                    <h4 class="text-white">{{p.title}}</h4>
                                     <br>
-                                    <h6 class="mb-0 text-white-50">Description</h6>
+                                    <h6 class="mb-0 text-white-50">{{p.description}}</h6>
                                     <br>
                                     <button class="btn-success" id="btnEdit" data-bs-target="#btnProjEdit" data-bs-toggle="modal">
                                         <i class="fa-regular fa-pen-to-square"></i>
@@ -76,66 +78,7 @@
                         </div>
                     </div>
                     <!--<div class="col-lg-6"><img class="img-fluid w-100" src="{% static 'assets/img/paint3.jpg' %}" alt="..." /></div>-->
-                    <div class="col-lg-6">
-                        <div class="bg-black text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-left">
-                                    <h4 class="text-white">Project Title</h4>
-                                    <br>
-                                    <h6 class="mb-0 text-white-50">Description</h6>
-                                    <br>
-                                    <button class="btn-success" id="btnEdit" data-bs-target="#btnProjEdit" data-bs-toggle="modal">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                    <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                    <!--<hr class="d-none d-lg-block mb-0 ms-0" />-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project Two Row-->
-                <div class="row gx-0 justify-content-center">
-                    <div class="col-lg-6 order-lg-first">
-                        <div class="bg-black text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-left">
-                                    <h4 class="text-white">Project Title</h4>
-                                    <br>
-                                    <h6 class="mb-0 text-white-50">Description</h6>
-                                    <br>
-                                    <button class="btn-success" id="btnEdit" data-bs-target="#btnProjEdit" data-bs-toggle="modal">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                    <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                    <!--<hr class="d-none d-lg-block mb-0 ms-0" />-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="bg-dark text-center h-100 project">
-                            <div class="d-flex h-100">
-                                <div class="project-text w-100 my-auto text-center text-lg-right">
-                                    <h4 class="text-white">Project Title</h4>
-                                    <br>
-                                    <h6 class="mb-0 text-white-50">Description</h6>
-                                    <br>
-                                    <button class="btn-success" id="btnEdit" data-bs-target="#btnProjEdit" data-bs-toggle="modal">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                                    <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                    <!--<hr class="d-none d-lg-block mb-0 ms-0" />-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>

@@ -67,7 +67,7 @@
                                     <br>
                                     <h6 class="mb-0 text-white-50">{{p.description}}</h6>
                                     <br>
-                                    <button class="btn-success" id="btnEdit" data-bs-target="#btnProjEdit" data-bs-toggle="modal">
+                                    <button class="btn-success" id="btnEdit" data-bs-target="#editProject-{{p.id}}" data-bs-toggle="modal">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </button>
                                     <button class="btn-danger" id="btnDelete" data-bs-target="#deleteProject-{{p.id}}" data-bs-toggle="modal">
@@ -110,6 +110,36 @@
                             </div>
                         </div>
                     </div>
+                    <!-- MODAL EDIT -->
+                    <div id="editProject-{{p.id}}" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">PROJECT EDIT</h5>
+                                    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="projectTitle" class="form-label">Project Title</label>
+                                            <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" name="title" value="{{p.title}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="projectDescription" class="form-label">Description</label>
+                                            <textarea class="form-control" id="projectDescription" rows="5" name="description">{{p.description}}
+                                            </textarea>
+                                        </div>
+                                        <input type="text" name="myID" value ="{{p.id}}" hidden>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" name="btnProjEdit">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
@@ -140,32 +170,6 @@
                             <button type="submit" class="btn btn-primary" name="btnProjCreate">Submit</button>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-        <!-- MODAL EDIT -->
-        <div id="btnProjEdit" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">PROJECT EDIT</h5>
-                        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="projectTitle" class="form-label">Project Title</label>
-                            <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" value="Project Title">
-                        </div>
-                        <div class="form-group">
-                            <label for="projectDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="projectDescription" rows="5">Project description
-                            </textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save</button>
-                    </div>
                 </div>
             </div>
         </div>

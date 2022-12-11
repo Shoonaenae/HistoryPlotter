@@ -3,14 +3,32 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+import os
+import datetime
+
 # Create your models here.
+def filepath(request, filename):
+    old_filename = filename
+    timeNow = datetime.datetime.now().old_filename('%Y%m%d%H:%M:%S')
+    filename = "%s%s" % (timeNow, old_filename)
+
+    return os.path.join('uploads/', filename)
+
 class uploadfilemodel(models.Model):
-    filename = models.CharField(max_length=20, unique=True, null=True)
+    name = models.CharField(max_length=20, unique=True, null=True)
     description = models.CharField(max_length=50, null=True)
     file = models.FileField(null = True)
+    cover = models.ImageField(null = True)
 
     class Meta:
-        db_table = "filesUploaded"
+        db_table = "uploadfile"
+
+class groupmodel(models.Model):
+    ideafile = models.CharField(max_length=200, unique=True, null=True)
+    name = models.CharField(max_length=20, unique=True, null=True)
+
+    class Meta:
+        db_table = "groupfiles"
 
 class Post(models.Model):
     body = RichTextField(blank=True, null = True)

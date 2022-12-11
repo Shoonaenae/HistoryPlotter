@@ -15,6 +15,26 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous" >
 
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
+        <!-- group -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function()
+            {
+                $('.chkbox').click(function()
+                {
+                    var text = "";
+
+                    $('.chkbox:checked').each(function()
+                    {
+                        text += $(this).val() + ', ';
+                    });
+
+                    $('#chktext').val(text);
+                });
+            });
+        </script>
+
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -35,7 +55,6 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'About' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'LM_CreateChapter' %}">Write</a></li>
                         <li class="nav-item"><a class="nav-link active" href="{% url 'ideaNest' %}">Nest</a></li>
                         <li class="nav-item"><a class="nav-link" href="#signup">Contact Us</a></li>
                         <!--
@@ -76,7 +95,7 @@
                         }, 1500)
                     </script>
 
-                    <form method="post" class="post-form" enctype="multipart/form-data">
+                    <!-- <form method="post" class="post-form" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="form-floating">
                             <input type="text" required name="filename" class="form-control" placeholder="Filename">
@@ -90,6 +109,38 @@
                           <br>
                         {{form.file}}
                         <a class="btn btn-primary" href="#about">Idea File</a>
+                    </form> -->
+
+                    <form method="post" class="post-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                          <div class="form-floating">
+                            <input type="text" required name="name" class="form-control" placeholder="Filename">
+                            <label for="">Name</label>
+                          </div>
+                          <br>
+                          <div class="form-floating">
+                            <input type="text" name="description" class="form-control" placeholder="Description">
+                            <label for="">Description</label>
+                          </div>
+                          <br>
+
+                          <div class="form-floating">
+                            <input type="file" required name="file" class="file" placeholder="Description" id="input-b1" data-browser-on-zone-click = "true">
+                            <label for="">File</label>
+                          </div>
+                          <br>
+
+                          <div class="form-floating">
+                            <input type="file" required name="cover" class="form-control" placeholder="Description">
+                            <label for="">Cover</label>
+                          </div>
+                          <br>
+                        
+                          <button type="submit" class="btn btn-primary">add idea file</button>
+                          <br>
+                          <br>
+
+                        <a class="btn btn-primary" href="#about">view Idea File</a>
                     </form>
 
                     
@@ -97,7 +148,7 @@
             </section>
              <!-- upload file end -->
 
-              <!-- store files start -->
+              <!-- view idea file -->
             <section class="about-section text-center" id="about">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -110,22 +161,50 @@
                                     <table class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>Name</th>
                                                 <th>Description</th>
-                                                <th>Idea</th>
+                                                <th>Cover</th>
+                                                <th>File</th>
                                             </tr>
                                         </thead>
                                         <tbody>
         
                                             {% for file in files %}
                                                 <tr>
-                                                    <td>{{ file.filename }} </td>
+                                                    <td>
+                                                        <form method="post" action="{% url 'group' %}" class="post-form" enctype="multipart/form-data">
+                                                            {% csrf_token %}
+                                                        <input type="checkbox" value="{{ file.name }}" name="forgrouptest" class="chkbox">
+                                                    </td>
+                                                    <td>{{ file.name }} </td>
                                                     <td>{{ file.description }} </td>
+                                                    
+                                                    {% if file.cover %}
+                                                        <td>
+                                                            <embed type="image/jpg" src="{{ file.cover.url }}"  width="50%" >
+                                                        </td>
+                                                    {% else %}
+                                                    <td>
+                                                        <img src="{% static 'assets/img/Logo.png' %}"  width="50%" type="application/txt">
+                                                    </td>
+                                                    {% endif %}
+
+                                                    {% if file.file %}
+                                                        <td>
+                                                            <a href="{{ file.file.url }}"  class="btn btn-secondary mt-2 badge" target="_blank">view file</a>
+                                                        </td>
+                                                        
+                                                    {% else %}
+                                                    <td>
+                                                        <img src="{% static 'assets/img/Logo.png' %}"  width="50%" >
+                                                    </td>
+                                                    {% endif %}
                                                     <td>
                                                         <a href="{% url 'ideaNestEdit' file.id %}" class="btn btn-secondary mt-2 badge">EDIT</a>
                                                         
-                                                            <button class="btn btn-secondary mt-2 badge  " data-toggle="modal" data-target="#my-modal">Delete</button>
-                                                            <div id="my-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                                            <button class="btn btn-secondary mt-2 badge  " data-toggle="modal" data-target="#my-modal-ideafile">Delete</button>
+                                                            <div id="my-modal-ideafile" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                                     <div class="modal-content border-0">   
                                                                         <div class="modal-body p-0">
@@ -150,15 +229,112 @@
                                     </table>
                                 </div>
                             </div>
+
+                            <br>
+                          
+                            <div class="form-floating">
+                                <input type="text" required name="forgroup" class="form-control" placeholder="Description" id="chktext">
+                                <label for="">Group</label>
+                              </div>
+
+                            <br>
+
+                            <div class="form-floating">
+                                <input type="text" required name="groupname" class="form-control" placeholder="Description">
+                                <label for="">Name</label>
+                              </div>
+                          <button type="submit" class="btn btn-primary">group files</button>
+                    </form>
+
                             <br><br>
+
                             <a class="btn btn-primary" href="#upload">idea nest</a>
+                          <a class="btn btn-primary" href="#group">show group</a>
                         </div>
                     </div>
                 </div>
                 <br><br><br><br><br><br>
+            </section>
 
-                
         <!-- store files end -->
+                
+        <!-- show group -->
+        <section class="about-section text-center" id="group">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <div class="card">
+                            <div class="card-header">
+                                <h1 class="fw-bold">Groups</h1>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Grouped</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+    
+                                        {% for file in groupedfiles %}
+                                            <tr>
+                                                <td>{{ file.name }} </td>
+                                                <td>{{ file.ideafile }} </td>
+                                                <td>
+                                                    <a href="{% url 'editgroup' file.id %}" class="btn btn-secondary mt-2 badge">EDIT</a>
+
+                                                    <button class="btn btn-secondary mt-2 badge  " data-toggle="modal" data-target="#my-modal-group">ungroup</button>
+
+                                                    <div id="my-modal-group" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content border-0">   
+                                                                <div class="modal-body p-0">
+                                                                    <div class="card border-0 p-sm-3 p-2 justify-content-center">
+                                                                        <div class="card-header pb-0 bg-white border-0 ">
+                                                                            <div class="row">
+                                                                                <div class="col ml-auto">
+                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                         <span aria-hidden="true">&times;</span> 
+                                                                                        </button>
+                                                                                </div> 
+                                                                            </div>
+                                                                            <p class="font-weight-bold mb-2"> Are you sure you wanna delete this ?</p>
+                                                                            <p class="text-muted "> This change is permanent.</p>     
+                                                                        </div>
+
+                                                                        <div class="card-body px-sm-4 mb-2 pt-1 pb-0"> 
+                                                                            <div class="row justify-content-end no-gutters">
+                                                                                <div class="col-auto">
+                                                                                <button type="button" class="btn btn-light text-muted" data-dismiss="modal">Cancel</button>
+                                                                            </div>
+                                                                            <div class="col-auto">
+                                                                                <a href="{% url 'ungroup' file.id %}" class="btn btn-secondary mt-2 badge">ungroup</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>  
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>      
+                      <br><br>
+
+                      <a class="btn btn-primary" href="#about">idea file</a>
+                      <a class="btn btn-primary" href="#group">show group</a>
+                    </div>
+                </div>
+            </div>
+            <br><br><br><br><br><br>
+        </section>
 
         <!-- idea nest end-->
 

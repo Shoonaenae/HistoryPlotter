@@ -21,7 +21,7 @@ urlpatterns = [
     path('Signup', views.SignupView.as_view(), name = 'Signup'),
 
 
-    path('ProjectDashboard', views.ProjectDashboard, name = 'ProjectDashboard'),
+    path('ProjectDashboard', views.ProjectDashboard.as_view(), name = 'ProjectDashboard'),
     path('Relations', views.Relations, name = "Relations"),
     path('CreateQuiz', views.CreateQuizView.as_view(), name = "CreateQuiz"),
     path('EditQuiz', views.EditQuizView.as_view(), name = "EditQuiz"),

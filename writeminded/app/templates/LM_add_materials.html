@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'LM_base.html' %}
 {% block title %} Lesson Descriptions {% endblock %}
 {% block content %}
 
@@ -12,8 +12,11 @@
 <form method ="POST">
     {% csrf_token %}
 
+    {{form.media}}
     {{form.as_p}}
 
+    <a style="text-align: center;" href="{% url 'add-category' %}"><small> Add Category </small> </a>
+</br></br></br>
     <button class="btn btn-primary mt-2"> Save </button>
 
       

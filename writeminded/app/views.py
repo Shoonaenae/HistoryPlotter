@@ -185,6 +185,25 @@ class ProjectDashboard(View):
          return render(request, "ProjectDashboard.html", context)
       except KeyError:
          return render(request, "ProjectDashboard.html")
+   def post(self, request):
+      if request.method == 'POST':
+         projectID = request.POST.get('myID')
+         form = Project(request.POST)
+         user = request.session['id']
+         ttle = request.POST.get('title')
+         desc = request.POST.get('description')
+         if 'btnProjCreate' in request.POST:
+            form = Project(title = ttle, description = desc, user_id = user)
+            form.save()
+            return redirect('ProjectDashboard')
+            # project = Project.objects.filter(user_id = user).latest('id') starts here
+            # request.session['project_id'] = project.id
+            # return redirect('ProjectDashboard') redirect to the newly created project
+         elif 'btnProjDelete' in request.POST:
+            Project.objects.get(id = projectID).delete()
+         elif 'btnProjEdit' in request.POST:
+            Project.objects.filter(id = projectID).update(title = ttle, description = desc, user_id = user)
+      return redirect('ProjectDashboard')
 
 def Relations(request):
    return render(request, "Relations.html")

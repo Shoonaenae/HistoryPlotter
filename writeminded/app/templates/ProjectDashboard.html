@@ -62,14 +62,15 @@
                         <div class="{% cycle 'bg-dark' 'bg-black' 'bg-black' 'bg-dark'  %} text-center h-100 project">
                             <div class="d-flex h-100">
                                 <div class="project-text w-100 my-auto text-center text-lg-left">
+                                    <input type="text" name="myID" value ="{{p.id}}" hidden>
                                     <h4 class="text-white">{{p.title}}</h4>
                                     <br>
                                     <h6 class="mb-0 text-white-50">{{p.description}}</h6>
                                     <br>
-                                    <button class="btn-success" id="btnEdit" data-bs-target="#btnProjEdit" data-bs-toggle="modal">
+                                    <button class="btn-success" id="btnEdit" data-bs-target="#editProject-{{p.id}}" data-bs-toggle="modal">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </button>
-                                    <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
+                                    <button class="btn-danger" id="btnDelete" data-bs-target="#deleteProject-{{p.id}}" data-bs-toggle="modal">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                     <!--<hr class="d-none d-lg-block mb-0 ms-0" />-->
@@ -78,6 +79,67 @@
                         </div>
                     </div>
                     <!--<div class="col-lg-6"><img class="img-fluid w-100" src="{% static 'assets/img/paint3.jpg' %}" alt="..." /></div>-->
+                    <!-- MODAL DELETE -->
+                    <div id="deleteProject-{{p.id}}" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">DELETE PROJECT</h5>
+                                    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <h6 class="text-md-center">Are you sure you want to delete this project?</h6>
+                                        <div class="form-group">
+                                            <label for="projectTitle" class="form-label">Project Title</label>
+                                            <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" value="{{p.title}}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="projectDescription" class="form-label">Description</label>
+                                            <textarea class="form-control" id="projectDescription" rows="5" readonly>{{p.description}}
+                                            </textarea>
+                                        </div>
+                                        <input type="text" name="myID" value ="{{p.id}}" hidden>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" name="btnProjDelete">Confirm</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MODAL EDIT -->
+                    <div id="editProject-{{p.id}}" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">PROJECT EDIT</h5>
+                                    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="projectTitle" class="form-label">Project Title</label>
+                                            <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" name="title" value="{{p.title}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="projectDescription" class="form-label">Description</label>
+                                            <textarea class="form-control" id="projectDescription" rows="5" name="description">{{p.description}}
+                                            </textarea>
+                                        </div>
+                                        <input type="text" name="myID" value ="{{p.id}}" hidden>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" name="btnProjEdit">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
                 </div>
             </div>
@@ -90,68 +152,27 @@
                         <h5 class="modal-title">CREATE PROJECT</h5>
                         <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="projectTitle" class="form-label">Project Title</label>
-                            <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;">
+                    <form action="#" method="POST">
+                        <div class="modal-body">
+                            {% csrf_token %}
+                            <input id="project_id" type="text" name="p_id" value= "{{p.id}}" hidden>
+                            <div class="form-group">
+                                <label for="projectTitle" class="form-label">Project Title</label>
+                                <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" name="title">
+                            </div>
+                            <div class="form-group">
+                                <label for="projectDescription" class="form-label">Description</label>
+                                <textarea class="form-control" id="projectDescription" rows="5" name="description"></textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="projectDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="projectDescription" rows="5"></textarea>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="btnProjCreate">Submit</button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Submit</button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- MODAL EDIT -->
-        <div id="btnProjEdit" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">PROJECT EDIT</h5>
-                        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="projectTitle" class="form-label">Project Title</label>
-                            <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" value="Project Title">
-                        </div>
-                        <div class="form-group">
-                            <label for="projectDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="projectDescription" rows="5">Project description
-                            </textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- MODAL DELETE -->
-        <div id="btnProjDelete" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">DELETE PROJECT</h5>
-                        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h6 class="text-md-center">Are you sure you want to delete the project?</h6>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Confirm</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; Team Write Minded 2022</div></footer>
         <!-- Bootstrap core JS-->

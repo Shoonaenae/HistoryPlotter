@@ -37,7 +37,7 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'About' %}">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'LandingPage' %}">Contact Us</a></li>
                         {% if user.username %}
-                        <li class="nav-item"><a class="nav-link" >Write</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'materials' %}">Write</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'ideaNest' %}">Nest</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'CreateQuiz' %}">Quiz</a></li>
                         <li class="nav-item"><a class="nav-link" href="">{{user.username}}</a></li> 

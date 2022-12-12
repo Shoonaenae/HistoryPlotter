@@ -20,27 +20,60 @@
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
     <body id="page-top">
-        
-          <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav-lm">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container px-4 px-lg-5">
-                <a style ="color: black;" class="navbar-brand" href="{% url 'materials' %}">History Plotter</a>
-
+                <a class="navbar-brand text-black" href="{% url 'LandingPage' %}">History Plotter</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" >About</a></li>
-                        <li class="nav-item"><a class="nav-link" >Write</a></li>
-                        <li class="nav-item"><a class="nav-link" >Contact Us</a></li>
-                        <li class="nav-item"><a class="nav-link" >Sign In</a></li> 
-                        <li class="nav-item"><a class="btn btn-primary mt-2">Sign Up</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'About' %}">About</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}">Contact Us</a></li>
+                        {% if user.username %}
+                        <li class="nav-item"><a class="nav-link text-black" href ="{%url 'materials' %}">Write</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'ideaNest' %}">Nest</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'CreateQuiz' %}">Quiz</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="">{{user.username}}</a></li> 
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                       <li class="nav-item"><a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'Signup' %}">Log out</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'Signin' %}">Sign In</a></li> 
+                       <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
+                        {% endif %}
                     </ul>
                 </div>
-                
             </div>
         </nav>
+        <!--LOGOUT MODAL-->
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Logout</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <p>Are you sure you want to end the session?</p>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                <button type="submit" class="btn btn-primary" name="btnLogout">Yes</button>
+                </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!--END MODAL-->
 
-       
-        <!-- Projects-->
+
+        <!-- LM-->
         <section class="projects-section bg-light" id="projects">
             <div class="container px-4 px-lg-5">
                 <!-- Featured Project Row-->

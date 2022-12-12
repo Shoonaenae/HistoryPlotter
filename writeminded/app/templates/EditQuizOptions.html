@@ -78,7 +78,9 @@
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a href="{% url 'LandingPage' %}">Home</a></li>
-                      <li class="breadcrumb-item active" aria-current="page">Quiz</li>
+                      <li class="breadcrumb-item"><a href="{% url 'CreateQuiz' %}">Quiz</a></li>
+                      <li class="breadcrumb-item"><a href="{% url 'EditQuiz' %}">Edit Quiz</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Edit Options</li>
                     </ol>
                   </nav>
                   <!--END BREADCRUMB-->
@@ -86,28 +88,24 @@
                 <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-left text-lg-left">
-                            <h1>Quizzes</h1>
+                            <h1>Options</h1>
+                            <p>{{question.q_num}}. {{question.question}}</p>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-5">
                         <div class="featured-text text-center text-lg-left">
                             <!--<button class="btn btn-info mt-2">Add Quiz</button>-->
-                            <a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal" >Add Quiz</a>
+                            <a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal" >Add Options</a>
                         </div>
                     </div>
                 </div>
-                <!--Create Quiz MODAL-->
-                <!-- Button trigger modal -->
-                <!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Launch demo modal
-                </button>-->
-                
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <!--Create Option MODAL-->
+                 <!-- Modal -->
+                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Create Quiz</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Options</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form action="#" class="signin-form" method="POST">
@@ -115,22 +113,19 @@
                                     <!--BODY-->
                                     <div class="modal-body">
                                         <div class="mb-3 row">
-                                            <label for="inputQuizName" class="col-sm-2 col-form-label">Name</label>
+                                            <label for="inputQuestion" class="col-sm-2 col-form-label">Option</label>
                                             <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputQuizName" name="name">
+                                              <input type="text" class="form-control" id="inputQuestion" name="ans">
                                             </div>
-                                            <label for="inputQuizDesc" class="col-sm-2 col-form-label">Details</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="desc"></textarea>
-                                            </div>
-                                          
-                                                <label for="date" class="col-sm-2 col-form-label">Date</label>
-                                              <div class="col-sm-10">        
-                                                        <input type="date" name="date" class="form-control"  placeholder="yyyy/mm/dd">
-                                                    
-                                            </div>
-                                            
+                                            <div class="mb-3 row">
+                                              <div class="form-check ">
+                                                <input class="form-check-input" type="checkbox" name="isAnswer" id="flexRadioDefault1">
+                                                <label class=" col-sm-2 form-check-label" for="flexRadioDefault1">
+                                                  isAnswer
+                                                </label>
+                                              </div>
                                         </div>
+                                    </div>
                                     </div>
                                     <!--END BODY-->
                                 <div class="modal-footer">
@@ -141,46 +136,97 @@
                         </div>
                     </div>
                 </div>
+                <!-- Button trigger modal -->
+                <!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Launch demo modal
+                </button>-->
+                
+               
                 <!--END MODAL-->
                 <!-- LIST OF RELATIONS STARTS HERE -->
                 <table class="table table table-primary table-bordered">
                     <thead class="text-center">
-                        <td>Quiz Name</td>
-                        <td colspan="1">Description</td>
-                        <td colspan="1">Date</td>
+                        <td>Options</td>
+                        <td colspan="1">isAnswer</td>
                         <td colspan="1">Action</td>
                     </thead>
                     <tbody>
-                        {% for q in quiz %}
+                        {% for a in answer %}
                         <tr>
-                            {% if user.id == q.user_id %}
-                            <td>{{q.quiz_name}}</td>
-                            <td>{{q.quiz_desc}}</td>
-                            <td>{{q.quiz_date}}</td>
+                            <td>{{a.answer}}</td>
+                            <td>{{a.isAnswer}}</td>
                             <td class="text-center">
-                                <form method="POST">
+                                <button class="btn-success" data-bs-toggle="modal" data-bs-target="#updateAnswer-{{a.id}}"><i class="fa-regular fa-pen-to-square"></i></button>
+                                <button class="btn-danger"  data-bs-toggle="modal" data-bs-target="#deleteAnswer-{{a.id}}"><i class="fa-solid fa-trash-can"></i></button>
+                                <!--Update Option MODAL-->
+                 <!-- Modal -->
+                 <div class="modal fade" id="updateAnswer-{{a.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Option</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="#" class="signin-form" method="POST">
                                     {% csrf_token %}
-                                    <input id="quiz_id" type="text" name="q_id" value= "{{q.id}}" hidden>
-                                    <button type="submit" class="btn-success" name="btnEdit"><i class="fa-regular fa-pen-to-square"></i></button>
-                                </form>
-                                <button class="btn-danger"  data-bs-toggle="modal" data-bs-target="#deleteQuiz-{{q.id}}"><i class="fa-solid fa-trash-can"></i></button>
+                                    <!--BODY-->
+                                    <div class="modal-body">
+                                        <div class="mb-3 row">
+                                            <label for="inputNumber" class="col-sm-2 col-form-label">ID</label>
+                                            <div class="col-sm-10">
+                                            <input id="quiz_id" class="form-control"  type="text" name="a_id" value= "{{a.id}}" readonly>
+                                            </div>
+                                            <label for="inputQuestion" class="col-sm-2 col-form-label">Option</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control" id="inputQuestion" name="ans" value="{{a.answer}}">
+                                            </div>
+                                            <div class="mb-3 row">
+                                              <div class="form-check ">
+                                                {% if a.isAnswer is True %} 
+                                                <input class="form-check-input" type="checkbox" name="isAnswer" id="flexRadioDefault1" checked>
+                                                {% else %}
+                                                <input class="form-check-input" type="checkbox" name="isAnswer" id="flexRadioDefault1" >
+                                                {% endif %}
+                                                <label class=" col-sm-2 form-check-label" for="flexRadioDefault1">
+                                                  isAnswer
+                                                </label>
+                                              </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <!--END BODY-->
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+                                    <button type="submit" class="btn btn-primary" name="btnUpdate">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Button trigger modal -->
+                <!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Launch demo modal
+                </button>-->
+                
+               
+                <!--END MODAL-->
                                 <!--Delete MODAL-->
                                 <!-- Modal -->
-                                <div class="modal fade" id="deleteQuiz-{{q.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal fade" id="deleteAnswer-{{a.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Quiz</h1>
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Option</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                        <p>Are you sure you want to delete this quiz?</p>
+                                        <p>Are you sure you want to delete this Option?</p>
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                                         <form action="" method="POST">
                                             {% csrf_token %}
-                                        <input id="answer" type="text" name="q_id" value= "{{q.id}}" hidden>
+                                        <input id="answer" type="text" name="a_id" value= "{{a.id}}" hidden>
                                         <button type="submit" class="btn btn-primary" name="btnDelete">Yes</button>
                                         </form>
                                         </div>
@@ -189,7 +235,6 @@
                                 </div>
                                 <!--END MODAL-->
                             </td>
-                            {% endif %}
                         </tr>
                         {% endfor %}
 

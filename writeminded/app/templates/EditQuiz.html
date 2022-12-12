@@ -72,7 +72,7 @@
               <!--BREAD CRUMB-->
               <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{% url 'About' %}">Home</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'LandingPage' %}">Home</a></li>
                   <li class="breadcrumb-item"><a href="{% url 'CreateQuiz' %}">Quiz</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Edit Quiz</li>
                 </ol>
@@ -115,7 +115,7 @@
                                         <div class="mb-3 row">
                                             <label for="inputNumber" class="col-sm-2 col-form-label">Number</label>
                                             <div class="col-sm-10">
-                                            <input type="number" class="form-control" id="inputNumber" name="num" min="0">
+                                            <input type="number" class="form-control" id="inputNumber" name="num" min="0" value="0">
                                             </div>
                                             <label for="inputQuestion" class="col-sm-2 col-form-label">Question</label>
                                             <div class="col-sm-10">
@@ -141,28 +141,28 @@
                     <thead class="text-center">
                       <th scope="col">#</th>
                       <th scope="col">Question</th>
-                      <th scope="col">Answer/s</th>
+                      <th scope="col">Option/s</th>
                       <th scope="col">Action</th>
                     </thead>
                     <tbody>
+                        {% for q in question %}
                         <tr>
-                          {% for q in question %}
-                          <th scope="row">{{ q.q_num }}</th>
-                          <th>{{ q.question }}</th>
+                          <td scope="row">{{ q.q_num }}</td>
+                          <td>{{ q.question }}</td>
                          <td>
                             {% for a in answer %}
                               {% if q.id == a.question_id%}
                               <p>{{ a.answer }},</p>
                               {% endif %}
                             {% endfor %}
-                            <button class = "Addanswer"type="buttpm" name="btnAddMe"><a href="#" class="link-primary"  data-bs-toggle="modal" data-bs-target="#addAnswer-{{q.id}}" >Add Answer +</a></button>
+                            <button class = "Addanswer"type="buttpm" name="btnAddMe"><a href="#" class="link-primary"  data-bs-toggle="modal" data-bs-target="#addAnswer-{{q.id}}" >Add Option +</a></button>
                                <!--Second MODAL Answer-->
                    <!-- Modal -->
                    <div class="modal fade" id="addAnswer-{{q.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Answer</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Option</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form action="#" class="signin-form" method="POST">
@@ -177,7 +177,7 @@
                                             </div>
                                             <div class="mb-3 row">
                                               <div class="form-check ">
-                                                <input class="form-check-input" type="radio" name="isAnswer" id="flexRadioDefault1">
+                                                <input class="form-check-input" type="checkbox" name="isAnswer" id="flexRadioDefault1">
                                                 <label class=" col-sm-2 form-check-label" for="flexRadioDefault1">
                                                   isAnswer
                                                 </label>
@@ -204,8 +204,52 @@
                             </form>-->
                         </td>
                          <td class="text-center">
-                          <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
+                          <button class="btn-success"data-bs-toggle="modal" data-bs-target="#updateQuestion-{{q.id}}"><i class="fa-regular fa-pen-to-square"></i></button>
                           <button class="btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQuestion-{{q.id}}"><i class="fa-solid fa-trash-can"></i></button>
+                          <!--Update Question MODAL-->
+                            <!-- Modal -->
+                            <div class="modal fade" id="updateQuestion-{{q.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Question</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="#" class="signin-form" method="POST">
+                                                {% csrf_token %}
+                                                <!--BODY-->
+                                                <div class="modal-body">
+                                                    <div class="mb-3 row">
+                                                        <label for="inputNumber" class="col-sm-2 col-form-label">ID</label>
+                                                        <div class="col-sm-10">
+                                                        <input id="quiz_id" class="form-control"  type="text" name="q_id" value= "{{q.id}}" readonly>
+                                                        </div>
+                                                        <label for="inputNumber" class="col-sm-2 col-form-label">Number</label>
+                                                        <div class="col-sm-10">
+                                                        <input type="number" class="form-control" id="inputNumber" name="num" min="0" value="{{q.q_num}}">
+                                                        </div>
+                                                        <label for="inputQuestion" class="col-sm-2 col-form-label">Question</label>
+                                                        <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="inputQuestion" name="ques" value="{{q.question}}">
+                                                        </div>
+                                                        <label for="inputQuestion" class="col-sm-2 col-form-label">Options</label>
+                                                        <!--GOTO EDITOPTIONS HTML-->
+                                                        <div class="col-sm-10">
+                                                            <a href="{% url 'EditQuizOptions' q.id %}" class="form-control link-primary" >Edit Option/s</a>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <!--END BODY-->
+                                            <div class="modal-footer">
+                                                <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+                                                <button type="submit" class="btn btn-primary" name="btnUpdateQuestion">Update</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--END MODAL-->
                            <!--Delete MODAL-->
                                 <!-- Modal -->
                                 <div class="modal fade" id="deleteQuestion-{{q.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

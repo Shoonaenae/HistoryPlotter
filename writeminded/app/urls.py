@@ -21,11 +21,15 @@ urlpatterns = [
 
     path('ProjectDashboard', views.ProjectDashboard.as_view(), name = 'ProjectDashboard'),
     path('Relations', views.Relations, name = "Relations"),
-    path('CreateQuiz', views.CreateQuizView.as_view(), name = "CreateQuiz"),
-    path('EditQuiz', views.EditQuizView.as_view(), name = "EditQuiz"),
-    path('ViewQuiz', views.ViewQuiz, name = "ViewQuiz"),
 
-    path('Quiz', views.QuizView.as_view(), name = "Quiz"),
+    path('CreateQuiz', views.CreateQuizView.as_view(), name = "CreateQuiz"),
+    path('CreateQuiz/EditQuiz/', views.EditQuizView.as_view(), name = "EditQuiz"),
+
+    #path('EditQuizOptions/<int:question_id>', views.EditQuizOptions, name = "EditQuizOptions"),
+    path('EditQuizOptions/<int:question_id>', views.EditQuizOptionsView.as_view(), name = "EditQuizOptions"),
+    #path('CreateQuiz/EditQuiz/EditQuizOptions/(?<question_id>\d+)/$', views.EditQuizOptionsView.as_view(), name = "EditQuizOptions"),
+
+    path('CreateQuiz/EditQuiz/EditQuizOptions/Quiz', views.QuizView.as_view(), name = "Quiz"),
 
     path('', MaterialsView.as_view(), name="materials"),
     path('materials/<int:pk>', MaterialDetailView.as_view(), name="material-details"),

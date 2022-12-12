@@ -82,7 +82,7 @@ class LandingPageView(View):
          context ={
             'user' : user
          }
-         return render(request, "LangdingPage.html", context)
+         return render(request, "LandingPage.html", context)
       except KeyError: 
          return render(request, "LandingPage.html")
    def post(self,request):
@@ -93,7 +93,7 @@ class LandingPageView(View):
             except KeyError:
                pass
             return redirect('LandingPage')
-            
+
 class AboutView(View):
    def get(self,request):
       try:
@@ -230,18 +230,22 @@ class CreateQuizView(View):
    def post(self, request):
       if request.method == 'POST':
          if 'btnCreate' in request.POST:
-            form = Quiz(request.POST)
-            user = request.session['id']
-            name = request.POST.get('name')
-            desc = request.POST.get('desc')
-            date = request.POST.get('date')
-            #print(user)
-            form = Quiz( quiz_name = name, quiz_date = date,user_id = user, quiz_desc = desc)
-            form.save()
-            quiz = Quiz.objects.filter(user_id = user).latest('id')
-            request.session['quiz_id'] = quiz.id
-            return redirect('EditQuiz')
-            #print(form.errors)
+            try:
+               form = Quiz(request.POST)
+               user = request.session['id']
+               name = request.POST.get('name')
+               desc = request.POST.get('desc')
+               date = request.POST.get('date')
+               #print(user)
+               form = Quiz( quiz_name = name, quiz_date = date,user_id = user, quiz_desc = desc)
+               form.save()
+               quiz = Quiz.objects.filter(user_id = user).latest('id')
+               request.session['quiz_id'] = quiz.id
+               return redirect('EditQuiz')
+               #print(form.errors)
+            except:
+               #messages.error(request, 'You must login before you can access this function')
+               return redirect('CreateQuiz')
          elif 'btnEdit' in request.POST:
             q_id = request.POST.get('q_id')
             request.session['quiz_id'] = q_id
@@ -264,7 +268,61 @@ class CreateQuizView(View):
                pass
             return redirect('LandingPage')
       return redirect('CreateQuiz')
-  
+
+class EditQuizOptionsView(View):
+   def get(self,request,question_id):
+      try:
+         print("-------USER in SESSION-------")
+         print(request.session['id'])
+         user = User.objects.get(id = request.session['id']) 
+         answer = Answer.objects.filter(question_id = question_id)
+         question = Question.objects.get(id = question_id)
+         #answer = Answer.objects.all()
+         context ={
+            'user' : user,
+            'answer' : answer,
+            'question' : question,
+         }
+
+         return render(request, "EditQuizOptions.html", context)
+      except KeyError:
+          # ------------------------------------------- SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
+   def post(self,request,question_id):
+      if request.method == 'POST':
+         if 'btnDelete' in request.POST:
+            answer = request.POST.get('a_id')
+            print(answer)
+            Answer.objects.get(id = answer).delete()
+            print('deleted successfully')
+            return redirect('EditQuiz')
+         elif 'btnCreate' in request.POST:
+            form = Answer(request.POST)
+            answer = request.POST.get('ans')
+            isAnswer = request.POST.get('isAnswer')
+            if isAnswer == 'on':
+               isAnswer = True
+            else:
+               isAnswer = False
+            form = Answer( question_id = question_id, answer = answer, isAnswer = isAnswer)
+            form.save()
+            return redirect('EditQuiz')
+         elif 'btnUpdate' in request.POST:
+            id = request.POST.get('a_id')
+            answer = request.POST.get('ans')
+            isAnswer = request.POST.get('isAnswer')
+            #print(user)
+            if isAnswer == 'on':
+               isAnswer = True
+            else:
+               isAnswer = False
+            Answer.objects.filter(id = id).update(answer = answer, isAnswer = isAnswer)
+            return redirect('EditQuiz')
+#def EditQuizOptions(request, question_id):
+#   question = Question.objects.get(id = question_id)
+#   return render(request, "EditQuizOptions.html")  
+
 class EditQuizView(View):
    def get(self,request):
       try:
@@ -273,17 +331,17 @@ class EditQuizView(View):
          print("-------Quiz in SESSION-------")
          print(request.session['quiz_id'])
          user = User.objects.get(id = request.session['id']) 
-         #user = 
          quiz = Quiz.objects.get(id = request.session['quiz_id'])
-         #question = Question.objects.all()
-         question = Question.objects.filter(quiz_id = request.session['quiz_id']).order_by('-q_num')
+         question = Question.objects.filter(quiz_id = request.session['quiz_id']).order_by('q_num')
          answer = Answer.objects.all()
-        # user = User.objects.all()
+         lastnum = Question.objects.filter(quiz_id = request.session['quiz_id']).order_by('-q_num')[:1]
+
          context ={
             'quiz' : quiz,
             'user' : user,
             'question' : question,
             'answer' : answer,
+            'lastnum' : lastnum,
          }
 
          return render(request, "EditQuiz.html", context)
@@ -321,6 +379,15 @@ class EditQuizView(View):
                isAnswer = False
             form = Answer( question_id = q_id, answer = option, isAnswer = isAnswer)
             form.save()
+            return redirect('EditQuiz')
+         elif 'btnUpdateQuestion' in request.POST:
+            quiz = request.session['quiz_id']
+            question = request.POST.get('q_id')
+            num = request.POST.get('num')
+            q = request.POST.get('ques')
+            #print(user)
+            Question.objects.filter(id = question).update(q_num = num, question = q, quiz_id = quiz)
+            return redirect('EditQuiz')
             #q_id = 
         # elif 'btnView' in request.POST:
          #    q_id = request.POST.get('q_id')
@@ -348,7 +415,7 @@ class QuizView(View):
          user = User.objects.get(id = request.session['id']) 
          quiz = Quiz.objects.get(id = request.session['quiz_id'])
          #question = Question.objects.all()
-         question = Question.objects.filter(quiz_id = request.session['quiz_id']).order_by('-q_num')
+         question = Question.objects.filter(quiz_id = request.session['quiz_id']).order_by('q_num')
          option = Answer.objects.all()
          answer = Answer.objects.filter(isAnswer = True)
         # user = User.objects.all()

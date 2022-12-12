@@ -14,25 +14,42 @@ from .models import Materials
 from .forms import DescriptionForm
 
 # Create your views here.
-def editgroup(request, pk):
-   edit = groupmodel(request.POST, request.FILES)
+class editgroup(View):
+   def get(self,request, pk):
+      try:
+         print("-------USER in SESSION-------")
+         print(request.session['id'])
 
-   # edit files
-   editFiles = groupmodel.objects.get(id = pk)
+         user = User.objects.get(id = request.session['id']) 
+         # edit files
+         editFiles = groupmodel.objects.get(id = pk)
+         files = uploadfilemodel.objects.all()
+         
+         return render(request, 'editgroup.html', {'editFiles': editFiles, 'user' : user, 'files': files})
+      except KeyError: 
+         # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
+   
+   def post(self, request, pk):
+      edit = groupmodel(request.POST, request.FILES)
 
-   # store files
-   files = uploadfilemodel.objects.all()
+      # edit files
+      editFiles = groupmodel.objects.get(id = pk)
 
-   if request.method == 'POST':
-      editFiles.name = request.POST.get('name')
-      editFiles.ideafile = request.POST.get('ideafile')
-      editFiles.save()
+      # store files
+      files = uploadfilemodel.objects.all()
 
-      messages.info(request, "group updated")
-      return redirect('/ideaNest')
-  
+      if request.method == 'POST':
+         editFiles.name = request.POST.get('name')
+         editFiles.ideafile = request.POST.get('ideafile')
+         editFiles.save()
 
-   return render(request, 'editgroup.html', {'edit': edit, 'editFiles': editFiles, 'files': files})
+         messages.info(request, "group updated")
+         return redirect('/ideaNest')
+   
+
+      return render(request, 'editgroup.html', {'edit': edit, 'editFiles': editFiles, 'files': files})
 
 def ungroup(request, pk):
    ungroup = groupmodel.objects.filter(id = pk)
@@ -47,92 +64,126 @@ def ideanestdelete(request, pk):
    messages.info(request, 'file has been deleted')
    return redirect('/ideaNest')
 
-def ideaNestEdit(request, pk):
-   edit = uploadfileform(request.POST, request.FILES)
+class ideaNestEdit(View):
+   def get(self,request, pk):
+       try:
+         print("-------USER in SESSION-------")
+         print(request.session['id'])
 
-   # edit files
-   editFiles = uploadfilemodel.objects.get(id = pk)
+         # store files
+         files = uploadfilemodel.objects.all()
 
-   if request.method == 'POST':
-      if len(request.FILES) != 0: # if there is a file
-         if len(editFiles.file) > 0: # remove file
-            os.remove(editFiles.file.path)
+         user = User.objects.get(id = request.session['id']) 
+         # edit files
+         editFiles = uploadfilemodel.objects.get(id = pk)
          
-         editFiles.file = request.FILES['file']
-      editFiles.name = request.POST.get('name')
-      editFiles.description = request.POST.get('description')
-      editFiles.save()
+         return render(request, 'editIdeaNest.html', {'editFiles': editFiles, 'user' : user})
+       except KeyError: 
+         # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
 
-      messages.info(request, "idea file has been updated")
+   def post(self, request, pk):
+
+      # edit files
+      editFiles = uploadfilemodel.objects.get(id = pk)
+
+
+      if request.method == 'POST':
+         if len(request.FILES) != 0: # if there is a file
+            if len(editFiles.file) > 0: # remove file
+               os.remove(editFiles.file.path)
+            
+            editFiles.file = request.FILES['file']
+            
+            if len(editFiles.cover) > 0: # remove file
+               os.remove(editFiles.cover.path)
+            
+            editFiles.file = request.FILES['cover']
+         editFiles.name = request.POST.get('name')
+         editFiles.description = request.POST.get('description')
+         editFiles.save()
+
+         messages.info(request, "idea file has been updated")
+         return redirect('/ideaNest')
+
+class groupfiles(View):
+   def get(self,request):
+      try:
+         print("-------USER in SESSION-------")
+         print(request.session['id'])
+
+         user = User.objects.get(id = request.session['id']) 
+
+        # user = User.objects.all()
+         context ={
+            'user' : user,
+         }
+
+         return render(request, "ideaNest.html", context)
+      except KeyError: 
+         # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
+
+   def post(self,request):
+      # group file
+      if request.method == "POST":
+         groupfiles = groupmodel()
+         groupfiles.user_id = request.session['id']
+         groupfiles.ideafile = request.POST.get('forgroup')
+         groupfiles.name = request.POST.get('groupname')
+         groupfiles.save()
+
+         messages.success(request, 'files grouped')
+
+         return redirect('/ideaNest')
+      
+      return render(request, "ideaNest.html")
+
+class ideaNest(View):
+   def get(self,request):
+      try:
+         print("-------USER in SESSION-------")
+         print(request.session['id'])
+
+         # store files
+         files = uploadfilemodel.objects.all()
+         groupedfiles = groupmodel.objects.all()
+
+         user = User.objects.get(id = request.session['id']) 
+
+        # user = User.objects.all()
+         context ={
+            'user' : user,
+            'files': files,
+            'groupedfiles': groupedfiles
+         }
+
+         return render(request, "ideaNest.html", context)
+      except KeyError: 
+         # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
+
+   def post(self,request):
+      if request.method == 'POST':
+
+        # upload file
+         upload = uploadfilemodel()
+
+         upload.user_id = request.session['id']
+         upload.name = request.POST.get('name')
+         upload.description = request.POST.get('description')
+   
+         if len(request.FILES) != 0:
+            upload.file = request.FILES['file']
+            upload.cover = request.FILES['cover']
+            upload.save()
+
+         messages.success(request, 'idea file uploaded')
+
       return redirect('/ideaNest')
-
-   return render(request, 'editIdeaNest.html', {'edit': edit, 'editFiles': editFiles})
-
-def groupfiles(request):
-   # group file
-   if request.method == "POST":
-      groupfiles = groupmodel()
-      groupfiles.ideafile = request.POST.get('forgroup')
-      groupfiles.name = request.POST.get('groupname')
-      groupfiles.save()
-
-      messages.success(request, 'files grouped')
-
-      return redirect('/ideaNest')
-   
-   return render(request, "ideaNest.html")
-
-def ideaNest(request):
-   
-   # upload file
-   if request.method == "POST":
-      upload = uploadfilemodel()
-      upload.name = request.POST.get('name')
-      upload.description = request.POST.get('description')
- 
-      if len(request.FILES) != 0:
-         upload.file = request.FILES['file']
-         upload.cover = request.FILES['cover']
-
-      upload.save()
-
-      messages.success(request, 'idea file uploaded')
-
-      return redirect('/ideaNest')
-
-   # store files
-   files = uploadfilemodel.objects.all()
-
-   # fetch grouped files
-   groupedfiles = groupmodel.objects.all()
-        
-   # # upload file
-   # if request.method == 'POST':
-   #      form = uploadfileform(request.POST, request.FILES)
-
-   #      name = uploadfilemodel()
-   #      name.name = request.POST.get('name')
-   #      name.description = request.POST.get('description')
-
-   #    #   for f in request.FILES.getlist('file'):
-   #    #       print(str(f))
-
-   #      # file handling
-   #    #   handleUploadedFile(request.FILES['file'])
-   #      modelInstance = form.save(commit=False)
-   #      modelInstance.save()
-   
-   #    #   file = request.FILES.getlist('file')[0]
-   #    #   fileModel = uploadfilemodel.objects.create(file = file)
-   #    #   fileModel.save()
-   #      messages.info(request, "idea file has been uploaded")
-   #      # return HttpResponse("the name of uploaded file is " + str(fileModel.file))
-   # else:
-      #   form = uploadfileform()
-
-   
-   # return render(request, "ideaNest.html", {'form': form, 'files': files})
-   return render(request, "ideaNest.html", {'files': files, 'groupedfiles': groupedfiles})
 
 class LandingPageView(View):
    def get(self,request):

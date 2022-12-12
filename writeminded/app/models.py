@@ -14,22 +14,6 @@ def filepath(request, filename):
 
     return os.path.join('uploads/', filename)
 
-class uploadfilemodel(models.Model):
-    name = models.CharField(max_length=20, unique=True, null=True)
-    description = models.CharField(max_length=50, null=True)
-    file = models.FileField(null = True)
-    cover = models.ImageField(null = True)
-
-    class Meta:
-        db_table = "uploadfile"
-
-class groupmodel(models.Model):
-    ideafile = models.CharField(max_length=200, unique=True, null=True)
-    name = models.CharField(max_length=20, unique=True, null=True)
-
-    class Meta:
-        db_table = "groupfiles"
-
 class Post(models.Model):
     body = RichTextField(blank=True, null = True)
 
@@ -40,6 +24,24 @@ class User(models.Model):
     first_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
     email_address = models.CharField(max_length = 50, unique = True , null = False)
+
+class uploadfilemodel(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    name = models.CharField(max_length=20, unique=True, null=True)
+    description = models.CharField(max_length=50, null=True)
+    file = models.FileField(null = True)
+    cover = models.ImageField(null = True)
+
+    class Meta:
+        db_table = "uploadfile"
+
+class groupmodel(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    ideafile = models.CharField(max_length=200, unique=True, null=True)
+    name = models.CharField(max_length=20, unique=True, null=True)
+
+    class Meta:
+        db_table = "groupfiles"
 
 # quiz
 class Quiz(models.Model):
@@ -78,6 +80,7 @@ class Materials(models.Model):
 
 # Project
 class Project(models.Model):
+    ideafile = models.ForeignKey(uploadfilemodel, on_delete = models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)

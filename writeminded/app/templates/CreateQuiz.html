@@ -32,6 +32,7 @@
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}">Contact Us</a></li>
                         {% if user.username %}
                         <li class="nav-item"><a class="nav-link text-black" >Write</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'ideaNest' %}">Nest</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'CreateQuiz' %}">Quiz</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="">{{user.username}}</a></li> 
                         <form action="" method="POST">

@@ -25,7 +25,7 @@
     </head>
     <body id="page-top">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="{% url 'LandingPage' %}">History Plotter</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,15 +35,46 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'About' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'ideaNest' %}">Nest</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#signup">Contact Us</a></li>
-                        <!--
-                        <li class="nav-item"><a class="nav-link" href="{% url 'Signin' %}">Sign In</a></li> -->
-                        <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'LandingPage' %}">Contact Us</a></li>
+                        {% if user.username %}
+                        <li class="nav-item"><a class="nav-link" >Write</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'ideaNest' %}">Nest</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'CreateQuiz' %}">Quiz</a></li>
+                        <li class="nav-item"><a class="nav-link" href="">{{user.username}}</a></li> 
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                       <li class="nav-item"><a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'Signup' %}">Log out</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'Signin' %}">Sign In</a></li> 
+                       <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
         </nav>
+        <!--LOGOUT MODAL-->
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Logout</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <p>Are you sure you want to end the session?</p>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                <button type="submit" class="btn btn-primary" name="btnLogout">Yes</button>
+                </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!--END MODAL-->
 
         
        
@@ -79,7 +110,7 @@
                         {% csrf_token %}
                           <div class="form-floating">
                             <input type="text" name="name" value="{{ editFiles.name }}" class="form-control" placeholder="Filename">
-                            <label for="">Filename</label>
+                            <label for="">Name</label>
                           </div>
                           <br>
                           <div class="form-floating">
@@ -87,57 +118,29 @@
                             <label for="">Description</label>
                           </div>
                           <br>
+
                           <div class="form-floating">
-                            <embed src="{{ editFiles.file.url }}" width="100%" />
+                            <a href="{{ editFiles.file.url }}" class="btn btn-secondary mt-2 badge" target="_blank">view file</a>
                           </div>
+                          <br>
+                          <div class="form-floating">
+                            <input type="file" name="file" class="file" placeholder="Description" id="input-b1" data-browser-on-zone-click = "true">
+                            <label for="">File</label>
+                          </div>
+                          <br>
+
+                          <div class="form-floating">
+                            <input type="file" name="cover" class="form-control" placeholder="Description">
+                            <label for="">Cover</label>
+                          </div>
+                          <br>
                         <button type="submit" class="btn btn-primary">update</button><br><br>
-                        <a class="btn btn-primary" href="#about">file</a>
                         <a class="btn btn-primary" href="{% url 'ideaNest' %}">idea nest</a>
                     </form>
 
                     
                 </div>
             </section>
-
-            <section class="about-section text-center" id="about">
-                <div class="container">
-                    <!-- alert message -->
-                    <script>
-                        setTimeout(function()
-                        {
-                        if($('#msg').length > 0)
-                        {
-                            $('#msg').remove();
-                        }
-                        }, 1500)
-                    </script>
-
-                    <form method="post" class="post-form" enctype="multipart/form-data">
-                        {% csrf_token %}
-                          <div class="form-floating">
-                            <input type="text" name="name" value="{{ editFiles.name }}" class="form-control" placeholder="Filename">
-                            <label for="">Filename</label>
-                          </div>
-                          <br>
-                          <div class="form-floating">
-                            <input type="text" name="description" value="{{ editFiles.description }}" class="form-control" placeholder="Description">
-                            <label for="">Description</label>
-                          </div>
-                          <br>
-                          <div class="form-floating">
-                            <embed src="{{ editFiles.file.url }}" width="100%" />
-                          </div>
-                          {{edit.file}}     
-                          <button type="submit" class="btn btn-primary">update</button>
-                          <br><br>
-                          <a class="btn btn-primary" href="#upload">name/description</a>
-                          <a class="btn btn-primary" href="{% url 'ideaNest' %}">idea nest</a>
-                    </form>
-                </div>
-                <br><br><br><br><br><br>
-            </section>
-             <!-- upload file end -->
-        <!-- store files end -->
 
         <!-- idea nest end-->
 

@@ -69,7 +69,10 @@ class Answer(models.Model):
 class Materials(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    period = models.CharField(max_length=100, null=True)
     description = models.TextField()
+    actual_material = RichTextField(blank=True, null=True)
+    
 
 
     def __str__(self):

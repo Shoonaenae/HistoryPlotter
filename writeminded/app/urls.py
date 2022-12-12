@@ -4,7 +4,7 @@ from cgitb import html
 from typing import ValuesView
 from django.urls import path
 from . import views
-from .views import MaterialsView, MaterialDetailView, AddMaterialsView, UpdateMaterialDescriptionsView
+from .views import MaterialsView, MaterialDetailView, AddMaterialsView, UpdateMaterialDescriptionsView, DeleteMaterialDescriptionView
 
 urlpatterns = [
     path('ungroup/<str:pk>', views.ungroup, name = "ungroup"),
@@ -34,12 +34,12 @@ urlpatterns = [
 
     path('CreateQuiz/EditQuiz/EditQuizOptions/Quiz', views.QuizView.as_view(), name = "Quiz"),
 
-    path('', MaterialsView.as_view(), name="materials"),
+    path('write/', MaterialsView.as_view(), name="materials"),
     path('materials/<int:pk>', MaterialDetailView.as_view(), name="material-details"),
     #pk->primary key... unique id number assigned to new database record entry
     path('add_material/', AddMaterialsView.as_view(), name = 'add-materials'),
-    path('material/edit/<int:pk>', UpdateMaterialDescriptionsView.as_view(), name = 'update-materials')
-
+    path('material/edit/<int:pk>', UpdateMaterialDescriptionsView.as_view(), name = 'update-material'),
+    path('material/<int:pk>/delete', DeleteMaterialDescriptionView.as_view(), name = 'delete-material'),
 ]
 
 if settings.DEBUG:

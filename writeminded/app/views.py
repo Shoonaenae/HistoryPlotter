@@ -9,9 +9,10 @@ from http.client import HTTPResponse
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .forms import *
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Materials
-from .forms import DescriptionForm
+from .forms import DescriptionForm, EditForm
+from django.urls import reverse_lazy
 
 # Create your views here.
 class editgroup(View):
@@ -566,6 +567,11 @@ class AddMaterialsView(CreateView):
 
 class UpdateMaterialDescriptionsView(UpdateView):
     model = Materials
+    form_class = EditForm
     template_name = 'LM_edit_materialdescriptions.html'
-    fields = ['title', 'description']
 
+class DeleteMaterialDescriptionView(DeleteView):
+    model = Materials
+    template_name = 'LM_delete_materialdescription.html'
+    context_object_name = 'mat'
+    success_url = reverse_lazy('materials')

@@ -1,0 +1,27 @@
+{% extends 'LM_base.html' %}
+{% block title %} Lesson Descriptions {% endblock %}
+{% block content %}
+
+<h3>Delete Material</h3>
+<small><em>Delete: {{ mat.title }}</em>
+
+<br/>
+<br/>
+<br/>
+<div class ="form-group">
+<form method ="POST">
+    {% csrf_token %}
+
+    <h5><strong>Are you sure you want to delete?</strong></h5>
+</br>
+</br>
+
+    <button class="btn mt-2" style = "background-color: #960019; color: white;"> Delete </button>
+    <button class="btn btn-secondary mt-2"> Cancel </button>
+
+      
+</div>
+
+
+
+{% endblock %}

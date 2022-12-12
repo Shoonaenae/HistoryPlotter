@@ -7,6 +7,9 @@ from . import views
 from .views import MaterialsView, MaterialDetailView, AddMaterialsView, UpdateMaterialDescriptionsView
 
 urlpatterns = [
+    path('editgroup/<str:pk>', views.editgroup, name = "editgroup"),
+    path('ungroup/<str:pk>', views.ungroup, name = "ungroup"),
+    path('group', views.groupfiles, name = "group"),
     path('ideanestdelete/<str:pk>', views.ideanestdelete, name = "ideanestdelete"),
     path('ideaNest', views.ideaNest, name = "ideaNest"),
     path('ideaNestEdit/<str:pk>', views.ideaNestEdit, name = "ideaNestEdit"),

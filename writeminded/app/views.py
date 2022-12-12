@@ -14,6 +14,33 @@ from .models import Materials
 from .forms import DescriptionForm
 
 # Create your views here.
+def editgroup(request, pk):
+   edit = groupmodel(request.POST, request.FILES)
+
+   # edit files
+   editFiles = groupmodel.objects.get(id = pk)
+
+   # store files
+   files = uploadfilemodel.objects.all()
+
+   if request.method == 'POST':
+      editFiles.name = request.POST.get('name')
+      editFiles.ideafile = request.POST.get('ideafile')
+      editFiles.save()
+
+      messages.info(request, "group updated")
+      return redirect('/ideaNest')
+  
+
+   return render(request, 'editgroup.html', {'edit': edit, 'editFiles': editFiles, 'files': files})
+
+def ungroup(request, pk):
+   ungroup = groupmodel.objects.filter(id = pk)
+   ungroup.delete()
+   messages.info(request, 'files successfully ungrouped')
+
+   return redirect('/ideaNest')
+
 def ideanestdelete(request, pk):
    file = uploadfilemodel.objects.filter(id = pk)
    file.delete()
@@ -41,36 +68,71 @@ def ideaNestEdit(request, pk):
 
    return render(request, 'editIdeaNest.html', {'edit': edit, 'editFiles': editFiles})
 
+def groupfiles(request):
+   # group file
+   if request.method == "POST":
+      groupfiles = groupmodel()
+      groupfiles.ideafile = request.POST.get('forgroup')
+      groupfiles.name = request.POST.get('groupname')
+      groupfiles.save()
+
+      messages.success(request, 'files grouped')
+
+      return redirect('/ideaNest')
+   
+   return render(request, "ideaNest.html")
+
 def ideaNest(request):
    
+   # upload file
+   if request.method == "POST":
+      upload = uploadfilemodel()
+      upload.name = request.POST.get('name')
+      upload.description = request.POST.get('description')
+ 
+      if len(request.FILES) != 0:
+         upload.file = request.FILES['file']
+         upload.cover = request.FILES['cover']
+
+      upload.save()
+
+      messages.success(request, 'idea file uploaded')
+
+      return redirect('/ideaNest')
+
    # store files
    files = uploadfilemodel.objects.all()
 
-   # upload file
-   if request.method == 'POST':
-        form = uploadfileform(request.POST, request.FILES)
+   # fetch grouped files
+   groupedfiles = groupmodel.objects.all()
         
-        name = uploadfilemodel()
-        name.name = request.POST.get('name')
-        name.description = request.POST.get('description')
+   # # upload file
+   # if request.method == 'POST':
+   #      form = uploadfileform(request.POST, request.FILES)
 
-      #   for f in request.FILES.getlist('file'):
-      #       print(str(f))
+   #      name = uploadfilemodel()
+   #      name.name = request.POST.get('name')
+   #      name.description = request.POST.get('description')
 
-        # file handling
-        handleUploadedFile(request.FILES['file'])
-        modelInstance = form.save(commit=False)
-        modelInstance.save()
+   #    #   for f in request.FILES.getlist('file'):
+   #    #       print(str(f))
 
-      #   file = request.FILES.getlist('file')[0]
-      #   fileModel = uploadfilemodel.objects.create(file = file)
-      #   fileModel.save()
-        messages.info(request, "idea file has been uploaded")
-        # return HttpResponse("the name of uploaded file is " + str(fileModel.file))
-   else:
-        form = uploadfileform()
+   #      # file handling
+   #    #   handleUploadedFile(request.FILES['file'])
+   #      modelInstance = form.save(commit=False)
+   #      modelInstance.save()
    
-   return render(request, "ideaNest.html", {'form': form, 'files': files})
+   #    #   file = request.FILES.getlist('file')[0]
+   #    #   fileModel = uploadfilemodel.objects.create(file = file)
+   #    #   fileModel.save()
+   #      messages.info(request, "idea file has been uploaded")
+   #      # return HttpResponse("the name of uploaded file is " + str(fileModel.file))
+   # else:
+      #   form = uploadfileform()
+
+   
+   # return render(request, "ideaNest.html", {'form': form, 'files': files})
+   return render(request, "ideaNest.html", {'files': files, 'groupedfiles': groupedfiles})
 
 class LandingPageView(View):
    def get(self,request):

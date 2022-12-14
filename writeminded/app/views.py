@@ -71,9 +71,6 @@ class ideaNestEdit(View):
          print("-------USER in SESSION-------")
          print(request.session['id'])
 
-         # store files
-         files = uploadfilemodel.objects.all()
-
          user = User.objects.get(id = request.session['id']) 
          # edit files
          editFiles = uploadfilemodel.objects.get(id = pk)
@@ -89,7 +86,6 @@ class ideaNestEdit(View):
       # edit files
       editFiles = uploadfilemodel.objects.get(id = pk)
 
-
       if request.method == 'POST':
          if len(request.FILES) != 0: # if there is a file
             if len(editFiles.file) > 0: # remove file
@@ -100,7 +96,7 @@ class ideaNestEdit(View):
             if len(editFiles.cover) > 0: # remove file
                os.remove(editFiles.cover.path)
             
-            editFiles.file = request.FILES['cover']
+            editFiles.cover = request.FILES['cover']
          editFiles.name = request.POST.get('name')
          editFiles.description = request.POST.get('description')
          editFiles.save()
@@ -114,11 +110,15 @@ class groupfiles(View):
          print("-------USER in SESSION-------")
          print(request.session['id'])
 
+         projectID = request.session['proj_id']
          user = User.objects.get(id = request.session['id']) 
+
+         groupedfiles = groupmodel.objects.filter(user_id = user, project_id = projectID)
 
         # user = User.objects.all()
          context ={
             'user' : user,
+            'groupedfiles': groupedfiles
          }
 
          return render(request, "ideaNest.html", context)
@@ -131,6 +131,7 @@ class groupfiles(View):
       # group file
       if request.method == "POST":
          groupfiles = groupmodel()
+         groupfiles.project_id = request.session['proj_id']
          groupfiles.user_id = request.session['id']
          groupfiles.ideafile = request.POST.get('forgroup')
          groupfiles.name = request.POST.get('groupname')
@@ -148,11 +149,12 @@ class ideaNest(View):
          print("-------USER in SESSION-------")
          print(request.session['id'])
 
-         # store files
-         files = uploadfilemodel.objects.all()
-         groupedfiles = groupmodel.objects.all()
-
+         projectID = request.session['proj_id']
          user = User.objects.get(id = request.session['id']) 
+
+         # store files
+         files = uploadfilemodel.objects.filter(user_id = user, project_id = projectID)
+         groupedfiles = groupmodel.objects.filter(user_id = user, project_id = projectID)
 
         # user = User.objects.all()
          context ={
@@ -173,6 +175,7 @@ class ideaNest(View):
         # upload file
          upload = uploadfilemodel()
 
+         upload.projectid = request.session['proj_id']
          upload.user_id = request.session['id']
          upload.name = request.POST.get('name')
          upload.description = request.POST.get('description')
@@ -181,6 +184,13 @@ class ideaNest(View):
             upload.file = request.FILES['file']
             upload.cover = request.FILES['cover']
             upload.save()
+            
+         if 'btnLogout' in request.POST:
+            try:
+               del request.session['id'] #OR request.session.flush() to end session
+            except KeyError:
+               pass
+            return redirect('LandingPage')
 
          messages.success(request, 'idea file uploaded')
 

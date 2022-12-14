@@ -47,27 +47,30 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% url 'LandingPage' %}">History Plotter</a>
+                <a class="navbar-brand text-black" href="{% url 'LandingPage' %}">History Plotter</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'About' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'LandingPage' %}">Contact Us</a></li>
-                        {% if user.username %}
-                        <li class="nav-item"><a class="nav-link" >Write</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'ideaNest' %}">Nest</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'CreateQuiz' %}">Quiz</a></li>
-                        <li class="nav-item"><a class="nav-link" href="">{{user.username}}</a></li> 
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'About' %}">About</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'ProjectDashboard' %}">Projects</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-black" href="" data-bs-toggle="dropdown">Project Content</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item text-black" href="{% url 'materials' %}">Write</a>
+                                <a class="dropdown-item text-black" href="{% url 'ideaNest' %}">Nest</a>
+                                <a class="dropdown-item text-black" href="{% url 'CreateQuiz' %}">Quiz</a>
+                                <a class="dropdown-item text-black" href="{% url 'Relations' %}">Relations</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link text-black" href="">{{user.username}}</a></li> 
                         <form action="" method="POST">
-                            {% csrf_token %}
+                        {% csrf_token %}
                        <li class="nav-item"><a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'Signup' %}">Log out</a></li>
-                        {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'Signin' %}">Sign In</a></li> 
-                       <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
-                        {% endif %}
+                        </form>
                     </ul>
                 </div>
             </div>

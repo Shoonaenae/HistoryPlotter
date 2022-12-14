@@ -30,19 +30,16 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'About' %}">About</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}">Contact Us</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-black" href="" data-bs-toggle="dropdown">Project Content</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item text-black" href="{% url 'materials' %}">Write</a>
-                                <a class="dropdown-item text-black" href="{% url 'ideaNest' %}">Nest</a>
-                                <a class="dropdown-item text-black" href="{% url 'CreateQuiz' %}">Quiz</a>
-                                <a class="dropdown-item text-black" href="{% url 'Relations' %}">Relations</a>
-                            </div>
-                        </li>
+                        {% if user.username %}
+        
                         <li class="nav-item"><a class="nav-link text-black" href="">{{user.username}}</a></li> 
                         <form action="" method="POST">
                         {% csrf_token %}
                        <li class="nav-item"><a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'Signup' %}">Log out</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'Signin' %}">Sign In</a></li> 
+                       <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -75,7 +72,7 @@
               <!--BREAD CRUMB-->
               <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{% url 'ProjectDashboard' %}">Home</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'LandingPage' %}">Home</a></li>
                   <li class="breadcrumb-item"><a href="{% url 'CreateQuiz' %}">Quiz</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Edit Quiz</li>
                 </ol>
@@ -101,16 +98,7 @@
                             </form>-->
                         </div>
                     </div>
-                    
                 </div>
-                <!-----------------ERRRRRRRRRRRRRRRRRRORRRRRRRRRR MESSAGE ------------->
-                {% for message in messages %}
-                <div class="alert alert-primary" role="alert">
-                   
-                    {{message}}
-                      
-                </div>
-                {% endfor %}
                 <!--Create Question MODAL-->
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -198,6 +186,7 @@
                                     </div>
                                     <!--END BODY-->
                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" >Back</button>
                                     <button type="submit" class="btn btn-primary" name="btnAddAnswer">Add</button>
                                     
                                 </div>

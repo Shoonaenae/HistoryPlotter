@@ -71,9 +71,6 @@ class ideaNestEdit(View):
          print("-------USER in SESSION-------")
          print(request.session['id'])
 
-         # store files
-         files = uploadfilemodel.objects.all()
-
          user = User.objects.get(id = request.session['id']) 
          # edit files
          editFiles = uploadfilemodel.objects.get(id = pk)
@@ -89,7 +86,6 @@ class ideaNestEdit(View):
       # edit files
       editFiles = uploadfilemodel.objects.get(id = pk)
 
-
       if request.method == 'POST':
          if len(request.FILES) != 0: # if there is a file
             if len(editFiles.file) > 0: # remove file
@@ -100,7 +96,7 @@ class ideaNestEdit(View):
             if len(editFiles.cover) > 0: # remove file
                os.remove(editFiles.cover.path)
             
-            editFiles.file = request.FILES['cover']
+            editFiles.cover = request.FILES['cover']
          editFiles.name = request.POST.get('name')
          editFiles.description = request.POST.get('description')
          editFiles.save()
@@ -114,11 +110,15 @@ class groupfiles(View):
          print("-------USER in SESSION-------")
          print(request.session['id'])
 
+         projectID = request.session['proj_id']
          user = User.objects.get(id = request.session['id']) 
+
+         groupedfiles = groupmodel.objects.filter(user_id = user, project_id = projectID)
 
         # user = User.objects.all()
          context ={
             'user' : user,
+            'groupedfiles': groupedfiles
          }
 
          return render(request, "ideaNest.html", context)
@@ -131,6 +131,7 @@ class groupfiles(View):
       # group file
       if request.method == "POST":
          groupfiles = groupmodel()
+         groupfiles.project_id = request.session['proj_id']
          groupfiles.user_id = request.session['id']
          groupfiles.ideafile = request.POST.get('forgroup')
          groupfiles.name = request.POST.get('groupname')
@@ -148,14 +149,10 @@ class ideaNest(View):
          print("-------USER in SESSION-------")
          print(request.session['id'])
 
-         # store files
-         files = uploadfilemodel.objects.all()
-         groupedfiles = groupmodel.objects.all()
-
-         user = User.objects.get(id = request.session['id']) 
          projectID = request.session['proj_id']
-         
-          # store files
+         user = User.objects.get(id = request.session['id']) 
+
+         # store files
          files = uploadfilemodel.objects.filter(user_id = user, project_id = projectID)
          groupedfiles = groupmodel.objects.filter(user_id = user, project_id = projectID)
 
@@ -177,6 +174,7 @@ class ideaNest(View):
 
         # upload file
          upload = uploadfilemodel()
+
          upload.projectid = request.session['proj_id']
          upload.user_id = request.session['id']
          upload.name = request.POST.get('name')
@@ -186,6 +184,13 @@ class ideaNest(View):
             upload.file = request.FILES['file']
             upload.cover = request.FILES['cover']
             upload.save()
+            
+         if 'btnLogout' in request.POST:
+            try:
+               del request.session['id'] #OR request.session.flush() to end session
+            except KeyError:
+               pass
+            return redirect('LandingPage')
 
          messages.success(request, 'idea file uploaded')
 
@@ -415,7 +420,10 @@ class CreateQuizView(View):
          print("-------USER in SESSION-------")
          print(request.session['id'])
          user = User.objects.get(id = request.session['id']) 
-         quiz = Quiz.objects.all()
+         projectID = request.session['proj_id']
+         #quiz = Quiz.objects.all()
+         quiz = Quiz.objects.filter(user_id = user, project_id = projectID)
+         #project = Project.objects.filter()
         # user = User.objects.all()
          context ={
             'quiz' : quiz,
@@ -436,8 +444,9 @@ class CreateQuizView(View):
                name = request.POST.get('name')
                desc = request.POST.get('desc')
                date = request.POST.get('date')
+               projectid = request.session['proj_id']
                #print(user)
-               form = Quiz( quiz_name = name, quiz_date = date,user_id = user, quiz_desc = desc)
+               form = Quiz( quiz_name = name, quiz_date = date,user_id = user, quiz_desc = desc, project_id = projectid)
                form.save()
                quiz = Quiz.objects.filter(user_id = user).latest('id')
                request.session['quiz_id'] = quiz.id
@@ -505,6 +514,12 @@ class EditQuizOptionsView(View):
                isAnswer = True
             else:
                isAnswer = False
+            
+            #if isAnswer == True and Answer.objects.filter(question_id = question_id, isAnswer = True).count > 0:
+            #if isAnswer == True & Answer.objects.filter(question_id = question_id, isAnswer = True).exists:
+
+             #  messages.error(request, 'Answer already exists! Add another option')
+            #else:
             form = Answer( question_id = question_id, answer = answer, isAnswer = isAnswer)
             form.save()
             return redirect('EditQuiz')
@@ -577,15 +592,17 @@ class EditQuizView(View):
                isAnswer = True
             else:
                isAnswer = False
-            if not Answer.objects.get(question_id = q_id, isAnswer = True): # if there is already 1 answer in the teble then it wont accept more.
-               form = Answer( question_id = q_id, answer = option, isAnswer = isAnswer)
-               form.save()
-            
+            #if isAnswer == True and Answer.objects.filter(question_id = q_id, isAnswer = True).exists:
+            #   messages.error(request, 'Answer already exists! Add another option') 
+            #   return redirect('EditQuiz')
+            form = Answer( question_id = q_id, answer = option, isAnswer = isAnswer)
+            form.save()
+
             return redirect('EditQuiz')
          elif 'btnUpdateQuestion' in request.POST:
             quiz = request.session['quiz_id']
             question = request.POST.get('q_id')
-            num = request.POST.get('num')
+            num = request.POST.get('num') 
             q = request.POST.get('ques')
             #print(user)
             Question.objects.filter(id = question).update(q_num = num, question = q, quiz_id = quiz)

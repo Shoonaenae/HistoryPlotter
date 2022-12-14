@@ -1,0 +1,6 @@
+# file handling
+        filemult = dict.get['file']
+
+        handleUploadedFile(request.FILES['file'])
+        modelInstance = form.save(commit=False)
+        modelInstance.save()

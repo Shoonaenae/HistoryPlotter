@@ -52,6 +52,8 @@ class groupmodel(models.Model):
         db_table = "groupfiles"
 
 # quiz
+
+
 class Quiz(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     quiz_name = models.CharField(max_length=100)
@@ -59,11 +61,6 @@ class Quiz(models.Model):
     quiz_date = models.DateField(blank=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     #quiz_type = models.CharField(max_length=50)
-
-class QuizRepo(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    quiz = models.ForeignKey(Quiz, on_delete = models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete= models.CASCADE)
@@ -74,6 +71,7 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete= models.CASCADE)
     answer = models.CharField(max_length= 100)
     isAnswer = models.BooleanField(default=False)
+
 # end quiz
 
 class Materials(models.Model):
@@ -98,29 +96,3 @@ class Relations(models.Model):
     materials = models.ForeignKey(Materials, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-# Project
-class Project(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
-# idea nest
-class uploadfilemodel(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    name = models.CharField(max_length=20, unique=True, null=True)
-    description = models.CharField(max_length=50, null=True)
-    file = models.FileField(null = True)
-    cover = models.ImageField(null = True)
-
-    class Meta:
-        db_table = "uploadfile"
-
-class groupmodel(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    ideafile = models.CharField(max_length=200, unique=True, null=True)
-    name = models.CharField(max_length=20, unique=True, null=True)
-
-    class Meta:
-        db_table = "groupfiles"

@@ -553,8 +553,10 @@ class EditQuizView(View):
                isAnswer = True
             else:
                isAnswer = False
-            form = Answer( question_id = q_id, answer = option, isAnswer = isAnswer)
-            form.save()
+            if not Answer.objects.get(question_id = q_id, isAnswer = True): # if there is already 1 answer in the teble then it wont accept more.
+               form = Answer( question_id = q_id, answer = option, isAnswer = isAnswer)
+               form.save()
+            
             return redirect('EditQuiz')
          elif 'btnUpdateQuestion' in request.POST:
             quiz = request.session['quiz_id']

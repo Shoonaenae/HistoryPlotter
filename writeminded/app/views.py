@@ -148,6 +148,10 @@ class ideaNest(View):
          print("-------USER in SESSION-------")
          print(request.session['id'])
 
+         # store files
+         files = uploadfilemodel.objects.all()
+         groupedfiles = groupmodel.objects.all()
+
          user = User.objects.get(id = request.session['id']) 
          projectID = request.session['proj_id']
          

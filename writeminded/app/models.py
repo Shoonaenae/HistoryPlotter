@@ -25,7 +25,6 @@ class User(models.Model):
     last_name = models.CharField(max_length = 50)
     email_address = models.CharField(max_length = 50, unique = True , null = False)
 
-<<<<<<< HEAD
 # Project
 class Project(models.Model):
     title = models.CharField(max_length=100)
@@ -52,8 +51,6 @@ class groupmodel(models.Model):
     class Meta:
         db_table = "groupfiles"
 
-=======
->>>>>>> ff61769 (temp ideanest)
 # quiz
 
 
@@ -92,7 +89,6 @@ class Materials(models.Model):
     def get_absolute_url(self):
         return reverse('material-details', args=(str(self.id)))
 
-<<<<<<< HEAD
 #Relations
 class Relations(models.Model):
     name = models.CharField(max_length=100)
@@ -100,7 +96,6 @@ class Relations(models.Model):
     materials = models.ForeignKey(Materials, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-=======
 # Project
 class Project(models.Model):
     title = models.CharField(max_length=100)
@@ -127,4 +122,3 @@ class groupmodel(models.Model):
 
     class Meta:
         db_table = "groupfiles"
->>>>>>> ff61769 (temp ideanest)

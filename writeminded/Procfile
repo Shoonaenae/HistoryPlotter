@@ -1,0 +1,1 @@
+web gunicorn writeminded.wsgi --log-file -

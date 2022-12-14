@@ -391,7 +391,10 @@ class CreateQuizView(View):
          print("-------USER in SESSION-------")
          print(request.session['id'])
          user = User.objects.get(id = request.session['id']) 
-         quiz = Quiz.objects.all()
+         projectID = request.session['proj_id']
+         #quiz = Quiz.objects.all()
+         quiz = Quiz.objects.filter(user_id = user, project_id = projectID)
+         #project = Project.objects.filter()
         # user = User.objects.all()
          context ={
             'quiz' : quiz,
@@ -412,8 +415,9 @@ class CreateQuizView(View):
                name = request.POST.get('name')
                desc = request.POST.get('desc')
                date = request.POST.get('date')
+               projectid = request.session['proj_id']
                #print(user)
-               form = Quiz( quiz_name = name, quiz_date = date,user_id = user, quiz_desc = desc)
+               form = Quiz( quiz_name = name, quiz_date = date,user_id = user, quiz_desc = desc, project_id = projectid)
                form.save()
                quiz = Quiz.objects.filter(user_id = user).latest('id')
                request.session['quiz_id'] = quiz.id
@@ -481,6 +485,12 @@ class EditQuizOptionsView(View):
                isAnswer = True
             else:
                isAnswer = False
+            
+            #if isAnswer == True and Answer.objects.filter(question_id = question_id, isAnswer = True).count > 0:
+            #if isAnswer == True & Answer.objects.filter(question_id = question_id, isAnswer = True).exists:
+
+             #  messages.error(request, 'Answer already exists! Add another option')
+            #else:
             form = Answer( question_id = question_id, answer = answer, isAnswer = isAnswer)
             form.save()
             return redirect('EditQuiz')
@@ -553,15 +563,17 @@ class EditQuizView(View):
                isAnswer = True
             else:
                isAnswer = False
-            if not Answer.objects.get(question_id = q_id, isAnswer = True): # if there is already 1 answer in the teble then it wont accept more.
-               form = Answer( question_id = q_id, answer = option, isAnswer = isAnswer)
-               form.save()
-            
+            #if isAnswer == True and Answer.objects.filter(question_id = q_id, isAnswer = True).exists:
+            #   messages.error(request, 'Answer already exists! Add another option') 
+            #   return redirect('EditQuiz')
+            form = Answer( question_id = q_id, answer = option, isAnswer = isAnswer)
+            form.save()
+
             return redirect('EditQuiz')
          elif 'btnUpdateQuestion' in request.POST:
             quiz = request.session['quiz_id']
             question = request.POST.get('q_id')
-            num = request.POST.get('num')
+            num = request.POST.get('num') 
             q = request.POST.get('ques')
             #print(user)
             Question.objects.filter(id = question).update(q_num = num, question = q, quiz_id = quiz)

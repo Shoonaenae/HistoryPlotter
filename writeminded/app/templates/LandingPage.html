@@ -30,12 +30,13 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'About' %}">About</a></li>
                         
-                        <li class="nav-item"><a class="nav-link" href="#signup">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
                         {% if user.username %}
-                         <!--IF NAKA LOGIN -->
-                         <li class="nav-item"><a class="nav-link" href="{% url 'materials' %}">Write</a></li>
+                        <!--IF NAKA LOGIN -->
+                        <!-- <li class="nav-item"><a class="nav-link" href="{% url 'materials' %}">Write</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'ideaNest' %}">Nest</a></li>
-                         <li class="nav-item"><a class="nav-link" href="{% url 'CreateQuiz' %}">Quiz</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'CreateQuiz' %}">Quiz</a></li> -->
+                        <li class="nav-item"><a class="nav-link" href="{% url 'ProjectDashboard' %}">Projects</a></li>
                         <li class="nav-item"><a class="nav-link" href="">{{user.username}}</a></li> 
                         <form action="" method="POST">
                         {% csrf_token %}
@@ -146,7 +147,7 @@
             </div>
         </section>
         <!-- Contact-->
-        <section class="contact-section bg-black">
+        <section id="contact" class="contact-section bg-black">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5">
                     <div class="col-md-4 mb-3 mb-md-0">

@@ -23,7 +23,8 @@ urlpatterns = [
 
 
     path('ProjectDashboard', views.ProjectDashboard.as_view(), name = 'ProjectDashboard'),
-    path('Relations', views.Relations, name = "Relations"),
+    path('ProjectView ', views.ProjectView.as_view(), name = "ProjectView"),
+    path('Relations', views.Relation.as_view(), name = "Relations"),
 
     path('CreateQuiz', views.CreateQuizView.as_view(), name = "CreateQuiz"),
     path('CreateQuiz/EditQuiz/', views.EditQuizView.as_view(), name = "EditQuiz"),

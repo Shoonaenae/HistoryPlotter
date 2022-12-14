@@ -285,6 +285,7 @@ class SignupView(View):
 def LM_CreateChapter(request):
    return render(request, "LM_CreateChapter.html")
 
+## PROJECT
 class ProjectDashboard(View):
    def get(self, request):
       try:
@@ -317,10 +318,71 @@ class ProjectDashboard(View):
             Project.objects.get(id = projectID).delete()
          elif 'btnProjEdit' in request.POST:
             Project.objects.filter(id = projectID).update(title = ttle, description = desc, user_id = user)
+         elif 'viewProj' in request.POST:
+            request.session['proj_id'] = projectID
+            return redirect('ProjectView')
       return redirect('ProjectDashboard')
 
-def Relations(request):
-   return render(request, "Relations.html")
+class ProjectView(View):
+   def get(self, request):
+      try:
+         print("-------USER in SESSION-------")
+         user = User.objects.get(id = request.session['id'])
+         print(user)
+         projectID = request.session['proj_id']
+         project = Project.objects.filter(user_id = user, id = projectID)
+         context = {
+            'user' : user,
+            'project' : project
+         }
+         return render(request, "ProjectView.html", context)
+         # if 'proj_id' in request.session:
+         #    projectID = request.session['proj_id']
+         #    if project.id == projectID:
+         #       project = Project.objects.filter(user_id = user, id = projectID)
+         #       context = {
+         #          'user' : user,
+         #          'project' : project
+         #       }
+         #       return render(request, "ProjectView.html", context)
+         # return render(request, "ProjectView.html", context)
+      except KeyError:
+         return render(request, "ProjectView.html")
+
+## RELATIONS
+class Relation(View):
+   def get(self, request):
+      try:
+         print("-------USER in SESSION-------")
+         user = User.objects.get(id = request.session['id'])
+         print(user)
+         relations = Relations.objects.filter(user_id = user)
+         materials = Materials.objects.filter(author = user)
+         ideanest = uploadfilemodel.objects.filter(user_id = user)
+         context = {
+            'user' : user,
+            'relations' : relations,
+            'materials' : materials,
+            'ideanest' : ideanest
+         }
+         return render(request, "Relations.html", context)
+      except KeyError:
+         return render(request, "Relations.html")
+   def post(self, request):
+      if request.method == 'POST':
+         relationID = request.POST.get('myID')
+         form = Relations(request.POST)
+         user = request.session['id']
+         name = request.POST.get('name')
+         materials = request.POST.get('materials')
+         ideanest = request.POST.get('ideanest')
+         if 'btnRelationCreate' in request.POST:
+            form = Relations(user_id = user, name = name, materials_id = materials, ideafile_id = ideanest)
+            form.save()
+            return redirect('Relations')
+         # user = request.session['id']
+         # ttle = request.POST.get('title')
+         # desc = request.POST.get('description')
 
 ## QUIZZZ
 class CreateQuizView(View):

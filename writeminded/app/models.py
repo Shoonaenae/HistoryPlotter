@@ -25,12 +25,19 @@ class User(models.Model):
     last_name = models.CharField(max_length = 50)
     email_address = models.CharField(max_length = 50, unique = True , null = False)
 
+# Project
+class Project(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
 class uploadfilemodel(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     name = models.CharField(max_length=20, unique=True, null=True)
     description = models.CharField(max_length=50, null=True)
     file = models.FileField(null = True)
     cover = models.ImageField(null = True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "uploadfile"
@@ -39,6 +46,7 @@ class groupmodel(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     ideafile = models.CharField(max_length=200, unique=True, null=True)
     name = models.CharField(max_length=20, unique=True, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "groupfiles"
@@ -49,11 +57,13 @@ class Quiz(models.Model):
     quiz_name = models.CharField(max_length=100)
     quiz_desc = models.TextField(default=None)
     quiz_date = models.DateField(blank=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     #quiz_type = models.CharField(max_length=50)
 
 class QuizRepo(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete = models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete= models.CASCADE)
@@ -71,7 +81,8 @@ class Materials(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     period = models.CharField(max_length=100, null=True)
     description = models.TextField()
-    actual_material = RichTextField(blank=True, null=True)  
+    actual_material = RichTextField(blank=True, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
 
     def __str__(self):
@@ -80,9 +91,10 @@ class Materials(models.Model):
     def get_absolute_url(self):
         return reverse('material-details', args=(str(self.id)))
 
-# Project
-class Project(models.Model):
-    ideafile = models.ForeignKey(uploadfilemodel, on_delete = models.CASCADE)
-    title = models.CharField(max_length=100)
-    description = models.TextField()
+#Relations
+class Relations(models.Model):
+    name = models.CharField(max_length=100)
+    ideafile = models.ForeignKey(uploadfilemodel, on_delete=models.CASCADE)
+    materials = models.ForeignKey(Materials, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)

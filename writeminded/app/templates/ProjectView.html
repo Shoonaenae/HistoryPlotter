@@ -32,9 +32,9 @@
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}#contact">Contact Us</a></li>
                         {% if user.username %}
                         <!--IF NAKA LOGIN -->
-                        <!-- <li class="nav-item"><a class="nav-link" href="{% url 'materials' %}">Write</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'ideaNest' %}">Nest</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'CreateQuiz' %}">Quiz</a></li> -->
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'materials' %}">Write</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'ideaNest' %}">Nest</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'CreateQuiz' %}">Quiz</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'ProjectDashboard' %}">Projects</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="">{{user.username}}</a></li> 
                         <form action="" method="POST">
@@ -56,14 +56,14 @@
                 <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-left text-lg-left">
-                            <h1>Projects</h1>
+                            <h1>In Project</h1>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-5">
+                    <!-- <div class="col-xl-4 col-lg-5">
                         <div class="featured-text text-center text-lg-left">
                             <button type="button" id="btnAdd" class="btn btn-info mt-2" data-bs-target="#btnProjAdd" data-bs-toggle="modal">Add Project</button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- LIST OF PROJECTS START HERE -->
                 <!-- Project One Row-->
@@ -74,22 +74,18 @@
                         <div class="{% cycle 'bg-dark' 'bg-black' 'bg-black' 'bg-dark'  %} text-center h-100 project">
                             <div class="d-flex h-100">
                                 <div class="project-text w-100 my-auto text-center text-lg-left">
+                                    <input type="text" name="myID" value ="{{p.id}}" hidden>
                                     <form method="POST">
-                                        {% csrf_token %}
-                                        <input type="text" name="myID" value ="{{p.id}}" hidden>
-                                        <h4 class="text-white">
-                                            <button class="btn-warning" name="viewProj" value="{% url 'ProjectView' %}">{{p.title}}</button>
-                                            <!-- <a href="{% url 'ProjectView' %}">{{p.title}}</a> -->
-                                        </h4>
+                                        <h4 class="text-white"><a href="{% url 'ProjectDashboard' %}">{{p.title}}</a></h4>
                                     </form>
                                     <br>
                                     <h6 class="mb-0 text-white-50">{{p.description}}</h6>
                                     <br>
-                                    <button class="btn-success" id="btnEdit" data-bs-target="#editProject-{{p.id}}" data-bs-toggle="modal">
+                                    <!-- <button class="btn-success" id="btnEdit" data-bs-target="#editProject-{{p.id}}" data-bs-toggle="modal">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </button>
                                     <button class="btn-danger" id="btnDelete" data-bs-target="#deleteProject-{{p.id}}" data-bs-toggle="modal">
-                                        <i class="fa-solid fa-trash-can"></i>
+                                        <i class="fa-solid fa-trash-can"></i> -->
                                     </button>
                                     <!--<hr class="d-none d-lg-block mb-0 ms-0" />-->
                                 </div>
@@ -98,7 +94,7 @@
                     </div>
                     <!--<div class="col-lg-6"><img class="img-fluid w-100" src="{% static 'assets/img/paint3.jpg' %}" alt="..." /></div>-->
                     <!-- MODAL DELETE -->
-                    <div id="deleteProject-{{p.id}}" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+                    <!-- <div id="deleteProject-{{p.id}}" class="modal fade" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -127,9 +123,9 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- MODAL EDIT -->
-                    <div id="editProject-{{p.id}}" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+                    <!-- <div id="editProject-{{p.id}}" class="modal fade" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -157,13 +153,13 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     {% endfor %}
                 </div>
             </div>
         </section>
         <!-- MODAL ADD -->
-        <div id="btnProjAdd" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+        <!-- <div id="btnProjAdd" class="modal fade" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -190,7 +186,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; Team Write Minded 2022</div></footer>
         <!-- Bootstrap core JS-->

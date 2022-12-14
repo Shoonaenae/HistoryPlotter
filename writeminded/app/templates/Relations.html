@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'About' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'LM_CreateChapter' %}">Write</a></li>
+                        <li class="nav-item"><a class="nav-link text-black">Write</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}">Contact Us</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'Signin' %}">Sign In</a></li> 
                         <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </nav>
-        <!-- Project Dashboard-->
+        <!-- Relations -->
         <section class="projects-section bg-light" id="projects">
             <div class="container px-4 px-lg-5">
                 <!-- Featured Project Row-->
@@ -49,12 +49,13 @@
                     </div>
                     <div class="col-xl-4 col-lg-5">
                         <div class="featured-text text-center text-lg-left">
-                            <button class="btn btn-info mt-2">Add Relations</button>
+                            <button type="button" class="btn btn-info mt-2" data-bs-target="#btnRelationAdd" data-bs-toggle="modal">Add Relations</button>
                         </div>
                     </div>
                 </div>
                 <!-- LIST OF RELATIONS STARTS HERE -->
                 <table class="table table table-primary table-bordered">
+                    {% for r in relations %}
                     <thead class="text-center">
                         <td>Name</td>
                         <td colspan="2">Connected</td>
@@ -62,20 +63,9 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Test Name</td>
-                            <td>Object 1</td>
-                            <td>Object 2</td>
-                            <td class="text-center">
-                                <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
-                                <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Test Name</td>
-                            <td>Object 1</td>
-                            <td>Object 2</td>
+                            <td>{{r.name}}</td>
+                            <td>{{r.materials}}</td>
+                            <td>{{r.ideafile}}</td>
                             <td class="text-center">
                                 <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
                                 <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
@@ -84,9 +74,51 @@
                             </td>
                         </tr>
                     </tbody>
+                    {% endfor %}
                 </table>
             </div>
         </section>
+        <!-- MODAL ADD -->
+        <div id="btnRelationAdd" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">CREATE RELATIONS</h5>
+                        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="#" method="POST">
+                        <div class="modal-body">
+                            {% csrf_token %}
+                            <input type="text" name="myID" value= "{{r.id}}" hidden>
+                            <div class="form-group">
+                                <label for="relationName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="relationName" style="margin-bottom: 2%;" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="relationLM" class="form-label">Lesson Materials</label>
+                                <select name="materials" id="relationLM" class="form-control">
+                                    {% for lm in materials %}
+                                    <option value='{{lm.id}}'>{{lm.title}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="relationLM" class="form-label">Idea Nest</label>
+                                <select name="ideanest" id="relationLM" class="form-control">
+                                    {% for in in ideanest %}
+                                    <option value='{{in.id}}'>{{in.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="btnRelationCreate">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- MODAL DELETE -->
         <div id="btnProjDelete" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
             <div class="modal-dialog">

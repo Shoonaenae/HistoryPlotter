@@ -60,12 +60,20 @@
         <!-- Relations -->
         <section class="projects-section bg-light" id="projects">
             <div class="container px-4 px-lg-5">
+                <!--BREAD CRUMB-->
+                <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'ProjectView' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Relations</li>
+                    </ol>
+                </nav>
+                <!--END BREADCRUMB-->
                 <!-- Featured Project Row-->
                 <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-left text-lg-left">
                             {% for p in project %}
-                            <h3>In Project | {{p.title}}</h3>
+                            <h5>In Project | {{p.title}}</h5>
                             {% endfor %}
                             <h1>Relations</h1>
                         </div>

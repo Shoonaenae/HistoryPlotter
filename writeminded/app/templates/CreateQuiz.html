@@ -30,6 +30,7 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'About' %}">About</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'ProjectDashboard' %}">Projects</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-black" href="" data-bs-toggle="dropdown">Project Content</a>
                             <div class="dropdown-menu">
@@ -43,7 +44,7 @@
                         <form action="" method="POST">
                         {% csrf_token %}
                        <li class="nav-item"><a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'Signup' %}">Log out</a></li>
-            
+                        </form>
                     </ul>
                 </div>
             </div>
@@ -80,7 +81,7 @@
                 <!--BREAD CRUMB-->
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                      <li class="breadcrumb-item"><a href="{% url 'ProjectDashboard' %}">Home</a></li>
+                      <li class="breadcrumb-item"><a href="{% url 'ProjectView' %}">Home</a></li>
                       <li class="breadcrumb-item active" aria-current="page">Quiz</li>
                     </ol>
                   </nav>

@@ -46,6 +46,7 @@
                         {% else %}
                        <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
                         {% endif %}
+                        </form>
                     </ul>
                 </div>
             </div>
@@ -67,6 +68,7 @@
                     <form action="" method="POST">
                         {% csrf_token %}
                     <button type="submit" class="btn btn-primary" name="btnLogout">Yes</button>
+                    </form>
                     </div>
                 </div>
                 </div>

@@ -176,7 +176,7 @@ class ideaNest(View):
          upload.user_id = request.session['id']
          upload.name = request.POST.get('name')
          upload.description = request.POST.get('description')
-   
+         upload.project_id = request.session['proj_id']
          if len(request.FILES) != 0:
             upload.file = request.FILES['file']
             upload.cover = request.FILES['cover']
@@ -321,6 +321,12 @@ class ProjectDashboard(View):
          elif 'viewProj' in request.POST:
             request.session['proj_id'] = projectID
             return redirect('ProjectView')
+         elif 'btnLogout' in request.POST:
+            try:
+               del request.session['id'] #OR request.session.flush() to end session
+            except KeyError:
+               pass
+            return redirect('LandingPage')
       return redirect('ProjectDashboard')
 
 class ProjectView(View):
@@ -336,18 +342,16 @@ class ProjectView(View):
             'project' : project
          }
          return render(request, "ProjectView.html", context)
-         # if 'proj_id' in request.session:
-         #    projectID = request.session['proj_id']
-         #    if project.id == projectID:
-         #       project = Project.objects.filter(user_id = user, id = projectID)
-         #       context = {
-         #          'user' : user,
-         #          'project' : project
-         #       }
-         #       return render(request, "ProjectView.html", context)
-         # return render(request, "ProjectView.html", context)
       except KeyError:
          return render(request, "ProjectView.html")
+   def post(self,request):
+      if request.method == 'POST':
+         if 'btnLogout' in request.POST:
+            try:
+               del request.session['id'] #OR request.session.flush() to end session
+            except KeyError:
+               pass
+            return redirect('LandingPage')
 
 ## RELATIONS
 class Relation(View):
@@ -356,14 +360,21 @@ class Relation(View):
          print("-------USER in SESSION-------")
          user = User.objects.get(id = request.session['id'])
          print(user)
-         relations = Relations.objects.filter(user_id = user)
-         materials = Materials.objects.filter(author = user)
-         ideanest = uploadfilemodel.objects.filter(user_id = user)
+         projectID = request.session['proj_id']
+         project = Project.objects.filter(user_id = user, id = projectID)
+         print("RELATIONS")
+         print("PROJECT ID: ", projectID)
+         relations = Relations.objects.filter(user_id = user, project_id = projectID)
+         materials = Materials.objects.filter(author = user, project_id = projectID)
+         print("LM: ", materials)
+         ideanest = uploadfilemodel.objects.filter(user_id = user, project_id = projectID)
+         print("IN: ", ideanest)
          context = {
             'user' : user,
             'relations' : relations,
             'materials' : materials,
-            'ideanest' : ideanest
+            'ideanest' : ideanest,
+            'project' : project
          }
          return render(request, "Relations.html", context)
       except KeyError:
@@ -371,18 +382,26 @@ class Relation(View):
    def post(self, request):
       if request.method == 'POST':
          relationID = request.POST.get('myID')
+         print("Relation ID: ", relationID)
          form = Relations(request.POST)
          user = request.session['id']
          name = request.POST.get('name')
          materials = request.POST.get('materials')
          ideanest = request.POST.get('ideanest')
+         projectID = request.session['proj_id']
          if 'btnRelationCreate' in request.POST:
-            form = Relations(user_id = user, name = name, materials_id = materials, ideafile_id = ideanest)
+            form = Relations(user_id = user, name = name, materials_id = materials, ideafile_id = ideanest, project_id = projectID)
             form.save()
-            return redirect('Relations')
-         # user = request.session['id']
-         # ttle = request.POST.get('title')
-         # desc = request.POST.get('description')
+         elif 'btnRelationDelete' in request.POST:
+            Relations.objects.get(id = relationID).delete()
+            print('deleted successfully')
+         elif 'btnLogout' in request.POST:
+            try:
+               del request.session['id'] #OR request.session.flush() to end session
+            except KeyError:
+               pass
+            return redirect('LandingPage')
+      return redirect('Relations')
 
 ## QUIZZZ
 class CreateQuizView(View):

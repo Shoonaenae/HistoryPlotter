@@ -29,10 +29,30 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'About' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link text-black">Write</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}">Contact Us</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'Signin' %}">Sign In</a></li> 
-                        <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}#contact">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'ProjectDashboard' %}">Projects</a></li>
+                        {% if user.username %}
+                        <!--IF NAKA LOGIN -->
+                        <!-- dropend dropup dropstart dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-black" href="" data-bs-toggle="dropdown">Project Content</a> 
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item text-black" href="{% url 'materials' %}">Write</a>
+                                <a class="dropdown-item text-black" href="{% url 'ideaNest' %}">Nest</a>
+                                <a class="dropdown-item text-black" href="{% url 'CreateQuiz' %}">Quiz</a>
+                                <a class="dropdown-item text-black" href="{% url 'Relations' %}">Relations</a>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link text-black" href="">{{user.username}}</a></li> 
+                        <form method="POST">
+                        {% csrf_token %}
+                        <!-- BUTTON FOR THE CONFIRMATION OF LOGGING OUT (basta log out) PS. Add logout Modal -->
+                       <li class="nav-item"><a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'Signup' %}">Log out</a></li>
+                       <!--IF DILI NAKA LOGIN -->
+                        {% else %}
+                       <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
+                        {% endif %}
+                        </form>
                     </ul>
                 </div>
             </div>
@@ -44,6 +64,9 @@
                 <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-left text-lg-left">
+                            {% for p in project %}
+                            <h3>In Project | {{p.title}}</h3>
+                            {% endfor %}
                             <h1>Relations</h1>
                         </div>
                     </div>
@@ -55,25 +78,61 @@
                 </div>
                 <!-- LIST OF RELATIONS STARTS HERE -->
                 <table class="table table table-primary table-bordered">
-                    {% for r in relations %}
                     <thead class="text-center">
                         <td>Name</td>
                         <td colspan="2">Connected</td>
                         <td colspan="2">Action</td>
                     </thead>
+                    {% for r in relations %}
                     <tbody>
                         <tr>
                             <td>{{r.name}}</td>
-                            <td>{{r.materials}}</td>
-                            <td>{{r.ideafile}}</td>
-                            <td class="text-center">
-                                <button class="btn-success"><i class="fa-regular fa-pen-to-square"></i></button>
-                                <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete" data-bs-toggle="modal">
+                            <td>{{r.materials.title}}</td>
+                            <td>{{r.ideafile.name}}</td>
+                            <!-- class="text-center" -->
+                            <td>
+                                <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete-{{r.id}}" data-bs-toggle="modal">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </td>
                         </tr>
                     </tbody>
+                    <!-- MODAL DELETE btnProjDelete-{{r.id}} -->
+                    <div id="btnProjDelete-{{r.id}}" class="modal fade" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">DELETE RELATION</h5>
+                                    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <h6 class="text-md-center">Are you sure you want to delete this relation?</h6>
+                                        <input type="text" name="myID" value= "{{r.id}}" hidden>
+                                        <div class="form-group">
+                                            <label for="relationName" class="form-label">Name</label>
+                                            <input type="text" class="form-control" id="relationName" style="margin-bottom: 2%;" name="name" value="{{r.name}}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="relationLM" class="form-label">Lesson Materials</label>
+                                            <!-- {{r.materials.title}} -->
+                                            <input type="text" class="form-control" id="relationLM" name="materials" value="{{r.materials.title}}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="relationIN" class="form-label">Idea Nest</label>
+                                            <!-- {{r.ideafile.name}} -->
+                                            <input type="text" class="form-control" id="relationIN" name="ideanest" value="{{r.ideafile.name}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" name="btnRelationDelete">Confirm</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
                 </table>
             </div>
@@ -86,7 +145,7 @@
                         <h5 class="modal-title">CREATE RELATIONS</h5>
                         <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
                     </div>
-                    <form action="#" method="POST">
+                    <form method="POST">
                         <div class="modal-body">
                             {% csrf_token %}
                             <input type="text" name="myID" value= "{{r.id}}" hidden>
@@ -116,24 +175,6 @@
                             <button type="submit" class="btn btn-primary" name="btnRelationCreate">Submit</button>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-        <!-- MODAL DELETE -->
-        <div id="btnProjDelete" class="modal fade" aria-hidden="true"> <!--id=modalAdd-->
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">DELETE RELATION</h5>
-                        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h6 class="text-md-center">Are you sure you want to delete the relation?</h6>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Confirm</button>
-                    </div>
                 </div>
             </div>
         </div>

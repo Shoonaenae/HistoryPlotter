@@ -30,12 +30,19 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'About' %}">About</a></li>
                         <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}#contact">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'ProjectDashboard' %}">Projects</a></li>
                         {% if user.username %}
                         <!--IF NAKA LOGIN -->
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'materials' %}">Write</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'ideaNest' %}">Nest</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'CreateQuiz' %}">Quiz</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'ProjectDashboard' %}">Projects</a></li>
+                        <!-- dropend dropup dropstart dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-black"  href="" data-bs-toggle="dropdown">Project Content</a> 
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item text-black" href="{% url 'materials' %}">Write</a>
+                                <a class="dropdown-item text-black" href="{% url 'ideaNest' %}">Nest</a>
+                                <a class="dropdown-item text-black" href="{% url 'CreateQuiz' %}">Quiz</a>
+                                <a class="dropdown-item text-black" href="{% url 'Relations' %}">Relations</a>
+                            </div>
+                        </li>
                         <li class="nav-item"><a class="nav-link text-black" href="">{{user.username}}</a></li> 
                         <form action="" method="POST">
                         {% csrf_token %}
@@ -45,10 +52,34 @@
                         {% else %}
                        <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
                         {% endif %}
+                        </form>
                     </ul>
                 </div>
             </div>
         </nav>
+        <!--LOGOUT MODAL-->
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Logout</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <p>Are you sure you want to end the session?</p>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                    <button type="submit" class="btn btn-primary" name="btnLogout">Yes</button>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+        <!--END MODAL-->
         <!-- Project Dashboard-->
         <section class="projects-section bg-light" id="projects">
             <div class="container px-4 px-lg-5">
@@ -56,7 +87,9 @@
                 <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                     <div class="col-xl-8 col-lg-7">
                         <div class="text-left text-lg-left">
-                            <h1>In Project</h1>
+                            {% for p in project %}
+                            <h1>In Project | {{p.title}}</h1>
+                            {% endfor %}
                         </div>
                     </div>
                     <!-- <div class="col-xl-4 col-lg-5">

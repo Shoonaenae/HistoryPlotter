@@ -148,11 +148,12 @@ class ideaNest(View):
          print("-------USER in SESSION-------")
          print(request.session['id'])
 
-         # store files
-         files = uploadfilemodel.objects.all()
-         groupedfiles = groupmodel.objects.all()
-
          user = User.objects.get(id = request.session['id']) 
+         projectID = request.session['proj_id']
+         
+          # store files
+         files = uploadfilemodel.objects.filter(user_id = user, project_id = projectID)
+         groupedfiles = groupmodel.objects.filter(user_id = user, project_id = projectID)
 
         # user = User.objects.all()
          context ={
@@ -172,7 +173,7 @@ class ideaNest(View):
 
         # upload file
          upload = uploadfilemodel()
-
+         upload.projectid = request.session['proj_id']
          upload.user_id = request.session['id']
          upload.name = request.POST.get('name')
          upload.description = request.POST.get('description')

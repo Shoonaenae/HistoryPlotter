@@ -25,6 +25,7 @@ class User(models.Model):
     last_name = models.CharField(max_length = 50)
     email_address = models.CharField(max_length = 50, unique = True , null = False)
 
+<<<<<<< HEAD
 # Project
 class Project(models.Model):
     title = models.CharField(max_length=100)
@@ -51,6 +52,8 @@ class groupmodel(models.Model):
     class Meta:
         db_table = "groupfiles"
 
+=======
+>>>>>>> ff61769 (temp ideanest)
 # quiz
 
 
@@ -89,6 +92,7 @@ class Materials(models.Model):
     def get_absolute_url(self):
         return reverse('material-details', args=(str(self.id)))
 
+<<<<<<< HEAD
 #Relations
 class Relations(models.Model):
     name = models.CharField(max_length=100)
@@ -96,3 +100,31 @@ class Relations(models.Model):
     materials = models.ForeignKey(Materials, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+=======
+# Project
+class Project(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+# idea nest
+class uploadfilemodel(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    name = models.CharField(max_length=20, unique=True, null=True)
+    description = models.CharField(max_length=50, null=True)
+    file = models.FileField(null = True)
+    cover = models.ImageField(null = True)
+
+    class Meta:
+        db_table = "uploadfile"
+
+class groupmodel(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    ideafile = models.CharField(max_length=200, unique=True, null=True)
+    name = models.CharField(max_length=20, unique=True, null=True)
+
+    class Meta:
+        db_table = "groupfiles"
+>>>>>>> ff61769 (temp ideanest)

@@ -38,7 +38,7 @@ else:
 if IS_HEROKU:
     ALLOWED_HOSTS = ['historyplotter.herokuapp.com']
 else:
-    ALLOWED_HOSTS = ['127.0.0.1']
+    ALLOWED_HOSTS = ['127.0.0.1', 'historyplotter-production.up.railway.app']
 
 # Application definition
 

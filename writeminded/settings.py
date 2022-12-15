@@ -27,18 +27,18 @@ IS_HEROKU = 'DYNO' in os.environ
 SECRET_KEY = 'django-insecure-q)u+7$i_yln3g(9c9kiuqe4g-gys^cy@lfzw!e%1xe+=z6$rny'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# if IS_HEROKU:
-#     DEBUG = False
-# else:
-DEBUG = False
+if IS_HEROKU:
+    DEBUG = False
+else:
+    DEBUG = True
 
 
 # ALLOWED_HOSTS = ['historyplotter.herokuapp.com', '127.0.0.1']
 
-# if IS_HEROKU:
-#     ALLOWED_HOSTS = ['historyplotter.herokuapp.com']
-# else:
-ALLOWED_HOSTS = ['historyplotter.herokuapp.com', '127.0.0.1', 'historyplotter-production.up.railway.app']
+if IS_HEROKU:
+    ALLOWED_HOSTS = ['historyplotter.herokuapp.com']
+else:
+    ALLOWED_HOSTS = ['127.0.0.1', 'historyplotter-production.up.railway.app']
 
 # Application definition
 

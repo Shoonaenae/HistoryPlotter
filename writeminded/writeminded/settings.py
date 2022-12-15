@@ -17,6 +17,9 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+IS_HEROKU = 'DYNO' in os.environ
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -24,9 +27,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-q)u+7$i_yln3g(9c9kiuqe4g-gys^cy@lfzw!e%1xe+=z6$rny'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+if IS_HEROKU:
+    DEBUG = False
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = ['historyplotter.herokuapp.com', '127.0.0.1']
+
+# ALLOWED_HOSTS = ['historyplotter.herokuapp.com', '127.0.0.1']
+
+if IS_HEROKU:
+    ALLOWED_HOSTS = ['historyplotter.herokuapp.com']
+else:
+    ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
@@ -139,6 +151,9 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'app/assets')
+
+# Enable WhiteNoise's GZip compression of static assets.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

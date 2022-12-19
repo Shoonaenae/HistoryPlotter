@@ -13,8 +13,10 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Materials
 from .forms import DescriptionForm, EditForm
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
+
 class editgroup(View):
    def get(self,request, pk):
       try:
@@ -270,6 +272,7 @@ class SigninView(View):
             return redirect('Signin')
 
 
+@csrf_protect
 class SignupView(View):
    def get(self,request):
       return render(request, "Signup.html")

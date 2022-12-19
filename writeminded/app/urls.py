@@ -4,7 +4,7 @@ from cgitb import html
 from typing import ValuesView
 from django.urls import path
 from . import views
-from .views import MaterialsView, MaterialDetailView, AddMaterialsView, UpdateMaterialDescriptionsView, DeleteMaterialDescriptionView
+from .views import MaterialsView, MaterialDetailView, AddMaterialsView, SigninView, SignupView, UpdateMaterialDescriptionsView, DeleteMaterialDescriptionView
 
 urlpatterns = [
     path('ungroup/<str:pk>', views.ungroup, name = "ungroup"),
@@ -17,9 +17,9 @@ urlpatterns = [
     path('', views.LandingPageView.as_view(), name = 'LandingPage'),
     path('About', views.AboutView.as_view(), name = 'About'),
 
-    path('Signin', views.SigninView.as_view(), name = 'Signin'),
+    path('Signin', SigninView.as_view(), name = 'Signin'),
 
-    path('Signup', views.SignupView.as_view(), name = 'Signup'),
+    path('Signup', SignupView.as_view(), name = 'Signup'),
 
 
     path('ProjectDashboard', views.ProjectDashboard.as_view(), name = 'ProjectDashboard'),

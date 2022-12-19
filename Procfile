@@ -1,1 +1,1 @@
-web gunicorn writeminded.wsgi --log-file -
+web: gunicorn writeminded.wsgi

@@ -14,6 +14,7 @@ from .models import Materials
 from .forms import DescriptionForm, EditForm
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -243,7 +244,7 @@ class AboutView(View):
                pass
             return redirect('LandingPage')
 
-@csrf_protect
+@csrf_exempt
 class SigninView(View):
    def get(self, request):
       return render(request, "Signin.html")
@@ -273,7 +274,7 @@ class SigninView(View):
             return redirect('Signin')
 
 
-@csrf_protect
+@csrf_exempt
 class SignupView(View):
    def get(self,request):
       return render(request, "Signup.html")

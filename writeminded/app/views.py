@@ -243,6 +243,7 @@ class AboutView(View):
                pass
             return redirect('LandingPage')
 
+@csrf_protect
 class SigninView(View):
    def get(self, request):
       return render(request, "Signin.html")

@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\writeminded",
+    "\\writeminded\\app",
+    "\\writeminded\\app\\static",
+    "\\writeminded\\app\\templates"
+  ],
+  "SelectedNode": "\\writeminded\\app\\urls.py",
+  "PreviewInSolutionExplorer": false
+}

@@ -16,6 +16,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 
@@ -242,10 +243,11 @@ class AboutView(View):
             return redirect('LandingPage')
 
 # @csrf_exempt
+@method_decorator(csrf_protect,name='post')
 class SigninView(View):
    def get(self, request):
       return render(request, "Signin.html")
-   @csrf_protect
+   # @csrf_protect
    def post(self, request):
       user = request.POST.get("user_email") # get user or email
       passw = request.POST.get("pass")
@@ -273,13 +275,15 @@ class SigninView(View):
 
 
 # @csrf_exempt
+@method_decorator(csrf_protect,name='post')
 class SignupView(View):
    def get(self,request):
       return render(request, "Signup.html")
-   @csrf_protect
+   # @csrf_protect
    def post(self,request):
       if request.method == "POST":
          form = User(request.POST)
+         print(request.COOKIES('csrftoken'))
          user = request.POST.get("username")
          passw = request.POST.get("password")
          confirm = request.POST.get("confirm")

@@ -245,7 +245,7 @@ class AboutView(View):
                pass
             return redirect('LandingPage')
 
-@csrf_exempt
+# @csrf_exempt
 class SigninView(View):
    def get(self, request):
       return render(request, "Signin.html")
@@ -275,7 +275,7 @@ class SigninView(View):
             return redirect('Signin')
 
 
-@csrf_exempt
+# @csrf_exempt
 class SignupView(View):
    def get(self,request):
       return render(request, "Signup.html")

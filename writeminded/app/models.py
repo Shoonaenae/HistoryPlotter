@@ -80,11 +80,11 @@ class Materials(models.Model):
     period = models.CharField(max_length=100, null=True)
     description = models.TextField()
     actual_material = RichTextField(blank=True, null=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name ="materials", on_delete=models.CASCADE)
 
 
     def __str__(self):
-        return self.title + ' | ' + str(self.author)
+       return self.title  + ' | ' + str(self.author)
     
     def get_absolute_url(self):
         return reverse('material-details', args=(str(self.id)))

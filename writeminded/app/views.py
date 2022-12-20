@@ -658,10 +658,9 @@ class QuizView(View):
 
 #lesson materials
 class MaterialsView(ListView):
-  model = Materials 
-  template_name = 'LM_materials.html'
-
-
+   model = Materials 
+   template_name = 'LM_materials.html'
+ 
 
 class MaterialDetailView(DetailView):
    model = Materials

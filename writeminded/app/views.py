@@ -283,7 +283,6 @@ class SignupView(View):
    def post(self,request):
       if request.method == "POST":
          form = User(request.POST)
-         print(request.COOKIES('csrftoken'))
          user = request.POST.get("username")
          passw = request.POST.get("password")
          confirm = request.POST.get("confirm")

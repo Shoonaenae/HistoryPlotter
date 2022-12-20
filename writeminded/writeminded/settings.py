@@ -35,6 +35,12 @@ ALLOWED_HOSTS = ['historyplotter-production-f245.up.railway.app', '127.0.0.1']
 # (you might decide to change the site a few times).
 # ALLOWED_HOSTS = ['.railway.com','127.0.0.1']
 
+## For example, for a site URL is at 'web-production-3640.up.railway.app'
+## (replace the string below with your own site URL):
+CSRF_TRUSTED_ORIGINS = ['https://historyplotter-production-f245.up.railway.app']
+
+# During development/for this tutorial you can instead set just the base URL
+# CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
 
 # Application definition
 

@@ -142,4 +142,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'app/assets')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['historyplotter-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://historyplotter-production.up.railway.app']

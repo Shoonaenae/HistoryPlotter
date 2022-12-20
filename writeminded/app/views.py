@@ -249,6 +249,7 @@ class AboutView(View):
 class SigninView(View):
    def get(self, request):
       return render(request, "Signin.html")
+   @csrf_protect
    def post(self, request):
       user = request.POST.get("user_email") # get user or email
       passw = request.POST.get("pass")
@@ -279,6 +280,7 @@ class SigninView(View):
 class SignupView(View):
    def get(self,request):
       return render(request, "Signup.html")
+   @csrf_protect
    def post(self,request):
       if request.method == "POST":
          form = User(request.POST)

@@ -22,9 +22,8 @@ from django.shortcuts import render
 class editgroup(View):
    def get(self,request, pk):
       try:
-         print("-------USER in SESSION-------")
          print(request.session['id'])
-
+         print("-------USER in SESSION-------")
          user = User.objects.get(id = request.session['id']) 
          # edit files
          editFiles = groupmodel.objects.get(id = pk)
@@ -72,9 +71,8 @@ def ideanestdelete(request, pk):
 class ideaNestEdit(View):
    def get(self,request, pk):
        try:
-         print("-------USER in SESSION-------")
          print(request.session['id'])
-
+         print("-------USER in SESSION-------")
          user = User.objects.get(id = request.session['id']) 
          # edit files
          editFiles = uploadfilemodel.objects.get(id = pk)
@@ -111,9 +109,8 @@ class ideaNestEdit(View):
 class groupfiles(View):
    def get(self,request):
       try:
-         print("-------USER in SESSION-------")
          print(request.session['id'])
-
+         print("-------USER in SESSION-------")
          projectID = request.session['proj_id']
          user = User.objects.get(id = request.session['id']) 
 
@@ -150,9 +147,8 @@ class groupfiles(View):
 class ideaNest(View):
    def get(self,request):
       try:
-         print("-------USER in SESSION-------")
          print(request.session['id'])
-
+         print("-------USER in SESSION-------")
          projectID = request.session['proj_id']
          user = User.objects.get(id = request.session['id']) 
 
@@ -203,8 +199,8 @@ class ideaNest(View):
 class LandingPageView(View):
    def get(self,request):
       try:
-         print("-------USER in SESSION-------")
          print(request.session['id'])
+         print("-------USER in SESSION-------")
          user = User.objects.get(id = request.session['id']) 
         # user = User.objects.all()
          context ={
@@ -225,8 +221,8 @@ class LandingPageView(View):
 class AboutView(View):
    def get(self,request):
       try:
-         print("-------USER in SESSION-------")
          print(request.session['id'])
+         print("-------USER in SESSION-------")
          user = User.objects.get(id = request.session['id']) 
         # user = User.objects.all()
          context ={
@@ -307,8 +303,8 @@ def LM_CreateChapter(request):
 class ProjectDashboard(View):
    def get(self, request):
       try:
-         print("-------USER in SESSION-------")
          user = User.objects.get(id = request.session['id'])
+         print("-------USER in SESSION-------")
          print(user)
          project = Project.objects.filter(user_id = user)
          context = {
@@ -317,7 +313,9 @@ class ProjectDashboard(View):
          }
          return render(request, "ProjectDashboard.html", context)
       except KeyError:
-         return render(request, "ProjectDashboard.html")
+          # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
    def post(self, request):
       if request.method == 'POST':
          projectID = request.POST.get('myID')
@@ -350,8 +348,8 @@ class ProjectDashboard(View):
 class ProjectView(View):
    def get(self, request):
       try:
-         print("-------USER in SESSION-------")
          user = User.objects.get(id = request.session['id'])
+         print("-------USER in SESSION-------")
          print(user)
          projectID = request.session['proj_id']
          project = Project.objects.filter(user_id = user, id = projectID)
@@ -361,7 +359,9 @@ class ProjectView(View):
          }
          return render(request, "ProjectView.html", context)
       except KeyError:
-         return render(request, "ProjectView.html")
+          # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
    def post(self,request):
       if request.method == 'POST':
          if 'btnLogout' in request.POST:
@@ -375,8 +375,8 @@ class ProjectView(View):
 class Relation(View):
    def get(self, request):
       try:
-         print("-------USER in SESSION-------")
          user = User.objects.get(id = request.session['id'])
+         print("-------USER in SESSION-------")
          print(user)
          projectID = request.session['proj_id']
          project = Project.objects.filter(user_id = user, id = projectID)
@@ -396,7 +396,9 @@ class Relation(View):
          }
          return render(request, "Relations.html", context)
       except KeyError:
-         return render(request, "Relations.html")
+          # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
+         messages.error(request, 'You must login before you can access this function')
+         return render(request, "Signin.html")
    def post(self, request):
       if request.method == 'POST':
          relationID = request.POST.get('myID')
@@ -425,8 +427,8 @@ class Relation(View):
 class CreateQuizView(View):
    def get(self,request):
       try:
-         print("-------USER in SESSION-------")
          print(request.session['id'])
+         print("-------USER in SESSION-------")
          user = User.objects.get(id = request.session['id']) 
          projectID = request.session['proj_id']
          #quiz = Quiz.objects.all()
@@ -489,8 +491,8 @@ class CreateQuizView(View):
 class EditQuizOptionsView(View):
    def get(self,request,question_id):
       try:
-         print("-------USER in SESSION-------")
          print(request.session['id'])
+         print("-------USER in SESSION-------")
          user = User.objects.get(id = request.session['id']) 
          answer = Answer.objects.filter(question_id = question_id)
          question = Question.objects.get(id = question_id)
@@ -549,8 +551,8 @@ class EditQuizOptionsView(View):
 class EditQuizView(View):
    def get(self,request):
       try:
-         print("-------USER in SESSION-------")
          print(request.session['id'])
+         print("-------USER in SESSION-------")
          print("-------Quiz in SESSION-------")
          print(request.session['quiz_id'])
          user = User.objects.get(id = request.session['id']) 
@@ -635,8 +637,8 @@ def ViewQuiz(request):
 class QuizView(View):
    def get(self,request):
       try:
-         print("-------USER in SESSION-------")
          print(request.session['id'])
+         print("-------USER in SESSION-------")
          print("-------Quiz in SESSION-------")
          print(request.session['quiz_id'])
          user = User.objects.get(id = request.session['id']) 

@@ -1,1 +1,1 @@
-web gunicorn writeminded.wsgi --log-file -
+web: python manage.py migrate && gunicorn writeminded.wsgi

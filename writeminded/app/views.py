@@ -13,6 +13,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Materials
 from .forms import DescriptionForm, EditForm
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import *
 
 # Create your views here.
 class editgroup(View):
@@ -241,6 +243,7 @@ class AboutView(View):
                pass
             return redirect('LandingPage')
 
+@method_decorator(csrf_protect, name='post')
 class SigninView(View):
    def get(self, request):
       return render(request, "Signin.html")
@@ -269,7 +272,7 @@ class SigninView(View):
             messages.error(request, 'Username/Email or Password is incorrect')
             return redirect('Signin')
 
-
+@method_decorator(csrf_protect, name='post')
 class SignupView(View):
    def get(self,request):
       return render(request, "Signup.html")

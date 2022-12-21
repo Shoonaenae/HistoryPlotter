@@ -4,9 +4,11 @@ from cgitb import html
 from typing import ValuesView
 from django.urls import path
 from . import views
-from .views import  MaterialsView, MaterialDetailView, AddMaterialsView, UpdateMaterialDescriptionsView, DeleteMaterialDescriptionView
+from .views import MaterialsView, MaterialDetailView, AddMaterialsView, UpdateMaterialDescriptionsView, DeleteMaterialDescriptionView
+from django.contrib import admin
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('ungroup/<str:pk>', views.ungroup, name = "ungroup"),
     path('editgroup/<str:pk>', views.editgroup.as_view(), name = "editgroup"),
     path('group', views.groupfiles.as_view(), name = "group"),

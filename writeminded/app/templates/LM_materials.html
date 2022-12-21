@@ -1,31 +1,37 @@
 {% extends 'LM_base.html' %}
+{% load static %}
 
 {% block content %}
 
+<a href="{% url 'ProjectView' %}">Back</a>
+</br></br>
+
+</br>
 <h3>Lesson Materials</h3>
 
 </br>
 
-
 <ul>
+
 {% for mat in object_list %}
     <a href="{% url 'material-details' mat.pk %}">{{ mat.title }}</a> 
+ 
     </br><em>by {{mat.author.first_name}} {{mat.author.last_name}} </em>
-</br>
-    <b><small>Period: {{mat.period}}</small></b>
+    </br>
+    <b><small>Period: {{ mat.period }}</small></b>
     <br/>
     </br>
     Summary: 
-</br>
+    </br>
     {{ mat.description }}
-</br>
-<hr>
-</br>
+    </br>
+    <hr>
+    </br>
 
 
 
+    {% endfor %}
 
-{% endfor %}
     </ul>
 
 

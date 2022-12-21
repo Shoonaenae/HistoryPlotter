@@ -300,6 +300,7 @@ def LM_CreateChapter(request):
 
 ## PROJECT
 class ProjectDashboard(View):
+   context_object_name = "project"
    def get(self, request):
       try:
          print("-------USER in SESSION-------")
@@ -343,6 +344,7 @@ class ProjectDashboard(View):
       return redirect('ProjectDashboard')
 
 class ProjectView(View):
+   context_object_name = 'project'
    def get(self, request):
       try:
          print("-------USER in SESSION-------")
@@ -657,15 +659,16 @@ class QuizView(View):
    def post(self, request):
       return redirect('Quiz')
 
-
+#lesson materials
 class MaterialsView(ListView):
-    model = Materials 
-    template_name = 'LM_materials.html'
+   model = Materials 
+   template_name = 'LM_materials.html'
+ 
 
 class MaterialDetailView(DetailView):
-    model = Materials
-    template_name= 'LM_material_details.html'
-    context_object_name = 'mat'
+   model = Materials
+   template_name= 'LM_material_details.html'
+   context_object_name = 'mat'
 
 class AddMaterialsView(CreateView):
     model = Materials
@@ -673,13 +676,16 @@ class AddMaterialsView(CreateView):
     template_name = 'LM_add_materials.html'
     #fields = '__all__'
 
+   #def addMaterials(request):
+     # return render(request, 'LM_add_materials.html')
+
 class UpdateMaterialDescriptionsView(UpdateView):
     model = Materials
     form_class = EditForm
     template_name = 'LM_edit_materialdescriptions.html'
 
 class DeleteMaterialDescriptionView(DeleteView):
-    model = Materials
-    template_name = 'LM_delete_materialdescription.html'
-    context_object_name = 'mat'
-    success_url = reverse_lazy('materials')
+   model = Materials
+   template_name = 'LM_delete_materialdescription.html'
+   context_object_name = 'mat'
+   success_url = reverse_lazy('materials')

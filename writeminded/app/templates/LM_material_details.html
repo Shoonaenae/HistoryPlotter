@@ -14,9 +14,6 @@
 
 <small>By: {{ mat.author.first_name }} {{ mat.author.last_name }}</small> <a href="{%url 'update-material' mat.pk %}"><img class="img-fluid" src="{% static 'assets/img/edit.png' %}" alt="edit material" style="width:15px;height:15px;" title="Edit Material"></a>
 <br/></br>
-<small>Tag: <em>{{mat.category}}</em></small>
-
-
 
 <hr>
 <h5><b>Period in History: {{mat.period}}</b></h5>

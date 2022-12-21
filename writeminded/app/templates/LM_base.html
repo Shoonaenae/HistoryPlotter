@@ -28,24 +28,7 @@
                     Menu
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'About' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'LandingPage' %}">Contact Us</a></li>
-                        {% if user.username %}
-                        <li class="nav-item"><a class="nav-link text-black" href ="{%url 'materials' %}">Write</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'ideaNest' %}">Nest</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'CreateQuiz' %}">Quiz</a></li>
-                        <li class="nav-item"><a class="nav-link text-black" href="">{{user.username}}</a></li> 
-                        <form action="" method="POST">
-                            {% csrf_token %}
-                       <li class="nav-item"><a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="{% url 'Signup' %}">Log out</a></li>
-                        {% else %}
-                        <li class="nav-item"><a class="nav-link text-black" href="{% url 'Signin' %}">Sign In</a></li> 
-                       <li class="nav-item"><a class="btn btn-primary mt-2" href="{% url 'Signup' %}">Sign Up</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
+                
             </div>
         </nav>
         <!--LOGOUT MODAL-->

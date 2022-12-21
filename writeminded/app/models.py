@@ -93,6 +93,6 @@ class Materials(models.Model):
 class Relations(models.Model):
     name = models.CharField(max_length=100)
     ideafile = models.ForeignKey(uploadfilemodel, on_delete=models.CASCADE)
-   # materials = models.ForeignKey(Materials, on_delete=models.CASCADE)
+    materials = models.ForeignKey(Materials, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)

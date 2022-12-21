@@ -150,20 +150,20 @@
                             {% csrf_token %}
                             <input type="text" name="myID" value= "{{r.id}}" hidden>
                             <div class="form-group">
-                                <label for="relationName" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="relationName" style="margin-bottom: 2%;" name="name">
+                                <label for="relationName" class="form-label">Name *</label>
+                                <input type="text" class="form-control" id="relationName" style="margin-bottom: 2%;" name="name" required>
                             </div>
                             <div class="form-group">
-                                <label for="relationLM" class="form-label">Lesson Materials</label>
-                                <select name="materials" id="relationLM" class="form-control">
+                                <label for="relationLM" class="form-label">Lesson Materials *</label>
+                                <select name="materials" id="relationLM" class="form-control" required>
                                     {% for lm in materials %}
                                     <option value='{{lm.id}}'>{{lm.title}}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="relationLM" class="form-label">Idea Nest</label>
-                                <select name="ideanest" id="relationLM" class="form-control">
+                                <label for="relationLM" class="form-label">Idea Nest *</label>
+                                <select name="ideanest" id="relationLM" class="form-control" required>
                                     {% for in in ideanest %}
                                     <option value='{{in.id}}'>{{in.name}}</option>
                                     {% endfor %}

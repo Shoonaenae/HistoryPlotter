@@ -164,8 +164,8 @@
                                     {% csrf_token %}
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="projectTitle" class="form-label">Project Title</label>
-                                            <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" name="title" value="{{p.title}}">
+                                            <label for="projectTitle" class="form-label">Project Title *</label>
+                                            <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" name="title" value="{{p.title}}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="projectDescription" class="form-label">Description</label>
@@ -199,8 +199,8 @@
                             {% csrf_token %}
                             <input id="project_id" type="text" name="p_id" value= "{{p.id}}" hidden>
                             <div class="form-group">
-                                <label for="projectTitle" class="form-label">Project Title</label>
-                                <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" name="title">
+                                <label for="projectTitle" class="form-label">Project Title *</label>
+                                <input type="text" class="form-control" id="projectTitle" style="margin-bottom: 2%;" name="title" required>
                             </div>
                             <div class="form-group">
                                 <label for="projectDescription" class="form-label">Description</label>

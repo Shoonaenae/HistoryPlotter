@@ -90,7 +90,7 @@
                         <div class="featured-text text-center text-lg-left">
                             <!--<button class="btn btn-info mt-2">Add Quiz</button>-->
                             <a class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal" >Add Question</a>
-                            <a class="btn btn-primary mt-2"  href="{% url 'Quiz' %}" >View</a>
+                            <a class="btn btn-primary mt-2"  href="{% url 'Quiz' quiz.id %}" >View</a>
                             <!--<form action="POST">
                               {% csrf_token %}
                             <input id="answer" type="text" name="q_id" value= "{{ q.id }}" hidden>

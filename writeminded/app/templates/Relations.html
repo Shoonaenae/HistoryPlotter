@@ -57,6 +57,29 @@
                 </div>
             </div>
         </nav>
+        <!--LOGOUT MODAL-->
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Logout</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <p>Are you sure you want to end the session?</p>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                    <button type="submit" class="btn btn-primary" name="btnLogout">Yes</button>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+        <!--END MODAL-->
         <!-- Relations -->
         <section class="projects-section bg-light" id="projects">
             <div class="container px-4 px-lg-5">
@@ -91,14 +114,43 @@
                             <td>{{r.ideafile.name}}</td>
                             <!-- class="text-center" -->
                             <td>
-                                <button class="btn-danger" id="btnDelete" data-bs-target="#btnProjDelete-{{r.id}}" data-bs-toggle="modal">
+                                <button class="btn-danger" id="btnDelete" data-bs-target="#btnRelDelete-{{r.id}}" data-bs-toggle="modal">
                                     <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                                <button class="btn-secondary" data-bs-toggle="modal" data-bs-target="#btnRelView-{{r.id}}">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 </button>
                             </td>
                         </tr>
                     </tbody>
-                    <!-- MODAL DELETE btnProjDelete-{{r.id}} -->
-                    <div id="btnProjDelete-{{r.id}}" class="modal fade" aria-hidden="true">
+                    <!-- MODAL VIEW btnRelView-{{r.id}} -->
+                    <div id="btnRelView-{{r.id}}" class="modal fade" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">VIEW RELATION | {{r.name}}</h5>
+                                    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h2>{{r.materials.title}}</h2>
+                                    <h5><i>Period in History: {{r.materials.period}}</i></h5>
+                                    <p><i>{{r.materials.description}}</i> <br> {{r.materials.actual_material}}</p>
+                                    <hr>
+                                    <h2>{{r.ideafile.name}}</h2>
+                                    <h5><i>{{r.ideafile.description}}</i></h5>
+                                    <p>
+                                        Cover <br> <img src="{{r.ideafile.cover.url}}" alt="{{r.ideafile.cover.url}}"> <br><br>
+                                        File <br> <img src="{{r.ideafile.file.url}}" alt="{{r.ideafile.file.url}}">
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MODAL DELETE btnRelDelete-{{r.id}} -->
+                    <div id="btnRelDelete-{{r.id}}" class="modal fade" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">

@@ -62,6 +62,7 @@ class Migration(migrations.Migration):
                 ('ideafile', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.uploadfilemodel')),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.project')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.user')),
+                ('relations', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app.materials')),
             ],
         ),
         migrations.CreateModel(

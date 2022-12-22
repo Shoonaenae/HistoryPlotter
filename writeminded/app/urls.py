@@ -4,7 +4,7 @@ from cgitb import html
 from typing import ValuesView
 from django.urls import path
 from . import views
-from .views import MaterialsView, MaterialDetailView, AddMaterialsView, UpdateMaterialDescriptionsView, DeleteMaterialDescriptionView
+from .views import *
 from django.contrib import admin
 
 urlpatterns = [

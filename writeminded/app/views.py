@@ -248,28 +248,32 @@ class SigninView(View):
    def get(self, request):
       return render(request, "Signin.html")
    def post(self, request):
-      user = request.POST.get("user_email") # get user or email
-      passw = request.POST.get("pass")
-      if User.objects.filter(username = user).exists():
-         meuser = User.objects.get(username = user) # get the object
-         if meuser.password == passw:
-            request.session['id'] = meuser.id # log in user
-            print('login!')
-            print(meuser.username)
-            return redirect('LandingPage')
+      try:
+         user = request.POST.get("user_email") # get user or email
+         passw = request.POST.get("pass")
+         if User.objects.filter(username = user).exists():
+            meuser = User.objects.get(username = user) # get the object
+            if meuser.password == passw:
+               request.session['id'] = meuser.id # log in user
+               print('login!')
+               print(meuser.username)
+               return redirect('LandingPage')
+            else:
+               messages.error(request, 'Username/Email or Password is incorrect')
+               return redirect('Signin')
+         elif User.objects.filter(email_address = user).exists():
+            meuser = User.objects.get(email_address = user) # get the object
+            if meuser.password == passw:
+               request.session['id'] = meuser.id # log in user
+               return redirect('LandingPage')
+            else:
+               messages.error(request, 'Username/Email or Password is incorrect')
+               return redirect('Signin')
          else:
-            messages.error(request, 'Username/Email or Password is incorrect')
-            return redirect('Signin')
-      elif User.objects.filter(email_address = user).exists():
-         meuser = User.objects.get(email_address = user) # get the object
-         if meuser.password == passw:
-            request.session['id'] = meuser.id # log in user
-            return redirect('LandingPage')
-         else:
-            messages.error(request, 'Username/Email or Password is incorrect')
-            return redirect('Signin')
-      else:
-            messages.error(request, 'Username/Email or Password is incorrect')
+               messages.error(request, 'Username/Email or Password is incorrect')
+               return redirect('Signin')
+      except:
+            messages.error(request, 'invalid action')
             return redirect('Signin')
 
 @method_decorator(csrf_protect, name='post')
@@ -277,21 +281,25 @@ class SignupView(View):
    def get(self,request):
       return render(request, "Signup.html")
    def post(self,request):
-      if request.method == "POST":
-         form = User(request.POST)
-         user = request.POST.get("username")
-         passw = request.POST.get("password")
-         confirm = request.POST.get("confirm")
-         email = request.POST.get("email")
-         fname = request.POST.get("fname")
-         lname = request.POST.get("lname")
-         if passw == confirm:
-            form = User(username = user, password = passw, email_address = email, first_name = fname, last_name = lname)
-            form.save()
-            return redirect('Signin')
-         else:
-            print(form.errors)
-            return redirect('Signup')
+      try:
+         if request.method == "POST":
+            form = User(request.POST)
+            user = request.POST.get("username")
+            passw = request.POST.get("password")
+            confirm = request.POST.get("confirm")
+            email = request.POST.get("email")
+            fname = request.POST.get("fname")
+            lname = request.POST.get("lname")
+            if passw == confirm:
+               form = User(username = user, password = passw, email_address = email, first_name = fname, last_name = lname)
+               form.save()
+               return redirect('Signin')
+            else:
+               print(form.errors)
+               return redirect('Signup')
+      except:
+         messages.error(request, form.errors)
+         return redirect('Signup')
 
          
 

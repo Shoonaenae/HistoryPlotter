@@ -70,6 +70,12 @@
 		            <div class="form-group">
 		            	<button type="submit" class="btn btn-primary rounded submit p-3">Sign Up</button>
 		            </div>
+					<!--Add message-->
+					<div class="input__item">
+						{% for message in messages %}
+						<div class="alert alert-danger" role="alert">{{message}}</div>
+						{% endfor %}
+						</div>
 		          </form>
 		          <div class="w-100 social-wrap">
 		          	<!--

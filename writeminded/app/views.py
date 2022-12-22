@@ -285,6 +285,7 @@ class SignupView(View):
          if request.method == "POST":
             form = User(request.POST)
             user = request.POST.get("username")
+            #hello
             if not User.objects.filter(username = user).exists():
                passw = request.POST.get("password")
                confirm = request.POST.get("confirm")

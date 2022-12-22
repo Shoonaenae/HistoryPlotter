@@ -35,7 +35,8 @@ urlpatterns = [
     path('EditQuizOptions/<int:question_id>', views.EditQuizOptionsView.as_view(), name = "EditQuizOptions"),
     #path('CreateQuiz/EditQuiz/EditQuizOptions/(?<question_id>\d+)/$', views.EditQuizOptionsView.as_view(), name = "EditQuizOptions"),
 
-    path('CreateQuiz/EditQuiz/EditQuizOptions/Quiz', views.QuizView.as_view(), name = "Quiz"),
+    #path('CreateQuiz/EditQuiz/EditQuizOptions/Quiz', views.QuizView.as_view(), name = "Quiz"),
+    path('Quiz/<int:quiz_id>', views.QuizView.as_view(), name = "Quiz"),
 
     path('write/', MaterialsView.as_view(), name="materials"),
     path('materials/<int:pk>', MaterialDetailView.as_view(), name="material-details"),

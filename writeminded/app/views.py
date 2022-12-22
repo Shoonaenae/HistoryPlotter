@@ -642,33 +642,29 @@ def ViewQuiz(request):
 
 
 class QuizView(View):
-   def get(self,request):
-      try:
-         print("-------USER in SESSION-------")
-         print(request.session['id'])
-         print("-------Quiz in SESSION-------")
-         print(request.session['quiz_id'])
-         user = User.objects.get(id = request.session['id']) 
-         quiz = Quiz.objects.get(id = request.session['quiz_id'])
+   def get(self,request,quiz_id):
+         #print("-------USER in SESSION-------")
+         #print(request.session['id'])
+         #print("-------Quiz in SESSION-------")
+         #print(request.session['quiz_id'])
+         #user = User.objects.get(id = request.session['id']) 
+         #quiz = Quiz.objects.get(id = request.session['quiz_id'])
          #question = Question.objects.all()
-         question = Question.objects.filter(quiz_id = request.session['quiz_id']).order_by('q_num')
+         quiz = Quiz.objects.get(id = quiz_id)
+         question = Question.objects.filter(quiz_id = quiz_id).order_by('q_num')
          option = Answer.objects.all()
          answer = Answer.objects.filter(isAnswer = True)
         # user = User.objects.all()
          context ={
             'quiz' : quiz,
-            'user' : user,
+            #'user' : user,
             'question' : question,
             'option' : option,
             'answer' : answer,
          }
 
          return render(request, "Quiz.html", context)
-      except KeyError:
-          # ------------------------------------------------ SHOW ALERT MESSAGE SA SIGNIN PAGE IF DILI NAKA LOG IN AG USER ----------------------------------#
-         messages.error(request, 'You must login before you can access this function')
-         return render(request, "Signin.html")
-   def post(self, request):
+   def post(self, request,quiz_id):
       return redirect('Quiz')
 
 #lesson materials

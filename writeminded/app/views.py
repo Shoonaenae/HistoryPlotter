@@ -285,20 +285,24 @@ class SignupView(View):
          if request.method == "POST":
             form = User(request.POST)
             user = request.POST.get("username")
-            passw = request.POST.get("password")
-            confirm = request.POST.get("confirm")
-            email = request.POST.get("email")
-            fname = request.POST.get("fname")
-            lname = request.POST.get("lname")
-            if passw == confirm:
-               form = User(username = user, password = passw, email_address = email, first_name = fname, last_name = lname)
-               form.save()
-               return redirect('Signin')
+            if User.objects.filter(username = user).exists():
+               passw = request.POST.get("password")
+               confirm = request.POST.get("confirm")
+               email = request.POST.get("email")
+               fname = request.POST.get("fname")
+               lname = request.POST.get("lname")
+               if passw == confirm:
+                  form = User(username = user, password = passw, email_address = email, first_name = fname, last_name = lname)
+                  form.save()
+                  return redirect('Signin')
+               else:
+                  messages.error(request, 'Password is not matched')
+                  return redirect('Signup')
             else:
-               print(form.errors)
+               messages.error(request, 'Username Already Exist!')
                return redirect('Signup')
       except:
-         messages.error(request, form.errors)
+         messages.error(request, 'Invalid Action')
          return redirect('Signup')
 
          

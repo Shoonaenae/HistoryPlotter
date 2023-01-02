@@ -683,6 +683,19 @@ class AddMaterialsView(CreateView):
     model = Materials
     form_class = DescriptionForm
     template_name = 'LM_add_materials.html'
+
+    def post(self,request):
+      if request.method == 'POST':
+         if 'btnLMCreate' in request.POST:
+            tit = request.POST.get('title')
+            aut = request.session['id']
+            pro = request.session['proj_id']
+            per = request.POST.get('period')
+            des = request.POST.get('description')
+            act = request.POST.get('actual_material')
+            form = Materials(title = tit, author_id = aut, project_id = pro, period = per, description = des, actual_material = act)
+            form.save()
+         return redirect('materials')
     #fields = '__all__'
 
    #def addMaterials(request):

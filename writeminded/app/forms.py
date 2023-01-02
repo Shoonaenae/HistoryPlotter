@@ -17,12 +17,13 @@ class uploadfileform(forms.ModelForm):
 class DescriptionForm(forms.ModelForm):
     class Meta:
         model = Materials
-        fields = ('title', 'author', 'project', 'period', 'description', 'actual_material')
+        # fields = ('title', 'author', 'project', 'period', 'description', 'actual_material')
+        fields = ('title', 'period', 'description', 'actual_material')
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title goes Here'}),
-            'author': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Choose Author'}),
-            'project': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Choose Project'}),
+            # 'author': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Choose Author'}),
+            # 'project': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Choose Project'}),
             'period': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Date in History'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description goes Here'}),
             'actual_material': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title goes Here'}),

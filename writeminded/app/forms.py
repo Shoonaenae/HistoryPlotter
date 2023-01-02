@@ -1,6 +1,6 @@
 from django import forms
 from app.models import uploadfilemodel
-from .models import Materials
+from .models import *
 
 class uploadfileform(forms.ModelForm):
     file = forms.FileField(widget=forms.ClearableFileInput())
